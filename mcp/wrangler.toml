@@ -3,10 +3,12 @@ name = "experiencias-datos"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 
-# límite de tasa: activarlo antes de publicar el endpoint.
-# la sintaxis de rate limiting de Workers cambió en el tiempo; verificar la vigente en la documentación de Cloudflare
-# (https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/) y descomentar lo que corresponda.
-# [[ratelimits]]
-# name = "LIMITE"
-# namespace_id = "1001"
-# simple = { limit = 60, period = 60 }
+# límite de tasa: 60 llamadas por minuto por IP y por ubicación de Cloudflare.
+# la IP se usa solo como clave del contador; no se guarda ni se registra.
+# sintaxis vigente según https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/ (wrangler >= 4.36).
+[[ratelimits]]
+name = "LIMITE"
+namespace_id = "74701"
+  [ratelimits.simple]
+  limit = 60
+  period = 60
