@@ -1,0 +1,108 @@
+# trampas de datos públicos: lo que revisar_fuente sabe detectar
+# cada trampa: qué pasa, cómo se ve, cómo se prueba, fuente primaria y estado.
+# estado: VERIFICADO (reproducido por código en este repo) | REFERIDO (lo documentó otra pluma; falta reproducirlo aquí)
+# origen: trabajo interno de PasaElFiltro del 24-sep-2026, a tres plumas (claude opus, sol, claude fable).
+# pendiente de decisión de Romina: quién es dueña/o del catálogo. candidata: la pluma fable, que encontró la mitad.
+
+version: 0.1
+trampas:
+  - id: TR-01
+    nombre: fila contenedor sin geometría
+    que_pasa: >-
+      La base tabular del Censo 2024 por manzana–entidad (INE) trae filas "contenedor comunal":
+      personas censadas en la comuna que no se vinculan a ninguna manzana. Esas filas existen en la
+      tabla pero no en la cartografía, así que el total de un mapa no calza con el total oficial.
+    como_se_ve: "el CSV suma más que el geoparquet de la misma comuna, y la diferencia es exactamente una fila"
+    ejemplo_publico:
+      comuna: Santiago (CUT 13101)
+      csv_n_per: 438856
+      fila_contenedor_n_per: 6775
+      geoparquet_n_per: 432081
+      pais: "385 filas contenedor, con 254.224 personas y 51.335 niños, niñas y adolescentes sin manzana"
+    prueba: "trampas/verificar_censo2024.py (sección TR-01)"
+    fuente_primaria:
+      - "INE, diccionario_variables_glosas_censo2024.xlsx, variable CONTENEDOR_COMUNAL (valor 1 = registros asociados a nivel comuna sin vinculación a niveles menores)"
+      - "https://storage.googleapis.com/storage/v1/b/bktdescargascenso2024/o"
+    que_hacer: "declarar en la visualización cuántas personas quedan fuera del mapa y por qué; nunca repartirlas entre manzanas"
+    senales: [CONTENEDOR_COMUNAL, censo 2024, manzana, manzana_entidad, Base_manzana_entidad, INE]
+    estado: VERIFICADO
+
+  - id: TR-02
+    nombre: la geometría no se llama geometry
+    que_pasa: >-
+      En el geoparquet del Censo 2024 la geometría activa se llama SHAPE. Si se crea una columna
+      "geometry" (por ejemplo, con el punto representativo), la geometría activa sigue siendo el
+      polígono. Un cruce espacial "por punto" se hace entonces por polígono, sin ningún error visible.
+    como_se_ve: "el cruce espacial pierde objetos en los bordes o los asigna distinto de lo esperado"
+    prueba: "trampas/verificar_censo2024.py (sección TR-02): imprime el nombre de la geometría activa"
+    fuente_primaria: ["INE, Cartografía País Censo 2024 (geoparquet), bucket bktdescargascenso2024"]
+    que_hacer: "usar set_geometry(...) explícito y revisar gdf.geometry.name antes de cruzar"
+    senales: [SHAPE, geoparquet, geopandas, sjoin, representative_point, cartografía censal]
+    estado: VERIFICADO
+
+  - id: TR-03
+    nombre: tres clases de nada
+    que_pasa: >-
+      Un vacío en el mapa puede ser tres cosas distintas: (a) un lugar sin residentes, (b) una unidad que
+      el organismo fusionó con sus vecinas para proteger la privacidad, o (c) un dato que nosotros
+      decidimos agregar. Pintar las tres igual, con la misma leyenda, miente en la mayoría de los casos.
+    como_se_ve: "una sola trama o color para 'sin dato', con una sola explicación"
+    prueba: "en el Censo 2024: n_per = 0 (a); geometrías multiparte por indeterminación geográfica (b); umbral propio (c)"
+    fuente_primaria:
+      - "INE, Nota Técnica N°5, Proceso de indeterminación geográfica, CPV 2024 (bucket bktdescargascenso2024/Datos_agregados)"
+    que_hacer: "una leyenda por cada clase de vacío, y la nota de privacidad solo donde agregamos nosotros"
+    senales: [supresión, privacidad, sin dato, vacío, indeterminación, anonimización]
+    estado: REFERIDO  # documentada por la pluma fable; falta reproducirla aquí
+
+  - id: TR-04
+    nombre: el índice invirtió el orden de sus cuartiles
+    que_pasa: >-
+      El IGVUST (Índice Global de Vulnerabilidad Socioterritorial, Ministerio de Desarrollo Social) cambió
+      el orden de presentación de sus cuartiles entre ediciones. Un proceso automático que compara meses
+      puede "ver" un cambio que no ocurrió.
+    como_se_ve: "unidades que saltan del cuartil 1 al 4 entre dos ediciones sin cambio de fondo"
+    prueba: "leer el informe de resultados IGVUST vigente antes de comparar ediciones"
+    fuente_primaria: ["MDSF, Informe de Resultados IGVUST (octubre 2025), CKAN bid-ckan.ministeriodesarrollosocial.gob.cl"]
+    que_hacer: "un vigía que compara ediciones no publica solo. En la edición vigente, cuartil 1 = mayor vulnerabilidad"
+    senales: [IGVUST, cuartil, ranking, vulnerabilidad, índice]
+    estado: REFERIDO
+
+  - id: TR-05
+    nombre: edición nueva, mismo hash
+    que_pasa: >-
+      Un dataset agrega una edición nueva como recurso aparte. El archivo que fijamos por hash no cambia,
+      así que el vigía dice "todo igual" mientras la fuente vigente ya es otra.
+    como_se_ve: "el hash coincide, pero el listado de recursos del dataset tiene un archivo más reciente"
+    prueba: "revisar el listado de recursos del dataset (API CKAN), no solo el hash del archivo fijado"
+    fuente_primaria: ["MDSF, capa de unidades vecinales: ediciones 2024, ago-2025 y jun-2026 en el mismo dataset"]
+    que_hacer: "vigilar el listado de recursos y registrar cuál edición es la de referencia"
+    senales: [hash, sha256, CKAN, edición, versión, vigía, unidades vecinales]
+    estado: REFERIDO
+
+  - id: TR-06
+    nombre: proxy que se lee como hecho
+    que_pasa: >-
+      "Personas de 6 a 13 años que asisten a educación básica" permite calcular cuántas no registran
+      asistencia a ese nivel, pero esa diferencia mezcla rezago, asistencia a otros niveles y no respuesta.
+      No equivale a "niños fuera del colegio".
+    como_se_ve: "un titular que convierte una resta de columnas en un hecho sobre personas"
+    prueba: "INE, diccionario del Censo 2024: n_asistencia_basica = personas de 6 a 13 años que asisten a educación básica"
+    fuente_primaria: ["INE, diccionario_variables_glosas_censo2024.xlsx"]
+    que_hacer: "escribir la definición exacta junto al dato. Si la pregunta real no se puede responder, decirlo y ofrecer cómo pedirlo (Ley de Transparencia)"
+    senales: [asistencia, fuera del colegio, deserción, proxy, n_asistencia]
+    estado: VERIFICADO
+
+  - id: TR-07
+    nombre: marcador de supresión atribuido a quien no es
+    que_pasa: >-
+      Un pipeline de terceros recodifica lo suprimido como -66, pero en la fuente primaria del INE lo
+      suprimido viene como "*". Si la ingesta se construye sobre el marcador del tercero, falla en cuanto
+      se usa la fuente real.
+    como_se_ve: "el código busca -66 y no encuentra nada en el archivo oficial"
+    ejemplo_publico:
+      pais_celdas_asterisco: {n_edad_0_5: 7, n_edad_6_13: 2, n_edad_14_17: 6, n_inmigrantes: 50143, n_pueblos_orig: 51111, n_discapacidad: 1, n_viv_hacinadas: 0}
+    prueba: "trampas/verificar_censo2024.py (sección TR-07)"
+    fuente_primaria: ["INE, Presentación cartografía base manzana–entidad CPV 2024, sección 4 (control de divulgación)"]
+    que_hacer: "leer el marcador en la fuente primaria. Los tramos de edad casi no se suprimen porque la protección está en la geometría (TR-03)"
+    senales: ["-66", "*", supresión, secreto estadístico, anonimización, basedosdados]
+    estado: VERIFICADO

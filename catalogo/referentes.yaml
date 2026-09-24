@@ -1,0 +1,181 @@
+# referentes v0.1: piezas indexadas por OPERACIÓN (qué hace pensar), no por estética
+# pluma: claude · opus 5.5 (Legible), desde la investigación del 24-sep-2026. las fichas de sol se suman aparte y se deduplican por url.
+# regla: no se rehostean imágenes ajenas. solo url + metadatos + nuestra descripción de la operación.
+# estado_url: VERIFICADO | INDEXADO | REFERIDO | NO_VERIFICADA
+
+version: 0.1
+referentes:
+  - id: P-01
+    titulo: This is a teenager
+    autor: Alvin Chang / The Pudding
+    anio: 2024
+    url: https://pudding.cool/2024/03/teenagers/
+    estado_url: VERIFICADO
+    patron: [personalize_situate, sequence_branch]
+    operacion: "de un individuo a la multitud: primero una persona, después cientos como ella"
+    tomar: "el paso de una persona a la multitud"
+    cuidado: "no nombrar a una persona real; usar un arquetipo declarado"
+  - id: P-02
+    titulo: Parable of the Polygons
+    autor: Vi Hart & Nicky Case
+    anio: 2014
+    url: https://ncase.me/polygons/
+    estado_url: REFERIDO
+    patron: [manipulate_observe]
+    operacion: "producir el fenómeno con las propias manos antes de que tenga nombre"
+    tomar: "manipulación directa y tono cálido; sandbox al final"
+    cuidado: "no simular conductas de personas reales como si fuera un juego causal"
+  - id: P-03
+    titulo: The Evolution of Trust
+    autor: Nicky Case
+    anio: 2017
+    url: https://ncase.me/trust/
+    estado_url: REFERIDO
+    patron: [sequence_branch, manipulate_observe]
+    operacion: "relato → juego repetido → sandbox"
+    tomar: "cierre con sandbox; personajes con carácter"
+  - id: P-04
+    titulo: "You Draw It: family income and college"
+    autor: NYT Upshot (Aisch, Cox, Quealy)
+    anio: 2015
+    url: https://driven-by-data.net/2015/05/28/college-chart-game
+    estado_url: INDEXADO
+    patron: [predict_reveal]
+    operacion: "dibujar la creencia antes de ver el dato; la brecha queda marcada"
+    tomar: "el patrón completo"
+  - id: P-05
+    titulo: Explaining the Gap (paper)
+    autor: Kim, Reinecke & Hullman (CHI 2017)
+    anio: 2017
+    url: https://idl.cs.washington.edu/files/2017-ExplainingTheGap-CHI.pdf
+    estado_url: INDEXADO
+    patron: [predict_reveal]
+    operacion: "evidencia: predecir y autoexplicar mejora el recuerdo y la comprensión, incluso con poco conocimiento previo"
+  - id: P-06
+    titulo: Up and Down the Ladder of Abstraction
+    autor: Bret Victor
+    anio: 2011
+    url: https://worrydream.com/LadderOfAbstraction/
+    estado_url: INDEXADO
+    patron: [same_object_transform]
+    operacion: "subir y bajar del caso concreto al sistema"
+  - id: P-07
+    titulo: Explorable Explanations
+    autor: Bret Victor
+    anio: 2011
+    url: https://worrydream.com/ExplorableExplanations/
+    estado_url: REFERIDO
+    patron: [manipulate_observe]
+    operacion: "texto reactivo: cifras manipulables dentro de la frase"
+    cuidado: "solo cuando la aritmética es verdadera"
+  - id: P-08
+    titulo: explorabl.es
+    autor: Nicky Case (hub)
+    url: https://explorabl.es/
+    estado_url: REFERIDO
+    operacion: "catálogo de explicaciones explorables para alimentar este catálogo"
+  - id: P-09
+    titulo: Data Humanism (manifiesto)
+    autor: Giorgia Lupi / PRINT
+    anio: 2016
+    url: https://www.printmag.com/article/data-humanism-future-of-data-visualization/
+    estado_url: VERIFICADO
+    operacion: "contexto, imperfección y personas por encima del gráfico estándar"
+    tomar: "leyenda 'al reverso'; nota explícita de incertidumbre"
+  - id: P-10
+    titulo: Dear Data
+    autor: Giorgia Lupi & Stefanie Posavec
+    anio: 2014
+    url: http://www.dear-data.com
+    estado_url: REFERIDO
+    operacion: "dibujar a mano lo cotidiano; la leyenda es parte de la pieza"
+  - id: P-11
+    titulo: Racial Dot Map
+    autor: Dustin Cable / Weldon Cooper Center
+    anio: 2013
+    url: https://datasmart.hks.harvard.edu/solutions/racial-dot-map
+    estado_url: VERIFICADO
+    patron: [overview_focus_context]
+    operacion: "un punto por persona: la densidad se vuelve textura"
+    cuidado: "colorear por grupo estigmatiza; la posición dentro del área es aleatoria y hay que declararlo"
+  - id: P-12
+    titulo: A Visual Introduction to Machine Learning
+    autor: R2D3
+    anio: 2015
+    url: http://www.r2d3.us/visual-intro-to-machine-learning-part-1/
+    estado_url: REFERIDO
+    patron: [same_object_transform]
+    operacion: "los mismos puntos cambian de representación y se entiende qué transformación ocurrió"
+    nota: "referente aportado por sol"
+  - id: P-13
+    titulo: Communicating with Interactive Articles
+    autor: Hohman, Conlen, Heer & Chau (Distill)
+    anio: 2020
+    url: https://distill.pub/2020/communicating-with-interactive-articles/
+    estado_url: REFERIDO
+    operacion: "síntesis de patrones: sistemas jugables, predicción, autoexplicación, segmentación"
+    nota: "referente aportado por sol"
+  - id: P-14
+    titulo: Narrative Visualization
+    autor: Segel & Heer
+    anio: 2010
+    url: http://vis.stanford.edu/files/2010-Narrative-InfoVis.pdf
+    estado_url: INDEXADO
+    patron: [sequence_branch]
+    operacion: "copa de martini: primero guiar, después soltar"
+  - id: P-15
+    titulo: Seeking shadow. A cool fix for hot cities
+    autor: Urbi Atlas
+    anio: 2024
+    url: https://www.informationisbeautifulawards.com/news/680-announcing-the-2024-winners
+    estado_url: INDEXADO
+    operacion: "contar la ciudad caminándola"
+  - id: P-16
+    titulo: Lives in limbo
+    autor: South China Morning Post
+    anio: 2024
+    url: https://www.informationisbeautifulawards.com/news/680-announcing-the-2024-winners
+    estado_url: INDEXADO
+    operacion: "dignidad sin marco de déficit"
+  - id: P-17
+    titulo: Zoonotic Web
+    autor: Liuhuaying Yang
+    anio: 2024
+    url: https://www.informationisbeautifulawards.com/news/680-announcing-the-2024-winners
+    estado_url: INDEXADO
+    operacion: "estética orgánica al servicio de una red"
+  - id: P-18
+    titulo: 1812, When Napoleon Ventured East
+    autor: TASS
+    url: https://www.informationisbeautifulawards.com/news/263-the-winners-environments-maps
+    estado_url: INDEXADO
+    patron: [sequence_branch]
+    operacion: "cronología sobre el territorio (homenaje a Minard)"
+  - id: P-19
+    titulo: Mapa de la segregación, calle a calle
+    autor: elDiario.es
+    anio: 2025
+    url: https://www.eldiario.es/desalambre/mapa-segregacion-calle-calle-divide-poblacion-origen-renta_1_12801930.html
+    estado_url: INDEXADO
+    patron: [personalize_situate]
+    operacion: "buscar 'mi calle' dentro del patrón general"
+    cuidado: "el marco étnico sin voz comunitaria"
+  - id: P-20
+    titulo: Ciudad y COVID-19
+    autor: CIPER Chile
+    anio: 2020
+    url: https://www.ciperchile.cl/2020/03/25/ciudad-y-covid-19-desigualdad-socio-espacial-y-vulnerabilidad/
+    estado_url: INDEXADO
+    operacion: "mapas argumentativos sobre Santiago"
+  - id: P-21
+    titulo: Infancias separadas y desiguales
+    autor: IEUT UC
+    url: https://estudiosurbanos.uc.cl/investigacion/46435/
+    estado_url: INDEXADO
+    operacion: "fuente académica chilena: segregación de niños frente a adultos"
+  - id: P-22
+    titulo: Portafolio Datasketch
+    autor: Datasketch (Colombia)
+    url: https://www.datasketch.co/es/soluciones/portafolio/
+    estado_url: INDEXADO
+    operacion: "referente latinoamericano de equipo pequeño"

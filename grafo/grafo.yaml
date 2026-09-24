@@ -1,0 +1,115 @@
+# grafo v0.1: vocabulario controlado y aristas pregunta → experiencia
+# pluma: claude · opus 5.5 (Legible), 24-sep-2026. pendiente de segunda pluma (sol).
+# uso: la VES (carpeta ves/, pluma sol) toma sus valores de aquí. el grafo dice qué valores son válidos;
+#      la VES es la instancia que se valida.
+# regla: cada arista trae fuente o la etiqueta INFERENCIA. el grafo guarda juicios, no verdades.
+
+version: 0.1
+
+tareas:            # qué operación cognitiva pide la pregunta
+  - {id: localizar, desc: "¿dónde está?"}
+  - {id: magnitud, desc: "¿cuánto hay?"}
+  - {id: comparar, desc: "¿cómo se compara A con B?"}
+  - {id: ordenar, desc: "¿cuál tiene más o menos?"}
+  - {id: cambio, desc: "¿cambió en el tiempo?"}
+  - {id: distribucion, desc: "¿cómo se reparte?"}
+  - {id: parte_todo, desc: "¿de qué está hecho?"}
+  - {id: relacionar, desc: "¿se mueven juntas dos cosas?"}
+  - {id: flujo, desc: "¿desde dónde hacia dónde?"}
+  - {id: secuencia, desc: "¿qué pasó y en qué orden?"}
+  - {id: estado, desc: "¿en qué va lo comprometido?"}
+  - {id: incertidumbre, desc: "¿qué tan seguros estamos?"}
+  - {id: procedencia, desc: "¿de dónde sale esta cifra?"}
+  - {id: vacio, desc: "¿qué no sabemos?"}
+
+propositos:        # qué queremos que le pase a quien mira (didáctica)
+  - {id: escala_humana, desc: "que el número se vuelva personas contables"}
+  - {id: sorpresa, desc: "contrastar lo que se creía con lo que el dato muestra"}
+  - {id: comparacion, desc: "ver la diferencia sin tener que calcularla"}
+  - {id: mostrar_cambio, desc: "ver qué cambió porque el resto se quedó quieto"}
+  - {id: revelar_estructura, desc: "desarmar un índice o un todo en sus partes"}
+  - {id: mostrar_incertidumbre, desc: "hacer visible el límite de la medida"}
+  - {id: invitar_a_explorar, desc: "que la persona formule su propia pregunta"}
+  - {id: rendicion_de_cuentas, desc: "promesa → evidencia → estado"}
+  - {id: activos_primero, desc: "mostrar lo que un territorio tiene antes de lo que le falta"}
+
+patrones:          # movimientos pedagógicos. fuente: sol, investigación del 24-sep-2026 (§4.3). nombres citados, no editados.
+  - predict_reveal
+  - compare_explain
+  - manipulate_observe
+  - overview_focus_context
+  - personalize_situate
+  - sequence_branch
+  - same_object_transform
+  - claim_evidence_limit
+  - unknown_route_to_evidence
+  - recall_guess_feedback
+
+compromiso:        # ICAP (Chi & Wylie 2014), traído por sol. "jugar" = producir una idea, no hacer clics.
+  - {id: pasivo, desc: "recibir o atender"}
+  - {id: activo, desc: "manipular sin producir información nueva (hover, slider, filtro)"}
+  - {id: constructivo, desc: "generar una predicción, explicación o hipótesis"}
+  - {id: interactivo, desc: "co-construir con otra persona o con el agente"}
+
+formas:
+  - {id: unit_chart, desc: "una figura = N personas (Isotype)"}
+  - {id: mapa_sin_base, desc: "geometría propia, sin teselas"}
+  - {id: mosaico_uv, desc: "celdas iguales por unidad territorial"}
+  - {id: dorling, desc: "círculos proporcionales ubicados en el territorio"}
+  - {id: pequenos_multiplos, desc: "la misma forma repetida por categoría"}
+  - {id: ranked_dots, desc: "puntos ordenados en un eje"}
+  - {id: slope, desc: "antes y después unidos por líneas"}
+  - {id: barras_apiladas, desc: "partes de un todo"}
+  - {id: flujos_agregados, desc: "líneas entre áreas, nunca entre personas"}
+  - {id: linea_de_tiempo, desc: "hitos en orden"}
+  - {id: matriz_estados, desc: "filas de compromisos con su estado"}
+  - {id: resultados_discretos, desc: "incertidumbre como pocos resultados posibles (Hullman 2018)"}
+  - {id: ficha_procedencia, desc: "fuente, fecha, nivel, supresión, límite"}
+
+restricciones:
+  duras:
+    - {id: sin_datos_personales, desc: "la unidad es territorio o servicio, nunca persona"}
+    - {id: agregacion_minima, desc: "celdas pequeñas se agregan con un umbral declarado"}
+    - {id: tres_nadas, desc: "cada clase de vacío lleva su propia leyenda (TR-03)"}
+    - {id: definicion_junto_al_dato, desc: "un proxy nunca se titula como hecho (TR-06)"}
+    - {id: no_normalizado_no_coropletico, desc: "no pintar áreas con conteos brutos"}
+    - {id: dato_quieto, desc: "la animación mueve el trazo, nunca la cifra ni la posición del dato"}
+    - {id: reduced_motion, desc: "respetar prefers-reduced-motion"}
+    - {id: autocontenido, desc: "si se publica como página: sin teselas ni APIs externas"}
+  blandas:
+    - {id: sin_marco_deficit, desc: "evitar semáforos y 'zonas rojas' sobre barrios", peso: alto}
+    - {id: firma_no_color, desc: "lo distintivo viene del trazo o la operación, no de la paleta por defecto", peso: medio}
+    - {id: un_mensaje_por_vista, desc: "una pregunta, un título-conclusión", peso: alto}
+
+aristas:
+  tarea_forma:
+    magnitud: [unit_chart, dorling]
+    localizar: [mapa_sin_base, mosaico_uv]
+    comparar: [pequenos_multiplos, ranked_dots, dorling]
+    ordenar: [ranked_dots]
+    cambio: [slope, pequenos_multiplos]
+    parte_todo: [barras_apiladas]
+    relacionar: [ranked_dots, pequenos_multiplos]
+    flujo: [flujos_agregados]
+    secuencia: [linea_de_tiempo]
+    estado: [matriz_estados]
+    incertidumbre: [resultados_discretos]
+    procedencia: [ficha_procedencia]
+    vacio: [mapa_sin_base, ficha_procedencia]
+  proposito_tecnica:          # ids de catalogo/tecnicas.yaml
+    escala_humana: [T-02, T-16]
+    sorpresa: [T-01]
+    comparacion: [T-06, T-05]
+    mostrar_cambio: [T-07, T-16]
+    revelar_estructura: [T-15]
+    mostrar_incertidumbre: [T-19]
+    invitar_a_explorar: [T-18, T-13]
+    rendicion_de_cuentas: [T-19]
+    activos_primero: [T-09]
+  patron_compromiso:          # INFERENCIA: qué patrón suele alcanzar qué nivel ICAP
+    predict_reveal: constructivo
+    recall_guess_feedback: constructivo
+    manipulate_observe: activo    # sube a constructivo si se pide una hipótesis antes de manipular
+    overview_focus_context: activo
+    claim_evidence_limit: constructivo
+    unknown_route_to_evidence: constructivo

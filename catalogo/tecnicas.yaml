@@ -1,0 +1,32 @@
+# técnicas v0.1 · pluma: claude · opus 5.5 (Legible) · fuente: investigación del 24-sep-2026
+# estado de cada URL: VERIFICADO | INDEXADO | REFERIDO | INFERENCIA
+
+version: 0.1
+tecnicas:
+  - {id: T-01, nombre: predicción dibujada, resuelve: "activa el conocimiento previo y mejora el recuerdo", librerias: [d3], accesibilidad: "deslizador o número; opción 'prefiero no adivinar'", riesgo: bajo, ejemplo: "https://driven-by-data.net/2015/05/28/college-chart-game", estado: INDEXADO}
+  - {id: T-02, nombre: unit chart / Isotype, resuelve: "escala humana", librerias: [d3], accesibilidad: "texto alternativo con el conteo", riesgo: "medio si no se declara la N", ejemplo: "https://dl.acm.org/doi/10.1145/2702123.2702275", estado: INDEXADO}
+  - {id: T-03, nombre: densidad de puntos en el área, resuelve: "textura de dónde vive la gente", librerias: [d3, canvas], accesibilidad: "tabla equivalente", riesgo: "alto: falsa precisión; declarar que la posición es ilustrativa", ejemplo: "https://datasmart.hks.harvard.edu/solutions/racial-dot-map", estado: VERIFICADO}
+  - {id: T-04, nombre: mosaico por unidad territorial, resuelve: "iguala el peso visual de áreas grandes y chicas", librerias: [d3], accesibilidad: "etiquetas con nombre", riesgo: "medio: se pierde la forma real", estado: INFERENCIA}
+  - {id: T-05, nombre: cartograma de Dorling, resuelve: "tamaño = cantidad", librerias: [d3-force], accesibilidad: etiquetas, riesgo: medio, estado: INFERENCIA}
+  - {id: T-06, nombre: pequeños múltiplos, resuelve: "comparar índices o tramos", librerias: [d3, observable-plot, vega-lite], accesibilidad: "orden consistente", riesgo: bajo, estado: INFERENCIA}
+  - {id: T-07, nombre: transformar el mismo objeto (mapa → gráfico), resuelve: "puente de lo concreto a lo abstracto; se ve qué cambió porque el resto queda quieto", librerias: [d3-transition, gsap], accesibilidad: "con reduced-motion, corte directo", riesgo: bajo, ejemplo: "https://worrydream.com/LadderOfAbstraction/", estado: INDEXADO}
+  - {id: T-08, nombre: flujos agregados entre áreas, resuelve: "desde dónde hacia dónde", librerias: [d3], accesibilidad: "tabla origen–destino", riesgo: "alto con datos georreferenciados con error: agregar y poner umbral", estado: INFERENCIA}
+  - {id: T-09, nombre: mapa sin mapa base, resuelve: "no depender de teselas; el vacío puede ser contenido", librerias: [d3-geo, topojson], accesibilidad: "contraste de bordes", riesgo: bajo, nota: "si se usa MapLibre, los filtros SVG del trazo no actúan sobre su canvas WebGL", estado: VERIFICADO}
+  - {id: T-10, nombre: trazo rough, resuelve: "estética dibujada con semilla fija", librerias: [roughjs], accesibilidad: "opción 'trazo limpio'", riesgo: "medio: el sombreado puede sugerir valores", ejemplo: "https://roughjs.com", estado: REFERIDO}
+  - {id: T-11, nombre: líneas hervidas (feTurbulence + feDisplacementMap), resuelve: "el trazo tiembla como stop motion", librerias: [svg], accesibilidad: "apagar con prefers-reduced-motion", riesgo: "medio: limitar el desplazamiento a pocos px; pregenerar 3–4 semillas y alternarlas a ~10 fps en vez de animar la turbulencia", ejemplo: "https://camillovisini.com/coding/simulating-hand-drawn-motion-with-svg-filters", estado: REFERIDO}
+  - {id: T-12, nombre: isométrico ligero, resuelve: "asombro de entrada", librerias: [svg, threejs], accesibilidad: "vista 2D alternativa", riesgo: "alto: usar solo como transición, nunca como vista de lectura", estado: INFERENCIA}
+  - {id: T-13, nombre: scrollytelling con figura fija, resuelve: "recorrido guiado", librerias: [scrollama], accesibilidad: "navegable con teclado", riesgo: bajo, ejemplo: "https://github.com/russellsamora/scrollama", estado: REFERIDO}
+  - {id: T-14, nombre: stepper 'siguiente', resuelve: "presentar en una reunión", librerias: [vanilla, gsap], accesibilidad: "foco visible", riesgo: bajo, estado: INFERENCIA}
+  - {id: T-15, nombre: tarjeta que se da vuelta, resuelve: "enseñar a leer sin saturar; leyenda al reverso", librerias: [css], accesibilidad: aria-expanded, riesgo: nulo, estado: INFERENCIA}
+  - {id: T-16, nombre: animación por cuadros a 8–12 fps, resuelve: "estética artesanal", librerias: [gsap, "css steps()"], accesibilidad: "con reduced-motion, solo el cuadro final", riesgo: bajo, estado: INFERENCIA}
+  - {id: T-17, nombre: textura de papel generada, resuelve: "papel sin imágenes remotas", librerias: [svg, canvas], accesibilidad: "sin efecto en el contraste", riesgo: "nulo fuera de las marcas", estado: INFERENCIA}
+  - {id: T-18, nombre: recorrido guiado + sandbox, resuelve: "la copa de martini: primero guiar, después soltar", librerias: [d3], accesibilidad: "controles nativos; estado en la URL", riesgo: bajo, ejemplo: "https://ncase.me/polygons/", estado: REFERIDO}
+  - {id: T-19, nombre: anotación manuscrita, resuelve: "señalar y hacer memorable", librerias: [svg, roughjs], accesibilidad: "texto real, no imagen", riesgo: bajo, estado: INFERENCIA}
+  - id: T-20
+    nombre: leyenda por clase de vacío
+    resuelve: "distinguir sin residentes / fusionado por el organismo / agregado por nosotros (TR-03)"
+    librerias: [svg]
+    accesibilidad: "cada clase con texto propio"
+    riesgo: "alto si se unifican las tres clases en una sola leyenda"
+    nota: "reemplaza a la versión anterior ('supresión visible de celdas pequeñas'), que mezclaba las tres clases"
+    estado: INFERENCIA
