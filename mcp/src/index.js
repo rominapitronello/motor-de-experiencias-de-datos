@@ -142,7 +142,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Todo sale del repo motor-experiencias-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
@@ -176,7 +176,7 @@ const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...CORS } });
 
 export default {
-  async fetch(request) {
+  async fetch(request, env = {}) {
     const { pathname } = new URL(request.url);
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
 
@@ -189,6 +189,12 @@ export default {
     }
     if (pathname !== '/mcp') return new Response('not found', { status: 404, headers: CORS });
     if (request.method !== 'POST') return new Response('method not allowed', { status: 405, headers: { Allow: 'POST', ...CORS } });
+
+    if (env.LIMITE) {
+      const clave = request.headers.get('cf-connecting-ip') || 'sin-ip';
+      const { success } = await env.LIMITE.limit({ key: clave });
+      if (!success) return json(err(null, -32000, 'Demasiadas llamadas: máximo 60 por minuto. Intenta de nuevo en un rato.'), 429);
+    }
 
     let body;
     try { body = await request.json(); } catch { return json(err(null, -32700, 'Parse error'), 400); }

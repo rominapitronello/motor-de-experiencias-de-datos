@@ -1,0 +1,7 @@
+node_modules/
+mcp/src/knowledge.json
+.wrangler/
+*.zip
+*.parquet
+*.csv
+*.xlsx
