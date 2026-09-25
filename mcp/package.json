@@ -1,6 +1,6 @@
 {
   "name": "experiencias-datos",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Conector MCP del motor de experiencias de datos: trampas de datos públicos, grafo pregunta→forma, referentes y principios. Sin estado y sin llaves.",
   "type": "module",
   "license": "MIT",

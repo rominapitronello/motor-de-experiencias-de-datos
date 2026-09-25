@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.1' };
+const SERVER = { name: 'experiencias-datos', version: '0.1.2' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -19,14 +19,14 @@ const incluye = (hay, aguja) => norm(hay).includes(norm(aguja));
 // palabras de todos los días → id del grafo. segunda pluma (fable), 24-sep-2026: un profe escribe "tendencia", no "cambio".
 const SINONIMOS = {
   tarea: {
-    cambio: ['tendencia', 'evolucion', 'tiempo', 'antes y despues', 'crecio', 'bajo', 'subio', 'cambio'],
+    cambio: ['tendencia', 'evolucion', 'tiempo', 'serie', 'mes a mes', 'antes y despues', 'crecio', 'bajo', 'subio', 'cambio'],
     comparar: ['comparacion', 'versus', 'vs', 'diferencia', 'contra'],
     ordenar: ['ranking', 'top', 'mayor', 'menor', 'quien tiene mas', 'orden'],
     magnitud: ['cuanto', 'cuantos', 'total', 'cantidad', 'volumen'],
     parte_todo: ['porcentaje', 'proporcion', 'torta', 'pie', 'composicion', 'reparto', 'participacion'],
-    distribucion: ['histograma', 'dispersion', 'como se reparte', 'rango'],
+    distribucion: ['histograma', 'boxplot', 'caja', 'como se reparte', 'rango', 'frecuencia'],
     localizar: ['donde', 'mapa', 'ubicacion', 'territorio'],
-    relacionar: ['correlacion', 'relacion', 'depende', 'asociacion'],
+    relacionar: ['correlacion', 'relacion', 'depende', 'asociacion', 'scatter', 'dispersion', 'x e y'],
     flujo: ['migracion', 'movimiento', 'de donde a donde', 'origen destino'],
     secuencia: ['cronologia', 'hitos', 'etapas', 'pasos'],
     estado: ['avance', 'cumplimiento', 'semaforo', 'compromisos'],
@@ -47,15 +47,31 @@ const SINONIMOS = {
   },
 };
 
+// patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
+// el motor dijo «predecir → revelar» y la salida terminó diciendo «mirar». Esto lo vuelve contrato, no consejo.
+const INTERACCION = {
+  predict_reveal: ['antes: la persona anota o dibuja su predicción (con opción "prefiero no adivinar")', 'acción: confirma', 'revelación: aparece el dato y la brecha con lo que creía', 'después: una frase que nombra la brecha'],
+  recall_guess_feedback: ['antes: se pide recordar o estimar', 'acción: responde', 'revelación: dato + retroalimentación', 'después: qué cambió en lo que creía'],
+  manipulate_observe: ['antes: hipótesis escrita ("si muevo X, pasa Y")', 'acción: manipula el control', 'observación: el cambio', 'después: contrastar con la hipótesis'],
+  sequence_branch: ['guía: mensaje central primero', 'rama: la persona elige por dónde seguir', 'exploración libre al final'],
+  compare_explain: ['ver A y B bajo la misma lógica', 'explicar la diferencia con una frase propia'],
+  overview_focus_context: ['vista general', 'foco elegido por la persona', 'el contexto sigue visible'],
+  personalize_situate: ['la persona se ubica ("mi calle", "mi curso")', 've su caso dentro del patrón general'],
+  same_object_transform: ['el mismo objeto cambia de forma sin saltos', 'lo que no cambió se queda quieto'],
+};
+const SIN_INTERACCION = 'Si tu superficie no permite interacción y vas a entregar algo estático, declara degradado_a_estatico: true con la razón, y conserva al menos el "antes" como pregunta escrita antes del gráfico. Una salida estática que no lo declara no cumple el patrón.';
+
 // devuelve {id, interpretado} : id exacto (sin tildes ni mayusculas), o el primer sinonimo que aparezca en el texto, o null.
 function resolver(entrada, ids, tipo) {
   const n = norm(entrada).replace(/[\s-]+/g, '_');
   if (ids.includes(n)) return { id: n, interpretado: n !== entrada };
   const suelto = norm(entrada);
+  let mejor = null; // gana el sinónimo más largo: "scatter" le gana a "vs" en "scatter de notas vs asistencia"
   for (const [id, palabras] of Object.entries(SINONIMOS[tipo] || {})) {
     if (!ids.includes(id)) continue;
-    if (palabras.some((w) => suelto.includes(w))) return { id, interpretado: true };
+    for (const w of palabras) if (suelto.includes(w) && (!mejor || w.length > mejor.w.length)) mejor = { id, w };
   }
+  if (mejor) return { id: mejor.id, interpretado: true };
   const parecido = ids.find((id) => suelto.includes(id.replace(/_/g, ' ')) || suelto.includes(id));
   if (parecido) return { id: parecido, interpretado: true };
   return null;
@@ -156,6 +172,13 @@ const TOOLS = [
         if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), patron: r.id, desde: patron };
         if (!r) out.aviso_patron = `patrón desconocido; válidos: ${ids.join(', ')}`;
         out.compromiso_esperado = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        if (r && INTERACCION[r.id]) {
+          out.interaccion_requerida = true;
+          out.estados_minimos = INTERACCION[r.id];
+          out.si_no_puedes_interactuar = SIN_INTERACCION;
+        } else if (r) {
+          out.interaccion_requerida = false;
+        }
         out.referentes = r ? K.referentes.filter((x) => (x.patron || []).includes(r.id)) : [];
       }
       return out;
@@ -219,7 +242,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Si consultar_grafo devuelve interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':

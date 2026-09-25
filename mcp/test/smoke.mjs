@@ -59,14 +59,27 @@ const s1 = await call('consultar_grafo', { tarea: 'tendencia' });
 check(s1.structuredContent.tarea === 'cambio' && s1.structuredContent.interpretado_como?.desde === 'tendencia', 'grafo: "tendencia" → cambio, declarado en interpretado_como');
 const s2 = await call('consultar_grafo', { tarea: 'COMPARAR', proposito: 'que mis alumnos entiendan', patron: 'Predict Reveal' });
 check(s2.structuredContent.tarea === 'comparar' && s2.structuredContent.proposito === 'escala_humana' && s2.structuredContent.patron === 'predict_reveal', 'grafo: mayúsculas, sinónimos y espacios se resuelven');
-const s3 = await call('consultar_grafo', { tarea: 'distribucion' });
-check(s3.structuredContent.formas === null && /vocabulario/.test(s3.structuredContent.aviso_tarea), 'grafo: tarea sin aristas avisa, no dice "desconocida"');
+const s3 = await call('consultar_grafo', { tarea: 'flujo' });
+check(Array.isArray(s3.structuredContent.formas), 'grafo: tarea del vocabulario responde con formas');
 const s4 = await call('consultar_grafo', { tarea: 'asdf' });
 check(s4.structuredContent.formas === null && /desconocida/.test(s4.structuredContent.aviso_tarea), 'grafo: tarea inventada → aviso con las válidas');
 const s5 = await call('buscar_tecnicas', { texto: 'gráfico de barras apiladas' });
 check(Array.isArray(s5.structuredContent.tecnicas), 'técnicas: búsqueda por palabras no revienta');
 const s6 = await call('buscar_referentes', { texto: 'notas de mi curso' });
 check(s6.structuredContent.referentes.length === 0 && /operación cognitiva/.test(s6.structuredContent.sugerencia), 'referentes: sin resultados trae sugerencia, no silencio');
+
+
+// fable, 25-sep-2026: contrato de interacción (cicatriz de Sol) y piso convencional.
+const i1 = await call('consultar_grafo', { patron: 'predict_reveal' });
+check(i1.structuredContent.interaccion_requerida === true && i1.structuredContent.estados_minimos.length >= 3 && /degradado_a_estatico/.test(i1.structuredContent.si_no_puedes_interactuar), 'grafo: predict_reveal exige interacción y declara estados mínimos');
+const i2 = await call('consultar_grafo', { patron: 'claim_evidence_limit' });
+check(i2.structuredContent.interaccion_requerida === false, 'grafo: claim_evidence_limit no exige interacción');
+const i3 = await call('consultar_grafo', { tarea: 'scatter de notas vs asistencia' });
+check(i3.structuredContent.tarea === 'relacionar' && i3.structuredContent.formas.some((f) => f.id === 'dispersion'), 'grafo: "scatter" → relacionar → dispersion');
+const i4 = await call('consultar_grafo', { tarea: 'histograma' });
+check(i4.structuredContent.tarea === 'distribucion' && i4.structuredContent.formas.some((f) => f.id === 'histograma'), 'grafo: distribucion ya tiene aristas');
+const i5 = await call('consultar_grafo', { tarea: 'ventas mes a mes' });
+check(i5.structuredContent.formas.some((f) => f.id === 'serie_temporal'), 'grafo: "mes a mes" → serie_temporal');
 
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
