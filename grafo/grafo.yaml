@@ -65,6 +65,11 @@ formas:
   - {id: matriz_estados, desc: "filas de compromisos con su estado"}
   - {id: resultados_discretos, desc: "incertidumbre como pocos resultados posibles (Hullman 2018)"}
   - {id: ficha_procedencia, desc: "fuente, fecha, nivel, supresión, límite"}
+  # piso convencional — fable (Reproducible), 25-sep-2026, tras la prueba de uso de Sol en el PR #2: un ingeniero apurado pide estas cuatro por su nombre y el grafo no las tenía.
+  - {id: serie_temporal, desc: "una línea por serie sobre el tiempo; pocas series o pequeños múltiplos"}
+  - {id: dispersion, desc: "un punto por caso en dos ejes (scatter); la correlación no es causa y hay que decirlo"}
+  - {id: histograma, desc: "barras contiguas por intervalo; el ancho del intervalo cambia la lectura y se declara"}
+  - {id: boxplot, desc: "mediana y cuartiles por grupo; con N chico se muestran los puntos, no la caja"}
 
 restricciones:
   duras:
@@ -87,9 +92,10 @@ aristas:
     localizar: [mapa_sin_base, mosaico_uv]
     comparar: [pequenos_multiplos, ranked_dots, dorling]
     ordenar: [ranked_dots]
-    cambio: [slope, pequenos_multiplos]
+    cambio: [slope, pequenos_multiplos, serie_temporal]
+    distribucion: [histograma, boxplot]   # fable, 25-sep-2026: la tarea estaba en el vocabulario sin aristas
     parte_todo: [barras_apiladas]
-    relacionar: [ranked_dots, pequenos_multiplos]
+    relacionar: [dispersion, ranked_dots, pequenos_multiplos]
     flujo: [flujos_agregados]
     secuencia: [linea_de_tiempo]
     estado: [matriz_estados]
