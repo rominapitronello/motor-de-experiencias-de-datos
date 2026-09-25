@@ -53,5 +53,20 @@ check((await rpc('metodo/inexistente', {})).error?.code === -32601, 'método des
 const get = await worker.fetch(new Request('https://x/mcp'));
 check(get.status === 405, 'GET /mcp → 405');
 
+
+// segunda pluma (fable), 24-sep-2026: tolerancia a palabras cotidianas, mayúsculas y tildes.
+const s1 = await call('consultar_grafo', { tarea: 'tendencia' });
+check(s1.structuredContent.tarea === 'cambio' && s1.structuredContent.interpretado_como?.desde === 'tendencia', 'grafo: "tendencia" → cambio, declarado en interpretado_como');
+const s2 = await call('consultar_grafo', { tarea: 'COMPARAR', proposito: 'que mis alumnos entiendan', patron: 'Predict Reveal' });
+check(s2.structuredContent.tarea === 'comparar' && s2.structuredContent.proposito === 'escala_humana' && s2.structuredContent.patron === 'predict_reveal', 'grafo: mayúsculas, sinónimos y espacios se resuelven');
+const s3 = await call('consultar_grafo', { tarea: 'distribucion' });
+check(s3.structuredContent.formas === null && /vocabulario/.test(s3.structuredContent.aviso_tarea), 'grafo: tarea sin aristas avisa, no dice "desconocida"');
+const s4 = await call('consultar_grafo', { tarea: 'asdf' });
+check(s4.structuredContent.formas === null && /desconocida/.test(s4.structuredContent.aviso_tarea), 'grafo: tarea inventada → aviso con las válidas');
+const s5 = await call('buscar_tecnicas', { texto: 'gráfico de barras apiladas' });
+check(Array.isArray(s5.structuredContent.tecnicas), 'técnicas: búsqueda por palabras no revienta');
+const s6 = await call('buscar_referentes', { texto: 'notas de mi curso' });
+check(s6.structuredContent.referentes.length === 0 && /operación cognitiva/.test(s6.structuredContent.sugerencia), 'referentes: sin resultados trae sugerencia, no silencio');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
