@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.0' };
+const SERVER = { name: 'experiencias-datos', version: '0.1.1' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -15,6 +15,59 @@ const CORS = {
 
 const norm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 const incluye = (hay, aguja) => norm(hay).includes(norm(aguja));
+
+// palabras de todos los días → id del grafo. segunda pluma (fable), 24-sep-2026: un profe escribe "tendencia", no "cambio".
+const SINONIMOS = {
+  tarea: {
+    cambio: ['tendencia', 'evolucion', 'tiempo', 'antes y despues', 'crecio', 'bajo', 'subio', 'cambio'],
+    comparar: ['comparacion', 'versus', 'vs', 'diferencia', 'contra'],
+    ordenar: ['ranking', 'top', 'mayor', 'menor', 'quien tiene mas', 'orden'],
+    magnitud: ['cuanto', 'cuantos', 'total', 'cantidad', 'volumen'],
+    parte_todo: ['porcentaje', 'proporcion', 'torta', 'pie', 'composicion', 'reparto', 'participacion'],
+    distribucion: ['histograma', 'dispersion', 'como se reparte', 'rango'],
+    localizar: ['donde', 'mapa', 'ubicacion', 'territorio'],
+    relacionar: ['correlacion', 'relacion', 'depende', 'asociacion'],
+    flujo: ['migracion', 'movimiento', 'de donde a donde', 'origen destino'],
+    secuencia: ['cronologia', 'hitos', 'etapas', 'pasos'],
+    estado: ['avance', 'cumplimiento', 'semaforo', 'compromisos'],
+    incertidumbre: ['margen', 'error', 'confianza', 'probabilidad'],
+    procedencia: ['fuente', 'de donde sale', 'metodologia'],
+    vacio: ['faltan datos', 'sin dato', 'no hay', 'nulos', 'missing'],
+  },
+  proposito: {
+    escala_humana: ['que se entienda', 'entiendan', 'intuitivo', 'para ninos', 'para todos', 'personas'],
+    sorpresa: ['impactar', 'que recuerden', 'memorable', 'sorprender'],
+    comparacion: ['comparar', 'contrastar'],
+    mostrar_cambio: ['tendencia', 'evolucion', 'cambio'],
+    revelar_estructura: ['estructura', 'patron', 'sistema'],
+    mostrar_incertidumbre: ['incertidumbre', 'duda', 'margen'],
+    invitar_a_explorar: ['explorar', 'interactivo', 'que jueguen'],
+    rendicion_de_cuentas: ['transparencia', 'rendir cuentas', 'compromisos', 'promesas'],
+    activos_primero: ['lo bueno primero', 'fortalezas', 'activos', 'sin estigma'],
+  },
+};
+
+// devuelve {id, interpretado} : id exacto (sin tildes ni mayusculas), o el primer sinonimo que aparezca en el texto, o null.
+function resolver(entrada, ids, tipo) {
+  const n = norm(entrada).replace(/[\s-]+/g, '_');
+  if (ids.includes(n)) return { id: n, interpretado: n !== entrada };
+  const suelto = norm(entrada);
+  for (const [id, palabras] of Object.entries(SINONIMOS[tipo] || {})) {
+    if (!ids.includes(id)) continue;
+    if (palabras.some((w) => suelto.includes(w))) return { id, interpretado: true };
+  }
+  const parecido = ids.find((id) => suelto.includes(id.replace(/_/g, ' ')) || suelto.includes(id));
+  if (parecido) return { id: parecido, interpretado: true };
+  return null;
+}
+
+// busqueda por palabras (>= 3 letras): cuenta cuantas palabras de la consulta aparecen en el objeto.
+function puntaje(obj, texto) {
+  const palabras = norm(texto).split(/[^a-z0-9]+/).filter((w) => w.length >= 3);
+  if (!palabras.length) return 1;
+  const hay = norm(JSON.stringify(obj));
+  return palabras.filter((w) => hay.includes(w)).length;
+}
 
 // ---------- herramientas ----------
 
@@ -79,21 +132,31 @@ const TOOLS = [
       }
       const out = { restricciones_duras: g.restricciones.duras };
       if (tarea) {
-        const ids = g.aristas.tarea_forma[tarea];
-        out.tarea = tarea;
+        const r = resolver(tarea, g.tareas.map((t) => t.id), 'tarea');
+        out.tarea = r ? r.id : tarea;
+        if (r && r.interpretado) out.interpretado_como = { tarea: r.id, desde: tarea };
+        const ids = r ? g.aristas.tarea_forma[r.id] : null;
         out.formas = ids ? g.formas.filter((f) => ids.includes(f.id)) : null;
-        if (!ids) out.aviso_tarea = `tarea desconocida; válidas: ${Object.keys(g.aristas.tarea_forma).join(', ')}`;
+        if (!r) out.aviso_tarea = `tarea desconocida; válidas: ${g.tareas.map((t) => `${t.id} (${t.desc})`).join(', ')}`;
+        else if (!ids) out.aviso_tarea = `la tarea ${r.id} está en el vocabulario pero todavía no tiene formas asociadas; crece por PR`;
       }
       if (proposito) {
-        const ids = g.aristas.proposito_tecnica[proposito];
-        out.proposito = proposito;
+        const r = resolver(proposito, g.propositos.map((p) => p.id), 'proposito');
+        out.proposito = r ? r.id : proposito;
+        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), proposito: r.id, desde: proposito };
+        const ids = r ? g.aristas.proposito_tecnica[r.id] : null;
         out.tecnicas = ids ? K.tecnicas.filter((t) => ids.includes(t.id)) : null;
-        if (!ids) out.aviso_proposito = `propósito desconocido; válidos: ${Object.keys(g.aristas.proposito_tecnica).join(', ')}`;
+        if (!r) out.aviso_proposito = `propósito desconocido; válidos: ${g.propositos.map((p) => `${p.id} (${p.desc})`).join(', ')}`;
+        else if (!ids) out.aviso_proposito = `el propósito ${r.id} está en el vocabulario pero todavía no tiene técnicas asociadas; crece por PR`;
       }
       if (patron) {
-        out.patron = patron;
-        out.compromiso_esperado = g.aristas.patron_compromiso[patron] ?? 'sin arista todavía';
-        out.referentes = K.referentes.filter((r) => (r.patron || []).includes(patron));
+        const ids = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
+        const r = resolver(patron, ids, 'patron');
+        out.patron = r ? r.id : patron;
+        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), patron: r.id, desde: patron };
+        if (!r) out.aviso_patron = `patrón desconocido; válidos: ${ids.join(', ')}`;
+        out.compromiso_esperado = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        out.referentes = r ? K.referentes.filter((x) => (x.patron || []).includes(r.id)) : [];
       }
       return out;
     },
@@ -102,19 +165,33 @@ const TOOLS = [
     name: 'buscar_referentes',
     description: 'Busca piezas de referencia indexadas por operación cognitiva, no por estética. Filtra por patrón pedagógico y/o texto libre. Devuelve URL, operación, qué tomar y qué cuidar. No hay imágenes rehosteadas.',
     inputSchema: { type: 'object', properties: { patron: { type: 'string' }, texto: { type: 'string' } } },
-    run: ({ patron, texto } = {}) => ({
-      referentes: K.referentes.filter(
-        (r) => (!patron || (r.patron || []).includes(patron)) && (!texto || incluye(JSON.stringify(r), texto)),
-      ),
-    }),
+    run: ({ patron, texto } = {}) => {
+      const referentes = K.referentes
+        .filter((r) => !patron || (r.patron || []).includes(patron))
+        .map((r) => ({ r, p: texto ? puntaje(r, texto) : 1 }))
+        .filter((x) => x.p > 0)
+        .sort((a, b) => b.p - a.p)
+        .map((x) => x.r);
+      const out = { referentes };
+      if (!referentes.length) out.sugerencia = 'El catálogo indexa piezas por operación cognitiva (predecir, comparar, situarse), no por tema ni tipo de gráfico. Prueba consultar_grafo con la tarea de tu pregunta, o busca por patrón: ' + K.grafo.patrones.map((p) => (typeof p === 'string' ? p : p.id)).join(', ');
+      return out;
+    },
   },
   {
     name: 'buscar_tecnicas',
     description: 'Busca técnicas visuales e interactivas (unit chart, predicción dibujada, líneas hervidas, mapa sin base, etc.) con sus librerías, accesibilidad y riesgo de distorsión.',
     inputSchema: { type: 'object', properties: { id: { type: 'string' }, texto: { type: 'string' } } },
-    run: ({ id, texto } = {}) => ({
-      tecnicas: K.tecnicas.filter((t) => (!id || t.id === id) && (!texto || incluye(JSON.stringify(t), texto))),
-    }),
+    run: ({ id, texto } = {}) => {
+      const tecnicas = K.tecnicas
+        .filter((t) => !id || norm(t.id) === norm(id))
+        .map((t) => ({ t, p: texto ? puntaje(t, texto) : 1 }))
+        .filter((x) => x.p > 0)
+        .sort((a, b) => b.p - a.p)
+        .map((x) => x.t);
+      const out = { tecnicas };
+      if (!tecnicas.length) out.sugerencia = 'No hay una técnica con esas palabras. El catálogo no lista tipos de gráfico corrientes (barras, torta, líneas) sino técnicas para que una experiencia se entienda y se recuerde. Pide consultar_grafo con tu tarea (magnitud, comparar, cambio, parte_todo…) y de ahí sal a las técnicas por propósito.';
+      return out;
+    },
   },
   {
     name: 'principios',

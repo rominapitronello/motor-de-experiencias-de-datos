@@ -32,7 +32,7 @@ Este repo reúne lo que aprendimos al pensar visualizaciones de datos **como edu
 
 ## Usarlo
 
-- **Con Claude:** copia `principios/SKILL.md` como skill, o conecta el MCP (`mcp/README.md`).
+- **Con Claude, ChatGPT, Claude Code o Cursor:** conecta el MCP en dos minutos: [`CONECTAR.md`](CONECTAR.md). Con Claude también puedes copiar `principios/SKILL.md` como skill.
 - **Sin IA:** lee `principios/principios.md` y `trampas/trampas.yaml`. Sirven igual para una profe, un estudiante o un equipo de datos.
 
 ## Contribuir
