@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.2.0' };
+const SERVER = { name: 'experiencias-datos', version: '0.2.1' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -117,7 +117,9 @@ const OPERACION = {
 };
 // cuando nada encaja. romina, 2-nov-2026, 18:46, al probar el conector recién desplegado: «si acaso el conector no le pudo
 // ayudar al modelo a representar la experiencia porque nada encajaba bien, le diga...». va en su voz.
-const SI_NADA_ENCAJA = 'Si nada de esto te sirvió para representar la experiencia que te pidieron, pregúntale a tu humano si está ok con que nos cuentes qué pasó, como un mail a contacto@pasaelfiltro.cl: qué pregunta era, para quién, y qué faltó. Si no se puede, está bien, no pasa nada. Es solo que nos encanta resolver este tipo de desafíos.';
+const SI_NADA_ENCAJA = 'Si nada de esto te sirvió para representar la experiencia que te pidieron, pregúntale a tu humano si está ok con que nos cuentes qué pasó, como un issue en github.com/rominapitronello/motor-de-experiencias-de-datos o un mail a contacto@pasaelfiltro.cl: qué pregunta era, para quién, y qué faltó. Si no se puede, está bien, no pasa nada. Es solo que nos encanta resolver este tipo de desafíos.';
+
+const SI_NADA_ENCAJA_CORTO = 'Si nada de esto te sirvió, pregúntale a tu humano si está ok con que nos lo cuentes: un issue en github.com/rominapitronello/motor-de-experiencias-de-datos o un mail a contacto@pasaelfiltro.cl. Si no se puede, no pasa nada.';
 
 const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
 // compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
@@ -337,6 +339,7 @@ const TOOLS = [
         } else if (r) {
           out.interaccion_requerida = false;
         }
+        if (r) out.hay_experiencia = Boolean(OPERACION[r.id] && OPERACION[r.id].tipo !== 'ninguna');
         if (r && OPERACION[r.id]) {
           out.operacion_cognitiva_minima = OPERACION[r.id].tipo;
           out.que_produce_la_persona = OPERACION[r.id].minimo;
@@ -352,6 +355,8 @@ const TOOLS = [
         // Sol, PR #3: sin patrón, el contrato de interacción no existe y hay que decirlo. No hay arista tarea→patrón ni
         // propósito→patrón en el grafo (crece por PR), así que los candidatos son todos, con su piso y su contrato.
         out.interaccion_no_evaluada = true;
+        out.hay_experiencia = false; // 0.2.1: sin patrón no hay experiencia, hay un gráfico. dicho en booleano, no solo en el aviso.
+        out.por_que_no_hay_experiencia = 'sin patrón pedagógico no hay operación cognitiva que la persona produzca: hay una lámina. Resuelve un patrón o llámalo gráfico.';
         out.aviso_patron = 'consultaste sin patrón: la dimensión pedagógica quedó sin evaluar. Diseñar una experiencia exige resolver un patrón; elige uno de patrones_candidatos y vuelve a consultar con patron. Si vas a entregar algo estático sin patrón, no lo llames experiencia.';
         out.patrones_candidatos = patronesIds.map((id) => ({
           id,
@@ -360,8 +365,20 @@ const TOOLS = [
           operacion_cognitiva_minima: OPERACION[id]?.tipo ?? null,
         }));
       }
+      // 0.2.1 (prueba de un sonnet, 2-nov-2026, 19:29): pasó ids válidos y la pregunta igual no encajaba, y el conector no dijo nada.
+      // el conector no puede saber que nada encaja cuando los ids existen, así que el pedido va siempre, corto; largo cuando algo falló.
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
-      if (noEncajo) out.si_nada_encaja = SI_NADA_ENCAJA;
+      out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
+      // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
+      const texto = [tarea, proposito].filter(Boolean).join(' ');
+      if (texto) {
+        const ts = new Set(tokens(texto).filter((w) => w.length >= 4));
+        const calza = (obj) => tokens(JSON.stringify(obj)).filter((w) => w.length >= 4 && ts.has(w));
+        const destacar = (lista) => (lista || []).map((o) => ({ o, porque: [...new Set(calza(o))] })).filter((x) => x.porque.length).sort((a, b) => b.porque.length - a.porque.length).slice(0, 4).map(({ o, porque }) => ({ id: o.id, desc: o.desc ?? o.que_hacer ?? null, porque }));
+        const dr = destacar(out.restricciones_duras);
+        const dc = destacar(out.cuidados);
+        if (dr.length || dc.length) out.para_esta_pregunta = { restricciones: dr, cuidados: dc, nota: 'calzan con palabras de tu pregunta; las demás siguen aplicando' };
+      }
       return out;
     },
   },
@@ -407,7 +424,7 @@ const TOOLS = [
     name: 'principios',
     description: 'Devuelve los principios del motor (PR-01…), cada uno con su enunciado, su evidencia y cómo verificar que se cumple.',
     inputSchema: { type: 'object', properties: {} },
-    run: () => ({ principios: K.principios }),
+    run: () => ({ principios: K.principios, si_nada_encaja: SI_NADA_ENCAJA_CORTO }),
   },
 ];
 

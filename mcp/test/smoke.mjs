@@ -158,7 +158,7 @@ check(!('sin_datos_personales' in Object.fromEntries(escIds.map((i) => [i, 1])))
 // romina, 2-nov-2026, 18:46: si nada encaja, que el conector pida permiso al humano para contarnos. va solo donde algo no encajó.
 check(/contacto@pasaelfiltro\.cl/.test(s4.structuredContent.si_nada_encaja) && /no pasa nada/.test(s4.structuredContent.si_nada_encaja), 'si_nada_encaja: tarea desconocida trae el pedido de feedback, en la voz de romina');
 check(s6.structuredContent.si_nada_encaja !== undefined, 'si_nada_encaja: referentes vacíos también lo traen');
-check(g.structuredContent.si_nada_encaja === undefined && esc.structuredContent.si_nada_encaja === undefined, 'si_nada_encaja: NO aparece cuando la consulta encajó (sería ruido)');
+check(/github.com/.test(g.structuredContent.si_nada_encaja) && !/qué pregunta era/.test(g.structuredContent.si_nada_encaja), 'si_nada_encaja: cuando la consulta encajó va la versión corta (0.2.1: un sonnet pasó ids válidos, nada encajaba, y el conector calló)');
 check(/si_nada_encaja/.test(init.result.instructions), 'initialize: las instructions avisan que si_nada_encaja es un pedido, no una regla');
 
 
@@ -185,6 +185,15 @@ check(v7.structuredContent.ambito?.id === 'territorio_o_servicio' && v7.structur
 check(/para personas que creen que los gráficos le pasan a la gente importante/.test(init.result.instructions), 'initialize: las instructions empiezan por para_quien del grafo');
 const voc2 = await call('consultar_grafo', {});
 check(typeof voc2.structuredContent.para_quien === 'string' && voc2.structuredContent.palabras_de_la_gente && voc2.structuredContent.cuidados, 'vocabulario: trae para_quien, palabras_de_la_gente y cuidados');
+
+
+// 0.2.1, tras la prueba de un sonnet (2-nov-2026, 19:29): cuatro hallazgos, tres de este lado.
+check(c1.structuredContent.hay_experiencia === false && /lámina/.test(c1.structuredContent.por_que_no_hay_experiencia), '0.2.1: sin patrón, hay_experiencia: false, dicho en booleano');
+check(i1.structuredContent.hay_experiencia === true, '0.2.1: con predict_reveal, hay_experiencia: true');
+const son = await call('consultar_grafo', { tarea: 'clasificar instancias según una variable que casi no existe en los datos, un proxy', ambito: 'personas' });
+const pe = son.structuredContent.para_esta_pregunta;
+check(pe && pe.restricciones.some((r) => r.id === 'definicion_junto_al_dato' && r.porque.includes('proxy')), '0.2.1: «un proxy» destaca definicion_junto_al_dato pegada a la pregunta, con la palabra que calzó');
+check(/github.com/.test(pr.structuredContent.si_nada_encaja), '0.2.1: principios también trae el canal (issue o mail)');
 
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
