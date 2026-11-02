@@ -508,8 +508,7 @@
       "cambios": {
         "didactica.andamiaje.base_ajuste": "sin_evidencia",
         "didactica.andamiaje.pista_observable": "Parece principiante por cómo escribe."
-      },
-      "motivo_esperado": "None was expected"
+      }
     },
     {
       "id": "andamiaje_ajuste_con_evidencia_real",
@@ -517,40 +516,43 @@
       "cambios": {
         "didactica.andamiaje.base_ajuste": "preferencia_declarada",
         "didactica.andamiaje.pista_observable": null
-      },
-      "motivo_esperado": "string"
+      }
     },
     {
       "id": "andamiaje_paso_opcional_obligatorio",
       "esperado_valido": false,
       "cambios": {
         "didactica.andamiaje.paso_opcional": false
-      },
-      "motivo_esperado": "True was expected"
+      }
     },
     {
       "id": "andamiaje_no_calificar",
       "esperado_valido": false,
       "cambios": {
         "didactica.andamiaje.sin_calificar": false
-      },
-      "motivo_esperado": "True was expected"
+      }
     },
     {
       "id": "andamiaje_siguiente_paso_especifico",
       "esperado_valido": false,
       "cambios": {
         "didactica.andamiaje.siguiente_paso": ""
-      },
-      "motivo_esperado": "non-empty"
+      }
     },
     {
       "id": "andamiaje_no_diagnosticar_nivel",
       "esperado_valido": false,
       "cambios": {
         "didactica.andamiaje.base_ajuste": "perfil_inferido"
+      }
+    },
+    {
+      "id": "andamiaje_obligatorio_si_hay_didactica",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje": null
       },
-      "motivo_esperado": "not one of"
+      "nota": "La estructura no puede omitir el andamiaje ni reemplazarlo por null si didactica existe."
     }
   ]
 }
