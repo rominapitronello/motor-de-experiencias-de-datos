@@ -82,10 +82,24 @@ restricciones:
     - {id: dato_quieto, desc: "la animación mueve el trazo, nunca la cifra ni la posición del dato"}
     - {id: reduced_motion, desc: "respetar prefers-reduced-motion"}
     - {id: autocontenido, desc: "si se publica como página: sin teselas ni APIs externas"}
+    # opus 5.5, 2-nov-2026, tras el P1 de sol en el #3: la guarda general de privacidad, que vale en todo ámbito.
+    - {id: sin_identificables, desc: "ninguna persona identificable: si la unidad de análisis es una persona, se desidentifica y las celdas pequeñas se agregan con un umbral declarado"}
   blandas:
     - {id: sin_marco_deficit, desc: "evitar semáforos y 'zonas rojas' sobre barrios", peso: alto}
     - {id: firma_no_color, desc: "lo distintivo viene del trazo o la operación, no de la paleta por defecto", peso: medio}
     - {id: un_mensaje_por_vista, desc: "una pregunta, un título-conclusión", peso: alto}
+  # aplicabilidad — opus 5.5, 2-nov-2026, tras el P1 de sol en el #3 (25-sep y 2-nov).
+  # las restricciones de arriba nacieron del caso territorial (lo hermida) y quedan con sus palabras.
+  # lo que cambia es dónde aplican: una restricción que no aparece en `aplicabilidad` vale en todo ámbito;
+  # una que aparece, solo en los ámbitos listados. INFERENCIA: el criterio es la unidad de análisis.
+  ambitos:
+    - {id: territorio_o_servicio, desc: "la unidad de análisis es un lugar o un servicio: manzana, unidad vecinal, comuna, sede, consultorio. corresponde a unidad_analisis territorio o servicio de la VES"}
+    - {id: personas, desc: "la unidad de análisis es una persona (estudiante, paciente, trabajadora), siempre desidentificada"}
+  aplicabilidad:
+    sin_datos_personales: [territorio_o_servicio]   # en ese ámbito la unidad nunca es una persona; con personas manda sin_identificables
+    tres_nadas: [territorio_o_servicio]             # las tres clases de vacío son de la geografía censal (sin residentes, fusión, agregación propia)
+    # autocontenido no se acota: su condición ya es la superficie («si se publica como página»), no el dominio.
+    # sin teselas ni APIs externas protege a quien lee la página, sea cual sea el tema.
 
 aristas:
   tarea_forma:
