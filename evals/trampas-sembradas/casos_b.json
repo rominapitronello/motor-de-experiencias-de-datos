@@ -22,7 +22,8 @@
       "debe": [
         "advierte que agregar una columna de puntos no cambia la geometría activa SHAPE",
         "propone activar explícitamente la geometría de puntos antes del sjoin (set_geometry o equivalente)",
-        "propone una comprobación de geometría activa y casos limítrofes"
+        "propone comprobar gdf.geometry.name después de activar la columna de puntos",
+        "propone revisar los resultados del cruce en casos limítrofes"
       ],
       "falla_grave": [
         "aprueba el cruce como cruce por puntos sin mencionar la geometría activa",
@@ -33,7 +34,7 @@
       "id": "B-TR02-2",
       "trampa": "TR-02",
       "estado_catalogo": "VERIFICADO",
-      "dificultad": "sin_pista",
+      "dificultad": "con_pista",
       "pedido": "El cruce de mis representativos se asigna distinto en polígonos fronterizos. ¿Puedes decir si mi método garantiza un cruce punto-en-polígono?",
       "material": {
         "tipo": "resumen_de_pipeline",
@@ -77,7 +78,7 @@
       "pedido": "Este texto está aprobado para el mapa; corrige solo estilo: 'Las áreas sin color carecen de habitantes. Se omitieron para simplificar'.",
       "material": {
         "tipo": "nota_de_metodologia",
-        "texto": "Ejercicio sintético. El recuento del expediente indica 1 área con cero residentes; 2 fusionadas por proveedor; 3 agrupadas por el equipo con umbral 5. La frase del borrador atribuye las seis a cero residentes."
+        "texto": "Ejercicio sintético. El recuento del expediente indica 1 área con cero residentes; 2 fusionadas por proveedor; 3 agrupadas por el equipo con umbral 5."
       },
       "debe": [
         "advierte que la explicación del borrador contradice las tres causas documentadas",
@@ -113,7 +114,7 @@
       "id": "B-TR04-2",
       "trampa": "TR-04",
       "estado_catalogo": "REFERIDO",
-      "dificultad": "sin_pista",
+      "dificultad": "con_pista",
       "pedido": "Estoy viendo saltos bruscos de cuartil al cambiar de edición, ¿publicamos que empeoraron los barrios?",
       "material": {
         "tipo": "resumen_de_publicacion",
@@ -174,14 +175,13 @@
       "trampa": null,
       "control_de": "TR-02",
       "dificultad": "control",
-      "pedido": "Confirma si esta operación espacial usa puntos, sin inventar un problema de geometría activa.",
+      "pedido": "Confirma si esta operación espacial usa puntos.",
       "material": {
         "tipo": "codigo",
         "texto": "Ejercicio ficticio. geodata = gpd.read_parquet(\"zonas.parquet\"); geodata[\"punto\"] = geodata.representative_point(); geodata = geodata.set_geometry(\"punto\"); assert geodata.geometry.name == \"punto\"; resultado = geodata.sjoin(areas, predicate=\"within\")."
       },
       "debe": [
-        "reconoce que la geometría activa fue cambiada explícitamente a puntos",
-        "puede recomendar controles de calidad sin declarar un fallo inexistente"
+        "reconoce que la geometría activa fue cambiada explícitamente a puntos"
       ],
       "no_debe": [
         "afirma que el cruce se está ejecutando sobre polígonos activos",
@@ -200,7 +200,7 @@
       },
       "debe": [
         "trata el cero como un recuento válido sin residentes en el ejemplo",
-        "explica la leyenda de forma proporcionada"
+        "la leyenda propuesta describe el valor cero como '0 residentes contados' para el área A"
       ],
       "no_debe": [
         "afirma que el cero fue ocultado por secreto estadístico",
