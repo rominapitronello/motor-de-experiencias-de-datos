@@ -399,7 +399,7 @@ referentes:
     url: "https://tacticaltech.org/projects/data-detox-kit/"
     estado_url: "VERIFICADO"
     patron: ["sequence_branch", "personalize_situate"]
-    operacion: "acercar conceptos tecnicos a decisiones propias mediante pasos cortos y recursos adaptados por idioma"
+    operacion: "acercar conceptos tecnicos a decisiones propias mediante pasos cortos y materiales adaptados por idioma"
     tomar: "responder en lengua de la pregunta con opciones locales; preservar agencia y acceso al dato original"
     cuidado: "traducir no equivale a localizacion cultural ni autoriza enviar datos personales a terceros"
     nota: "Pluma: Sol desde OpenAI · GPT-6 · 2-nov-2026"
