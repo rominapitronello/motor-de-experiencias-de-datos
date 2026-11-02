@@ -167,7 +167,8 @@
           },
           "fecha_corte": {
             "type": "string",
-            "format": "date"
+            "format": "date",
+            "minLength": 1
           },
           "nivel_geografico": {
             "type": "string",
