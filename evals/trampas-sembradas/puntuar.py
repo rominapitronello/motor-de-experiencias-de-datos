@@ -38,6 +38,9 @@ CONDICIONES = ("sin_conector", "con_conector")
 LINAJES = ("claude", "sol")
 JUECES = ("claude", "sol", "romina")
 ADIVINANZAS = CONDICIONES + ("no_se",)
+# Parámetro congelado del protocolo (PROTOCOLO.md, regla 5): corridas mínimas por caso y condición.
+# No se infiere de los datos: si llegan menos, el diseño está incompleto.
+MIN_CORRIDAS = 2
 CAMPOS_ASIGNACION = {"response_id", "caso", "linaje", "condicion", "corrida"}
 CAMPOS_ETIQUETA = {"response_id", "juez", "debe", "falla_grave", "no_debe", "revela_condicion", "adivina_condicion"}
 
@@ -167,12 +170,33 @@ def puntaje(e, caso):
     return mean(evaluables) if evaluables else None
 
 
-def cegamiento(e, a):
-    if e["revela_condicion"]:
-        return "fallido"
-    if e["adivina_condicion"] == a["condicion"]:
-        return "parcial"
-    return "efectivo"
+def wilson(aciertos, n, z=1.96):
+    """IC 95% de Wilson para una proporción."""
+    if n == 0:
+        return None
+    p = aciertos / n
+    den = 1 + z * z / n
+    centro = (p + z * z / (2 * n)) / den
+    radio = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / den
+    return p, centro - radio, centro + radio
+
+
+def cegamiento_lote(etiquetas, asignacion):
+    """El cegamiento se mide por lote, no se certifica por respuesta.
+
+    Una apuesta fallida no prueba que una respuesta estuviera cegada. Se reportan:
+    revelaciones textuales observables, abstenciones y la tasa de acierto con su IC.
+    Un IC que contiene 0.5 es compatible con azar; no es prueba suficiente de cegamiento.
+    Un IC que excluye 0.5 indica que el juez distingue la condición.
+    """
+    jueces = [e for e in etiquetas if e["juez"] != "romina"]
+    revela = sum(e["revela_condicion"] for e in jueces)
+    no_rev = [e for e in jueces if not e["revela_condicion"]]
+    abst = sum(e["adivina_condicion"] == "no_se" for e in no_rev)
+    apuestas = [e for e in no_rev if e["adivina_condicion"] != "no_se"]
+    aciertos = sum(e["adivina_condicion"] == asignacion[e["response_id"]]["condicion"] for e in apuestas)
+    return {"respuestas": len(jueces), "revela": revela, "abstenciones": abst,
+            "apuestas": len(apuestas), "aciertos": aciertos, "ic": wilson(aciertos, len(apuestas))}
 
 
 def _ic(valores_por_caso, n=5000, semilla=7):
@@ -186,7 +210,7 @@ def _ic(valores_por_caso, n=5000, semilla=7):
 
 def analizar(casos, asignacion, etiquetas):
     """Devuelve un dict con todo lo que se reporta. No imprime."""
-    res = {"estratos": {}, "cegamiento": defaultdict(int), "adivinanzas": {"aciertos": 0, "intentos": 0},
+    res = {"estratos": {}, "estratos_faltantes": [], "cegamiento": cegamiento_lote(etiquetas, asignacion),
            "acuerdo_romina": None, "sin_puntaje": []}
 
     principales, autojuicio, romina = [], [], []
@@ -198,11 +222,6 @@ def analizar(casos, asignacion, etiquetas):
             autojuicio.append(e)
         else:
             principales.append(e)
-        if e["juez"] != "romina":
-            res["cegamiento"][cegamiento(e, a)] += 1
-            if not e["revela_condicion"] and e["adivina_condicion"] != "no_se":
-                res["adivinanzas"]["intentos"] += 1
-                res["adivinanzas"]["aciertos"] += e["adivina_condicion"] == a["condicion"]
 
     # estratos: (linaje evaluado, conjunto ajeno|propio); autojuicio va aparte y nunca al principal
     for nombre, grupo in (("principal", principales), ("autojuicio", autojuicio)):
@@ -214,6 +233,13 @@ def analizar(casos, asignacion, etiquetas):
         for (linaje, relacion), es in cubos.items():
             esperados = {k for k, c in casos.items() if (c["_autor"] == linaje) == (relacion == "propio")}
             res["estratos"][(nombre, linaje, relacion)] = _analizar_estrato(casos, asignacion, es, esperados, res)
+
+    # el diseño lo define la asignación, no las etiquetas: cada linaje corrido debe tener
+    # su estrato principal sobre el conjunto ajeno, aunque no haya llegado ninguna etiqueta
+    for linaje in sorted({a["linaje"] for a in asignacion.values()}):
+        hay_ajeno = any(c["_autor"] != linaje for c in casos.values())
+        if hay_ajeno and ("principal", linaje, "ajeno") not in res["estratos"]:
+            res["estratos_faltantes"].append(("principal", linaje, "ajeno"))
 
     if romina:
         res["acuerdo_romina"] = _acuerdo(romina, principales)
@@ -228,7 +254,7 @@ def _analizar_estrato(casos, asignacion, es, esperados, res):
         a = asignacion[e["response_id"]]
         vistas[a["caso"]].add((a["condicion"], a["corrida"]))
         corridas.add(a["corrida"])
-    esperado = {(c, r) for c in CONDICIONES for r in range(1, max(corridas) + 1)}
+    esperado = {(c, r) for c in CONDICIONES for r in range(1, max(MIN_CORRIDAS, max(corridas)) + 1)}
     faltantes = {k: sorted(esperado - vistas.get(k, set())) for k in esperados if esperado - vistas.get(k, set())}
 
     # medidas por caso y condición, promediando corridas
@@ -307,11 +333,18 @@ def imprimir(res):
                 dlt, lo, hi, k = m["efecto"]
                 aviso = "  (menos de 20 casos: orientativo)" if k < 20 else ""
                 print(f"    efecto con − sin: {dlt:+.2f}  IC95% [{lo:+.2f}, {hi:+.2f}]{aviso}")
-    print("\n== cegamiento del juez")
-    print("  " + " · ".join(f"{k}: {v}" for k, v in sorted(res["cegamiento"].items())))
-    ad = res["adivinanzas"]
-    if ad["intentos"]:
-        print(f"  adivinó la condición en {ad['aciertos']}/{ad['intentos']} intentos sin revelación (≈50% = ciego)")
+    for estrato, linaje, relacion in res["estratos_faltantes"]:
+        print(f"\n== FALTA el estrato {estrato} · linaje {linaje} · conjunto {relacion}: "
+              f"hay respuestas en la asignación pero ninguna etiqueta de otro linaje. No hay resultado principal para {linaje}.")
+    c = res["cegamiento"]
+    print("\n== cegamiento del juez (por lote; una apuesta fallida no certifica una respuesta)")
+    print(f"  {c['respuestas']} respuestas · {c['revela']} revelan la condición en el texto · "
+          f"{c['abstenciones']} abstenciones · {c['apuestas']} apuestas")
+    if c["ic"]:
+        p, lo, hi = c["ic"]
+        lectura = ("compatible con azar (no prueba cegamiento)" if lo <= 0.5 <= hi
+                   else "el juez distingue la condición: cegamiento comprometido")
+        print(f"  acierto en apuestas {c['aciertos']}/{c['apuestas']} = {p:.0%}  IC95% [{lo:.0%}, {hi:.0%}] → {lectura}")
     if res["sin_puntaje"]:
         print(f"  respuestas sin ningún 'debe' evaluable (fuera del puntaje): {len(res['sin_puntaje'])}")
     if res["acuerdo_romina"]:

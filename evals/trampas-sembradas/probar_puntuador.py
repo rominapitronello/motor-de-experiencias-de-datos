@@ -204,13 +204,50 @@ def _():
     assert ets[T][1]["response_id"] in res["sin_puntaje"]
 
 
-# --- cegamiento ---
-@prueba("cegamiento: revela → fallido; adivina bien → parcial; no sabe → efectivo")
+# --- segunda vuelta de Sol (v0.2) ---
+@prueba("una sola corrida por condición deja el diseño incompleto (MIN_CORRIDAS=2)")
 def _():
-    a = {"condicion": "con_conector"}
-    assert P.cegamiento({"revela_condicion": True, "adivina_condicion": "no_se"}, a) == "fallido"
-    assert P.cegamiento({"revela_condicion": False, "adivina_condicion": "con_conector"}, a) == "parcial"
-    assert P.cegamiento({"revela_condicion": False, "adivina_condicion": "no_se"}, a) == "efectivo"
+    # contraejemplo de Sol: antes, max(corridas)=1 hacía que no faltara nada
+    res = correr(*diseno(corridas=(1,)))
+    e = res["estratos"][("principal", "sol", "ajeno")]
+    assert e["faltantes"], "faltó exigir corrida 2"
+    assert all(m["efecto"] is None for m in e["medidas"].values()), "calculó efecto con una sola corrida"
+
+
+@prueba("un linaje corrido sin ninguna etiqueta de otro linaje se reporta como estrato faltante")
+def _():
+    # contraejemplo de Sol: sin etiquetas, el estrato no existía y nada avisaba
+    asg_sol, _ = diseno(linaje="sol", juez="claude")
+    asg_claude, ets_claude = diseno(linaje="claude", juez="claude")  # solo autojuicio
+    n = len(asg_sol)
+    asg = asg_sol + [(n + i, dict(a, response_id=f"c-{a['response_id']}")) for i, (_, a) in enumerate(asg_claude, 1)]
+    ets = [(n + i, dict(e, response_id=f"c-{e['response_id']}")) for i, (_, e) in enumerate(ets_claude, 1)]
+    res = correr(asg, ets)
+    assert ("principal", "claude", "ajeno") in res["estratos_faltantes"], "no avisó que falta el resultado principal de claude"
+    assert ("principal", "sol", "ajeno") in res["estratos_faltantes"], "no avisó que falta el de sol (no tiene etiquetas)"
+
+
+@prueba("cegamiento por lote: acierto sistemático se marca como comprometido; una apuesta fallida no certifica")
+def _():
+    def adivina_bien(e, c, cond):
+        e["adivina_condicion"] = cond
+    cg = correr(*diseno(etiqueta=adivina_bien))["cegamiento"]
+    p, lo, hi = cg["ic"]
+    assert lo > 0.5, "un juez que siempre acierta debería quedar fuera del azar"
+
+    def adivina_mal(e, c, cond):
+        e["adivina_condicion"] = "sin_conector" if cond == "con_conector" else "con_conector"
+    cg = correr(*diseno(etiqueta=adivina_mal))["cegamiento"]
+    assert cg["ic"][2] < 0.5, "fallar siempre también es una señal, no prueba de cegamiento"
+    assert "efectivo" not in cg, "no debe existir una etiqueta de cegamiento por respuesta"
+
+
+@prueba("revelaciones y abstenciones se cuentan aparte de las apuestas")
+def _():
+    asg, ets = diseno()
+    ets[0][1]["revela_condicion"] = True
+    cg = correr(asg, ets)["cegamiento"]
+    assert cg["revela"] == 1 and cg["apuestas"] == 0 and cg["abstenciones"] == len(ets) - 1
 
 
 print(f"\n{'todas las pruebas pasan' if not FALLAS else f'{len(FALLAS)} prueba(s) fallan'}")

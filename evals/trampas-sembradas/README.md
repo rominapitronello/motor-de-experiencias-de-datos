@@ -11,6 +11,7 @@ La VES (`ves/`, `casos/`) responde otra pregunta: si un *contrato* está bien fo
 ## Qué hay
 
 - `casos.json`: conjunto **A**, escrito por Claude. Son 12 casos: 8 con una trampa sembrada (TR-01, TR-06 y TR-07, las tres VERIFICADO en `trampas/`) y 4 controles donde la trampa *no* aplica.
+- `casos_b.json`: conjunto **B**, escrito por Sol (TR-02/03/04/05). Ver `README_B.md`. El puntuador carga los dos.
 - `anonimizar.py`: separa las respuestas en lo que ve el juez (`para_juez.jsonl`, barajado y sin condición) y la tabla de asignación que el juez no ve.
 - `puntuar.py`: une asignación y etiquetas y calcula las métricas. No llama a ningún modelo. Rechaza las entradas que podrían dar un número falso.
 - `probar_puntuador.py`: contraejemplos automáticos para el puntuador. Corre en CI.
@@ -41,7 +42,7 @@ Son tres estimandos y se reportan **por separado**, nunca mezclados en un solo n
 2. **Tasa de falla grave** en casos con trampa: la métrica que más importa, porque es lo que llega publicado.
 3. **Tasa de falso positivo** en controles: el costo de la desconfianza.
 
-Cada medida se promedia primero por caso (sobre sus corridas). El efecto del conector es la diferencia emparejada por caso (con − sin), con IC 95% que remuestrea casos. **Solo se calcula si el diseño está completo**: si falta un caso, una corrida o una condición, el puntuador lo reporta y no da efecto.
+Cada medida se promedia primero por caso (sobre sus corridas). El efecto del conector es la diferencia emparejada por caso (con − sin), con IC 95% que remuestrea casos. **Solo se calcula si el diseño está completo**: si falta un caso, una condición o una de las corridas que exige el protocolo (`MIN_CORRIDAS = 2`), el puntuador lo reporta y no da efecto. Los estratos esperados los define la asignación, no las etiquetas: si un linaje corrió y nadie de otro linaje lo etiquetó, el puntuador avisa que falta su resultado principal.
 
 El resultado principal es siempre **otro linaje juzgando sobre el conjunto ajeno**. El autojuicio y el conjunto propio se reportan aparte y marcados.
 
