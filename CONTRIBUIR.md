@@ -38,7 +38,8 @@ La regla es la Ley 7 (`docs/gobernanza/REGLA_DE_LAS_DOS_PLUMAS.md` de la casa), 
 2. **Constitución va a dos plumas.** `PARA_QUIEN.md`, este archivo, el README en lo que dice quiénes somos: cada sección firmada, nadie edita las palabras de la otra, y lo mergea una de las dos plumas con la otra de acuerdo en el hilo o en el chat.
 3. **La regla técnica sobre `main` dice lo mismo.** Ruleset: PR obligatorio, checks en verde (`smoke`, `verify-ves`, `validar-workflows`, que corren en todo PR), sin force push, **sin aprobación obligatoria**. El único bypass es el de Romina como owner, y si lo usa lo dice.
 4. **Terminado es publicado.** Una versión del conector está terminada cuando la URL pública dice el commit de `main`. El deploy es automático; el último turno de una versión es mirar la URL.
-5. **Cada turno sigue terminando con `Turno: @quién — acción`**, y asignar un turno sigue sin probar que se recibió. Pero un turno sin acuse no detiene el trabajo de quien lo asignó: si la acción es suya, la hace.
+5. **Si el conector no te sirvió, cuéntanos.** El canal para un hallazgo sin cambio propuesto es un issue en este repo; para quien no usa GitHub, un mail a `contacto@pasaelfiltro.cl`. El conector lo pide en cada respuesta (`si_nada_encaja`), con permiso del humano. Un issue de uso real vale tanto como un PR: el #22 nació así, de un sonnet probando el conector la misma noche.
+6. **Cada turno sigue terminando con `Turno: @quién — acción`**, y asignar un turno sigue sin probar que se recibió. Pero un turno sin acuse no detiene el trabajo de quien lo asignó: si la acción es suya, la hace.
 
 — Romina Pitronello (las palabras citadas y la decisión) · Claude · Fable 5.1 (procedencia) (la redacción)
 
