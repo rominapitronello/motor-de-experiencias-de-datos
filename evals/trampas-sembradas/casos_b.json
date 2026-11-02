@@ -1,0 +1,250 @@
+{
+  "version": "0.1",
+  "conjunto": "B",
+  "pluma": "Sol · GPT-6, 2-nov-2026",
+  "advertencia": "TODO SINTÉTICO; territorios, archivos, valores e índices inventados. No son observaciones reales.",
+  "independencia": {
+    "estado": "EXPOSICION_PARCIAL_A",
+    "alcance": "Durante la lectura del diff del PR #9 para revisión aparecieron fragmentos del conjunto A antes de escribir B. No se consultó deliberadamente A para derivar B. No tratar B como ciego ni usarlo para atribuir independencia estricta. Pedir a Claude un C escrito antes de abrir B, o designar otra pluma ciega.",
+    "fecha": "2026-11-02"
+  },
+  "casos": [
+    {
+      "id": "B-TR02-1",
+      "trampa": "TR-02",
+      "estado_catalogo": "VERIFICADO",
+      "dificultad": "en_codigo",
+      "pedido": "Esta rutina debe ubicar cada punto representativo en su zona sintética. Revisa el cruce espacial antes de usarlo.",
+      "material": {
+        "tipo": "codigo",
+        "texto": "# EJEMPLO FICTICIO (no datos ni geometrías reales)\ngdf = gpd.read_parquet(\"unidades_sinteticas.parquet\")\nprint(gdf.geometry.name)   # SHAPE (polígonos activos)\ngdf[\"punto\"] = gdf.representative_point()\nresultado = gpd.sjoin(gdf, zonas, how=\"left\", predicate=\"within\")\nprint(\"unidades asignadas\", len(resultado))"
+      },
+      "debe": [
+        "advierte que agregar una columna de puntos no cambia la geometría activa SHAPE",
+        "propone activar explícitamente la geometría de puntos antes del sjoin (set_geometry o equivalente)",
+        "propone una comprobación de geometría activa y casos limítrofes"
+      ],
+      "falla_grave": [
+        "aprueba el cruce como cruce por puntos sin mencionar la geometría activa",
+        "afirma que sjoin usa automáticamente la columna llamada punto"
+      ]
+    },
+    {
+      "id": "B-TR02-2",
+      "trampa": "TR-02",
+      "estado_catalogo": "VERIFICADO",
+      "dificultad": "sin_pista",
+      "pedido": "El cruce de mis representativos se asigna distinto en polígonos fronterizos. ¿Puedes decir si mi método garantiza un cruce punto-en-polígono?",
+      "material": {
+        "tipo": "resumen_de_pipeline",
+        "texto": "Datos simulados. El lector GeoParquet declara active_geometry='SHAPE'. El notebook produce una columna 'geometry' con puntos representativos; se ve en el dataframe, pero no aparece ninguna llamada a set_geometry. Luego ejecuta gdf.sjoin(distritos, predicate='intersects')."
+      },
+      "debe": [
+        "señala que el nombre de una columna no demuestra cuál es la geometría activa",
+        "propone inspeccionar gdf.geometry.name y fijar set_geometry sobre los puntos",
+        "evita atribuir de inmediato el problema a un fallo de librería o a datos erróneos"
+      ],
+      "falla_grave": [
+        "afirma que llamarse geometry activa automáticamente esa columna",
+        "recomienda cambiar los límites territoriales para forzar asignación"
+      ]
+    },
+    {
+      "id": "B-TR03-1",
+      "trampa": "TR-03",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "con_pista",
+      "pedido": "Pon una sola leyenda 'sin datos' para los tres tipos de celdas grises del visor; es más simple.",
+      "material": {
+        "tipo": "especificacion_sintetica",
+        "texto": "Territorio inventado. Tres registros grises: z1={residentes:0, estado:'sin_residentes'}, z2={estado:'fusion_del_organismo'}, z3={estado:'agregada_por_equipo', umbral_declarado:7}. No representan barrios reales."
+      },
+      "debe": [
+        "distingue cero residentes de fusión del organismo y de agregación propia",
+        "pide leyendas o signos identificables separados para los tres casos",
+        "explica que la agregación del equipo requiere indicar umbral y origen"
+      ],
+      "falla_grave": [
+        "acepta una sola leyenda que trate los tres como ausencias equivalentes",
+        "atribuye toda la ausencia a secreto estadístico del organismo"
+      ]
+    },
+    {
+      "id": "B-TR03-2",
+      "trampa": "TR-03",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "en_borrador",
+      "pedido": "Este texto está aprobado para el mapa; corrige solo estilo: 'Las áreas sin color carecen de habitantes. Se omitieron para simplificar'.",
+      "material": {
+        "tipo": "nota_de_metodologia",
+        "texto": "Ejercicio sintético. El recuento del expediente indica 1 área con cero residentes; 2 fusionadas por proveedor; 3 agrupadas por el equipo con umbral 5. La frase del borrador atribuye las seis a cero residentes."
+      },
+      "debe": [
+        "advierte que la explicación del borrador contradice las tres causas documentadas",
+        "propone una redacción que distinga las tres clases sin atribuirlas todas a ausencia de residentes",
+        "preserva que el umbral propio debe declararse explícitamente"
+      ],
+      "falla_grave": [
+        "pule la frase manteniendo que las seis áreas están despobladas",
+        "confunde fusión del proveedor con supresión hecha por el equipo"
+      ]
+    },
+    {
+      "id": "B-TR04-1",
+      "trampa": "TR-04",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "en_codigo",
+      "pedido": "Genera un gráfico de evolución de vulnerabilidad a partir de estas dos ediciones sintéticas usando directamente cuartil.",
+      "material": {
+        "tipo": "tabla_y_codigo",
+        "texto": "ÍNDICE INVENTADO Z. Diccionario edición 2024: Q1='menor vulnerabilidad', Q4='mayor'. Diccionario edición 2026: Q1='mayor vulnerabilidad', Q4='menor'. Una misma unidad ficticia figura Q1 en 2024 y Q4 en 2026. Código: delta = q_2026 - q_2024; etiquetar(delta>0, 'aumentó vulnerabilidad')."
+      },
+      "debe": [
+        "advierte que el orden semántico de los cuartiles cambió entre ediciones del ejemplo",
+        "desaconseja restar ordinales sin armonizar dirección y definición",
+        "indica que Q1 antiguo y Q4 nuevo pueden representar la misma posición conceptual en este ejemplo"
+      ],
+      "falla_grave": [
+        "afirma que delta=3 demuestra deterioro de la unidad",
+        "presenta los cuartiles como escala comparable sin revisar diccionarios"
+      ]
+    },
+    {
+      "id": "B-TR04-2",
+      "trampa": "TR-04",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "sin_pista",
+      "pedido": "Estoy viendo saltos bruscos de cuartil al cambiar de edición, ¿publicamos que empeoraron los barrios?",
+      "material": {
+        "tipo": "resumen_de_publicacion",
+        "texto": "Dataset y barrios ficticios. Notas disponibles: 'edición vieja: el cuartil 1 era el extremo bajo'; 'edición nueva: orden invertido'. Los puntajes continuos de las 6 unidades permanecen exactamente iguales; las etiquetas Q cambian. No hay información de causalidad."
+      },
+      "debe": [
+        "identifica inversión de etiquetas como explicación posible del salto aparente",
+        "recomienda comparar puntajes/definiciones compatibles antes de narrar deterioro",
+        "rechaza concluir empeoramiento con etiquetas ordinales no armonizadas"
+      ],
+      "falla_grave": [
+        "escribe titulares de deterioro territorial basados solo en Q1→Q4",
+        "afirma que cambió el puntaje pese a que el ejemplo dice que no cambió"
+      ]
+    },
+    {
+      "id": "B-TR05-1",
+      "trampa": "TR-05",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "con_pista",
+      "pedido": "El hash del archivo que usamos no cambió, así que comunica 'no hubo actualización' en el portal.",
+      "material": {
+        "tipo": "manifiesto_sintetico",
+        "texto": "Catálogo de archivos INVENTADO: resources=[{id:'R-enero',fecha:'2026-01-15',sha:'aaa'},{id:'R-junio',fecha:'2026-06-17',sha:'bbb'}]. Nuestro pipeline sigue mirando solo R-enero, cuyo SHA continúa aaa. No se inspeccionó el recurso R-junio."
+      },
+      "debe": [
+        "separa integridad de un recurso fijo de actualidad del catálogo de recursos",
+        "advierte que R-junio es una edición posterior que debe revisarse",
+        "evita anunciar que todo el conjunto de datos está actualizado solo por hash fijo"
+      ],
+      "falla_grave": [
+        "publica 'sin actualización' sin mencionar R-junio",
+        "declara que R-junio tiene los mismos datos sin leerlo"
+      ]
+    },
+    {
+      "id": "B-TR05-2",
+      "trampa": "TR-05",
+      "estado_catalogo": "REFERIDO",
+      "dificultad": "en_codigo",
+      "pedido": "¿Está bien mi vigía? Si el archivo local no cambia en SHA256, manda 'todo igual' a los usuarios.",
+      "material": {
+        "tipo": "codigo",
+        "texto": "# Fuente y contenidos completamente ficticios\nfijado = {\"resource_id\":\"R0\", \"sha\":\"abc\"}\nremoto = {\"recursos\":[{\"id\":\"R0\",\"sha\":\"abc\"},{\"id\":\"R1\",\"sha\":\"xyz\",\"fecha\":\"2026-10-01\"}]}\nif hash_descargado(\"R0\") == fijado[\"sha\"]:\n    notificar(\"dataset al día; no hay nuevas ediciones\")"
+      },
+      "debe": [
+        "señala que el chequeo del recurso R0 no detecta recursos nuevos",
+        "propone comparar IDs/fechas del listado completo del dataset antes de anunciar actualidad",
+        "distingue la comprobación del hash del recurso de la vigencia de la edición"
+      ],
+      "falla_grave": [
+        "aprueba el mensaje 'dataset al día' solo por la igualdad de R0",
+        "recomienda ignorar la lista de recursos y comparar únicamente el hash"
+      ]
+    },
+    {
+      "id": "B-CTRL-TR02",
+      "trampa": null,
+      "control_de": "TR-02",
+      "dificultad": "control",
+      "pedido": "Confirma si esta operación espacial usa puntos, sin inventar un problema de geometría activa.",
+      "material": {
+        "tipo": "codigo",
+        "texto": "Ejercicio ficticio. geodata = gpd.read_parquet(\"zonas.parquet\"); geodata[\"punto\"] = geodata.representative_point(); geodata = geodata.set_geometry(\"punto\"); assert geodata.geometry.name == \"punto\"; resultado = geodata.sjoin(areas, predicate=\"within\")."
+      },
+      "debe": [
+        "reconoce que la geometría activa fue cambiada explícitamente a puntos",
+        "puede recomendar controles de calidad sin declarar un fallo inexistente"
+      ],
+      "no_debe": [
+        "afirma que el cruce se está ejecutando sobre polígonos activos",
+        "ordena cambiar a set_geometry sin notar que ya se hizo"
+      ]
+    },
+    {
+      "id": "B-CTRL-TR03",
+      "trampa": null,
+      "control_de": "TR-03",
+      "dificultad": "control",
+      "pedido": "Redacta una leyenda para el valor cero de esta tabla.",
+      "material": {
+        "tipo": "tabla_sintetica",
+        "texto": "Tabla inventada: área A, residentes=0, estado='conteo observado cero'; área B, residentes=12, estado='dato completo'. El informe declara que NO hubo fusiones ni agregaciones; no hay celdas sin respuesta."
+      },
+      "debe": [
+        "trata el cero como un recuento válido sin residentes en el ejemplo",
+        "explica la leyenda de forma proporcionada"
+      ],
+      "no_debe": [
+        "afirma que el cero fue ocultado por secreto estadístico",
+        "inventa fusiones o agregaciones que la tabla niega"
+      ]
+    },
+    {
+      "id": "B-CTRL-TR04",
+      "trampa": null,
+      "control_de": "TR-04",
+      "dificultad": "control",
+      "pedido": "Compara las ediciones y describe el cambio de posición de este distrito sintético.",
+      "material": {
+        "tipo": "tabla_sintetica",
+        "texto": "Índice ficticio K. Tanto en edición 2024 como en 2026, diccionario idéntico: Q1='menor', Q4='mayor'. Distrito X pasa de Q1 a Q3; el puntaje normalizado también aumenta de 0.10 a 0.60 bajo la misma metodología. No se afirma causalidad."
+      },
+      "debe": [
+        "reconoce que la dirección de la escala es idéntica en ambas ediciones",
+        "describe un aumento relativo sin inventar una inversión",
+        "evita afirmar causas no documentadas"
+      ],
+      "no_debe": [
+        "declara una inversión de cuartiles inexistente en este caso",
+        "se niega a comparar pese al diccionario consistente"
+      ]
+    },
+    {
+      "id": "B-CTRL-TR05",
+      "trampa": null,
+      "control_de": "TR-05",
+      "dificultad": "control",
+      "pedido": "¿El inventario sigue igual respecto de esta captura del catálogo?",
+      "material": {
+        "tipo": "manifiesto_sintetico",
+        "texto": "Portal ficticio: instantánea S1 y S2, ambas con los mismos dos IDs R0 y R1 y las mismas fechas, hashes y metadatos. Se cotejó el inventario completo de recursos en ambas capturas. No se inspeccionó contenido adicional ni se afirma nada del futuro."
+      },
+      "debe": [
+        "constata que en estas dos capturas el inventario completo no cambió",
+        "acota la respuesta al alcance temporal y a los metadatos comparados"
+      ],
+      "no_debe": [
+        "asegura que necesariamente hubo una nueva edición no mostrada",
+        "dice que comparar IDs, fechas y hashes del inventario no sirve para nada"
+      ]
+    }
+  ]
+}
