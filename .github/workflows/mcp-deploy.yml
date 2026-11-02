@@ -1,0 +1,70 @@
+# despliegue del conector experiencias-datos a cloudflare workers.
+# opus 5.5, 2-nov-2026, a pedido de romina: hasta hoy se desplegaba a mano y el conector publicado
+# seguía en el commit 597057e (25-sep) mientras main avanzaba. así, lo publicado es siempre main.
+#
+# corre solo en main (después de un merge con segunda pluma) o a mano desde la pestaña Actions.
+# antes de publicar repite las mismas pruebas del CI; si alguna falla, no publica nada.
+# necesita dos secretos del repo: CLOUDFLARE_API_TOKEN (permiso mínimo: editar Workers) y CLOUDFLARE_ACCOUNT_ID.
+name: MCP deploy
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mcp/**'
+      - 'grafo/**'
+      - 'trampas/**'
+      - 'catalogo/**'
+      - 'principios/**'
+      - '.github/workflows/mcp-deploy.yml'
+  workflow_dispatch:
+concurrency:
+  group: mcp-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.repository == 'rominapitronello/motor-de-experiencias-de-datos'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: faltan secretos de cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::error::faltan CLOUDFLARE_API_TOKEN o CLOUDFLARE_ACCOUNT_ID en los secretos del repo; no se publica nada"
+            exit 1
+          fi
+      # el grafo que se publica tiene que seguir coherente con la VES
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r casos/requirements.txt
+      - run: python casos/probar_ves.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+        working-directory: mcp
+      - run: npm test
+        working-directory: mcp
+      - name: publicar en cloudflare
+        working-directory: mcp
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy
+      # el conector dice desde qué commit se construyó; si no es este, la publicación no quedó
+      - name: comprobar el commit publicado
+        run: |
+          esperado="$(git rev-parse --short HEAD)"
+          for intento in 1 2 3 4 5 6; do
+            publicado="$(curl -fsS https://experiencias-datos.romina-pitronello.workers.dev/ | sed -n 's/^conocimiento: commit \([^,]*\),.*/\1/p')"
+            if [ "$publicado" = "$esperado" ]; then echo "publicado: commit $publicado"; exit 0; fi
+            echo "intento $intento: el conector dice $publicado, se esperaba $esperado"; sleep 10
+          done
+          echo "::error::el conector publicado no coincide con main ($esperado)"; exit 1
