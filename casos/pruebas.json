@@ -333,6 +333,53 @@
         "didactica.compromiso": "interactivo",
         "render.interaccion.co_construccion": true
       }
+    },
+    {
+      "id": "constructivo_sin_idea_nueva",
+      "esperado_valido": false,
+      "cambios": {
+        "render.interaccion.tipo": "ninguna"
+      },
+      "motivo_esperado": "ICAP constructivo exige"
+    },
+    {
+      "id": "constructivo_con_filtro_pasivo",
+      "esperado_valido": false,
+      "cambios": {
+        "render.interaccion.tipo": "filtro"
+      },
+      "motivo_esperado": "ICAP constructivo exige"
+    },
+    {
+      "id": "variable_no_declarada",
+      "esperado_valido": false,
+      "cambios": {
+        "render.codificacion.variable": "columna_que_no_existe"
+      },
+      "motivo_esperado": "variable no figura"
+    },
+    {
+      "id": "alternativa_repetida",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.alternativa.forma": "ranked_dots"
+      },
+      "motivo_esperado": "repite la forma principal"
+    },
+    {
+      "id": "co_construccion_sin_icap_interactivo",
+      "esperado_valido": false,
+      "cambios": {
+        "render.interaccion.co_construccion": true
+      },
+      "motivo_esperado": "co-construcción declarada"
+    },
+    {
+      "id": "constructivo_con_explicacion",
+      "esperado_valido": true,
+      "cambios": {
+        "render.interaccion.tipo": "explicacion"
+      }
     }
   ]
 }
