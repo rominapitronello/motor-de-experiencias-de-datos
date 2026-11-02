@@ -259,6 +259,7 @@ def _analizar_estrato(casos, asignacion, es, esperados, res):
 
     # medidas por caso y condición, promediando corridas
     acumulado = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    no_evaluables = {cond: 0 for cond in CONDICIONES}
     for e in es:
         a = asignacion[e["response_id"]]
         c = casos[a["caso"]]
@@ -269,21 +270,34 @@ def _analizar_estrato(casos, asignacion, es, esperados, res):
             acumulado["falla_grave"][a["caso"]][a["condicion"]].append(float(e["falla_grave"]))
             if p is None:
                 res["sin_puntaje"].append(e["response_id"])
+                no_evaluables[a["condicion"]] += 1
             else:
                 acumulado["puntaje_trampas"][a["caso"]][a["condicion"]].append(p)
 
-    estrato = {"faltantes": faltantes, "corridas": sorted(corridas), "medidas": {}}
-    for medida, por_caso in acumulado.items():
+    # panel emparejado completo: cada caso esperado de la medida necesita un valor en AMBAS
+    # condiciones. Si a un caso le falta (p. ej. todas sus respuestas de una condición fueron
+    # 'null'), el efecto de esa medida se bloquea y el caso queda listado. Nada se pierde en silencio.
+    trampas_esp = {k for k in esperados if casos[k]["trampa"] is not None}
+    controles_esp = esperados - trampas_esp
+    esperados_por_medida = {"puntaje_trampas": trampas_esp, "falla_grave": trampas_esp,
+                            "falso_positivo": controles_esp}
+
+    estrato = {"faltantes": faltantes, "corridas": sorted(corridas), "medidas": {},
+               "no_evaluables": dict(no_evaluables)}
+    for medida, esp in esperados_por_medida.items():
+        por_caso = acumulado.get(medida, {})
+        if not esp:
+            continue
         nivel = {}
         for cond in CONDICIONES:
             vals = [mean(v[cond]) for v in por_caso.values() if v[cond]]
             nivel[cond] = (mean(vals), len(vals)) if vals else None
+        sin_par = sorted(k for k in esp if not (k in por_caso and por_caso[k]["con_conector"] and por_caso[k]["sin_conector"]))
         efecto = None
-        if not faltantes:
-            dif = {k: mean(v["con_conector"]) - mean(v["sin_conector"])
-                   for k, v in por_caso.items() if v["con_conector"] and v["sin_conector"]}
+        if not faltantes and not sin_par:
+            dif = {k: mean(por_caso[k]["con_conector"]) - mean(por_caso[k]["sin_conector"]) for k in esp}
             efecto = _ic(dif)
-        estrato["medidas"][medida] = {"nivel": nivel, "efecto": efecto}
+        estrato["medidas"][medida] = {"nivel": nivel, "efecto": efecto, "esperados": len(esp), "sin_par": sin_par}
     return estrato
 
 
@@ -332,7 +346,13 @@ def imprimir(res):
             if m["efecto"]:
                 dlt, lo, hi, k = m["efecto"]
                 aviso = "  (menos de 20 casos: orientativo)" if k < 20 else ""
-                print(f"    efecto con − sin: {dlt:+.2f}  IC95% [{lo:+.2f}, {hi:+.2f}]{aviso}")
+                print(f"    efecto con − sin: {dlt:+.2f}  IC95% [{lo:+.2f}, {hi:+.2f}]  ({k}/{m['esperados']} casos emparejados){aviso}")
+            elif m["sin_par"]:
+                print(f"    efecto bloqueado: {len(m['sin_par'])}/{m['esperados']} casos sin valor en alguna condición: {', '.join(m['sin_par'])}")
+        ne = d.get("no_evaluables", {})
+        if any(ne.values()):
+            print("  respuestas con trampa sin ningún 'debe' evaluable: "
+                  + " · ".join(f"{cond} {n}" for cond, n in ne.items()))
     for estrato, linaje, relacion in res["estratos_faltantes"]:
         print(f"\n== FALTA el estrato {estrato} · linaje {linaje} · conjunto {relacion}: "
               f"hay respuestas en la asignación pero ninguna etiqueta de otro linaje. No hay resultado principal para {linaje}.")

@@ -204,6 +204,27 @@ def _():
     assert ets[T][1]["response_id"] in res["sin_puntaje"]
 
 
+# --- tercera vuelta de Sol (v0.3) ---
+@prueba("un caso sin puntaje evaluable en una condición bloquea el efecto de puntaje_trampas, no se pierde en silencio")
+def _():
+    # contraejemplo de Sol, tal cual
+    asg, ets = diseno()
+    caso = next(a["caso"] for _, a in asg if CASOS[a["caso"]]["trampa"] is not None)
+    por_id = {a["response_id"]: a for _, a in asg}
+    for _, e in ets:
+        a = por_id[e["response_id"]]
+        if a["caso"] == caso and a["condicion"] == "con_conector":
+            e["debe"] = [None] * len(e["debe"])
+            e["falla_grave"] = False
+    res = correr(asg, ets)
+    est = res["estratos"][("principal", "sol", "ajeno")]
+    m = est["medidas"]["puntaje_trampas"]
+    assert m["efecto"] is None, "calculó el efecto perdiendo un par en silencio"
+    assert m["sin_par"] == [caso], f"no listó el caso perdido: {m['sin_par']}"
+    assert est["no_evaluables"]["con_conector"] == 2 and est["no_evaluables"]["sin_conector"] == 0
+    assert est["medidas"]["falla_grave"]["efecto"] is not None, "bloqueó también una medida no afectada"
+
+
 # --- segunda vuelta de Sol (v0.2) ---
 @prueba("una sola corrida por condición deja el diseño incompleto (MIN_CORRIDAS=2)")
 def _():
