@@ -1,0 +1,118 @@
+{
+  "version": "0.1",
+  "pregunta": {
+    "texto": "En este ejercicio sintético, ¿en qué zona hay más unidades de servicio?",
+    "unidad_analisis": "servicio"
+  },
+  "capacidad": {
+    "estado": "answerable",
+    "afirmaciones": [
+      {
+        "texto": "En el ejercicio ficticio A tiene 12 unidades y B tiene 8.",
+        "tipo": "dato",
+        "definicion": "Conteos inventados para probar la VES, no son datos reales."
+      }
+    ],
+    "no_afirmar": [
+      "Estos conteos no describen ninguna zona real."
+    ],
+    "limites": [
+      "Datos puramente sintéticos sin validez territorial."
+    ]
+  },
+  "fuentes": [
+    {
+      "id": "F-SINT-01",
+      "organismo": "SIMULADO",
+      "documento": "Dataset sintético para pruebas",
+      "url": "https://example.org/datos-sinteticos",
+      "edicion": "ejemplo-v1",
+      "fecha_corte": "2026-11-02",
+      "nivel_geografico": "zonas ficticias A y B",
+      "variables": [
+        "unidades_servicio"
+      ],
+      "estado_evidencia": "INFERENCIA"
+    }
+  ],
+  "revision": {
+    "alcance": "senales_declaradas_no_inspeccion",
+    "trampas": [],
+    "vacios": [
+      {
+        "tipo": "sin_residentes",
+        "estado": "ausente",
+        "leyenda": "No aplica a este ejemplo."
+      },
+      {
+        "tipo": "fusion_organismo",
+        "estado": "ausente",
+        "leyenda": "No hay fusión de fuente externa."
+      },
+      {
+        "tipo": "agregacion_propia",
+        "estado": "ausente",
+        "leyenda": "No se efectuó agregación."
+      }
+    ]
+  },
+  "didactica": {
+    "tarea": "comparar",
+    "proposito": "comparacion",
+    "patron": "claim_evidence_limit",
+    "compromiso": "constructivo",
+    "forma": "ranked_dots",
+    "tecnica_id": "T-06",
+    "alternativa": {
+      "forma": "pequenos_multiplos",
+      "motivo": "Comparación equivalente, menos compacta."
+    },
+    "justificacion": "Dos cantidades ficticias pueden compararse sobre un eje común."
+  },
+  "render": {
+    "titulo": "En los datos sintéticos, la zona A tiene más unidades de servicio",
+    "codificacion": {
+      "variable": "unidades_servicio",
+      "canal": "posición",
+      "normalizacion": "ninguna",
+      "usa_coropletico": false
+    },
+    "interaccion": {
+      "tipo": "explicacion",
+      "objeto_cognitivo": "Explicar por qué A supera a B en el ejercicio.",
+      "justificacion": "La persona debe expresar la comparación antes de ver la conclusión.",
+      "permite_no_adivinar": false,
+      "co_construccion": false
+    },
+    "visibilidad": {
+      "fuente": true,
+      "limites": true,
+      "clases_vacio": true,
+      "definicion_proxy": true
+    },
+    "publicacion": {
+      "tipo": "pagina_autocontenida",
+      "sin_teselas": true,
+      "sin_apis_externas": true
+    }
+  },
+  "seguridad": {
+    "datos_personales": false,
+    "celdas_pequenas": "no_aplica",
+    "umbral_agregacion": null,
+    "dato_quieto": true,
+    "reduced_motion": true,
+    "accesibilidad": {
+      "contraste_aa": true,
+      "teclado": true,
+      "foco_visible": true,
+      "alternativa_textual": true
+    }
+  },
+  "decision": {
+    "accion": "renderizar",
+    "motivos": [
+      "Estructura compatible; revisar veracidad de la fuente y juicio humano antes de publicar."
+    ]
+  }
+}

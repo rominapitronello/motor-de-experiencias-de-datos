@@ -13,7 +13,7 @@ const CORS = {
   'Access-Control-Allow-Headers': 'content-type, mcp-protocol-version, mcp-session-id, accept',
 };
 
-const norm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+const norm = (s) => String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 const incluye = (hay, aguja) => norm(hay).includes(norm(aguja));
 
 // palabras de todos los días → id del grafo. segunda pluma (fable), 24-sep-2026: un profe escribe "tendencia", no "cambio".
@@ -251,7 +251,15 @@ function manejar(msg) {
     case 'ping':
       return ok(id, {});
     case 'tools/list':
-      return ok(id, { tools: TOOLS.map(({ name, description, inputSchema }) => ({ name, description, inputSchema })) });
+      // todas las herramientas son consultas sobre conocimiento compilado: no escriben, no tocan el mundo exterior, son deterministas.
+      return ok(id, {
+        tools: TOOLS.map(({ name, description, inputSchema }) => ({
+          name,
+          description,
+          inputSchema,
+          annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+        })),
+      });
     case 'tools/call': {
       const tool = TOOLS.find((t) => t.name === params.name);
       if (!tool) return err(id, -32602, `Herramienta desconocida: ${params.name}`);
