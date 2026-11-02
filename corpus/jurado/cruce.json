@@ -1,0 +1,691 @@
+{
+ "falta_sinonimo": [
+  {
+   "id": "casa-11",
+   "jurado": "comparar",
+   "conector": "magnitud",
+   "opus": "vacio",
+   "palabras": [
+    "con lluvia y sin lluvia"
+   ],
+   "pregunta": "cuánto se demora la micro de mi casa al trabajo, en serio, con lluvia y sin lluvia"
+  },
+  {
+   "id": "casa-16",
+   "jurado": "estimar",
+   "conector": "magnitud",
+   "opus": "estimar",
+   "palabras": [
+    "cuántas veces me golpeé el dedo chico del pie",
+    "cuántas veces me golpeé el dedo chico del pie en un año"
+   ],
+   "pregunta": "cuántas veces me golpeé el dedo chico del pie con la cama en un año"
+  },
+  {
+   "id": "num-05",
+   "jurado": null,
+   "conector": "leer",
+   "opus": "distribucion",
+   "palabras": [
+    "desviación estándar",
+    "explícamelo con algo de mi vida, no con fórmulas"
+   ],
+   "pregunta": "ya, tengo un ramo de estadística en la u y la profe no para de decir 'desviación estándar'"
+  },
+  {
+   "id": "ppt-06",
+   "jurado": "incertidumbre",
+   "conector": "procedencia",
+   "opus": "procedencia",
+   "palabras": [
+    "la mayoría",
+    "lo puedo poner como 'la mayoría'"
+   ],
+   "pregunta": "la encuesta me dio que el 70% está contento con el casino. lo puedo poner como 'la mayoría"
+  },
+  {
+   "id": "ppt-18",
+   "jurado": "parte_todo",
+   "conector": null,
+   "opus": "magnitud",
+   "palabras": [
+    "eso es el 30%",
+    "eso es el 30%?"
+   ],
+   "pregunta": "la presidenta de la junta dice que el 30% de los socios no paga la cuota. yo tengo una lis"
+  },
+  {
+   "id": "prof-16",
+   "jurado": "parte_todo",
+   "conector": "flujo",
+   "opus": "parte_todo",
+   "palabras": [
+    "cuántos vienen en micro",
+    "cuántos vienen en micro, cuántos en auto y cuántos caminando"
+   ],
+   "pregunta": "de los 32 de la lista, cuántos vienen en micro, cuántos en auto y cuántos caminando? pa ve"
+  },
+  {
+   "id": "prof-17",
+   "jurado": "parte_todo",
+   "conector": "magnitud",
+   "opus": "parte_todo",
+   "palabras": [
+    "levanten la mano",
+    "los que se comieron toda la colación"
+   ],
+   "pregunta": "los que se comieron toda la colación, los que comieron la mitad y los que no comieron nada"
+  }
+ ],
+ "divergencia_anotacion": [
+  {
+   "id": "casa-04",
+   "jurado_y_conector": "magnitud",
+   "opus": "estimar",
+   "pregunta": "cuántos mates me tomo al día, sin contar el de la oficina"
+  },
+  {
+   "id": "casa-09",
+   "jurado_y_conector": "magnitud",
+   "opus": "estimar",
+   "pregunta": "cuántas horas de teleserie me tragué este año, con capítulos repetidos y todo"
+  },
+  {
+   "id": "nsq-05",
+   "jurado_y_conector": "reconocer",
+   "opus": "ordenar",
+   "pregunta": "¿por qué me llegan tantos correos de cosas que nunca compré si tengo el mismo gmail hace d"
+  },
+  {
+   "id": "num-06",
+   "jurado_y_conector": "estimar",
+   "opus": null,
+   "pregunta": "estoy viendo un crédito hipotecario a 30 años y el banco me habla de la tasa, del CAE, de "
+  },
+  {
+   "id": "num-08",
+   "jurado_y_conector": "leer",
+   "opus": "localizar",
+   "pregunta": "la doctora me dio un papel con dos números, uno arriba y otro abajo, y me dijo que los con"
+  },
+  {
+   "id": "num-10",
+   "jurado_y_conector": "magnitud",
+   "opus": "parte_todo",
+   "pregunta": "gano 650 lucas líquidos y pago arriendo, luz, agua, la tarjeta y una cuota del crédito de "
+  },
+  {
+   "id": "num-11",
+   "jurado_y_conector": "leer",
+   "opus": "cambio",
+   "pregunta": "en el noticiero mostraron un gráfico de la inflación con una línea que sube y baja y el se"
+  },
+  {
+   "id": "num-12",
+   "jurado_y_conector": "leer",
+   "opus": "magnitud",
+   "pregunta": "oye, creo que entendí algo! el banco me mostró cuánto pago de intereses en el crédito de c"
+  },
+  {
+   "id": "num-16",
+   "jurado_y_conector": "comparar",
+   "opus": null,
+   "pregunta": "ando buscando depa y el corredor me dice que la rentabilidad es de un 4%. ¿eso es buena pl"
+  },
+  {
+   "id": "prof-03",
+   "jurado_y_conector": "cambio",
+   "opus": "comparar",
+   "pregunta": "la plantita que sembramos hace tres semanas, cuánto creció cada una? las medimos con la re"
+  },
+  {
+   "id": "prof-13",
+   "jurado_y_conector": "ordenar",
+   "opus": "comparar",
+   "pregunta": "el experimento del agua con sal, cada grupo midió cuánto subió el agua en el vaso. cuál su"
+  }
+ ],
+ "grafo_ambiguo": [
+  {
+   "id": "cart-05",
+   "votos": [
+    "estimar",
+    "estimar",
+    "magnitud"
+   ],
+   "conector": "estimar",
+   "opus": "estimar",
+   "dudas": [
+    "magnitud",
+    "magnitud",
+    "estimar"
+   ],
+   "pregunta": "cuántos cafés me tomé este año, más o menos, tiro un número"
+  },
+  {
+   "id": "cart-08",
+   "votos": [
+    "comparar",
+    "cambio",
+    "comparar"
+   ],
+   "conector": "cambio",
+   "opus": "cambio",
+   "dudas": [
+    "cambio",
+    "comparar",
+    "cambio"
+   ],
+   "pregunta": "cuánto me cobraron de luz este año comparado con el otro?"
+  },
+  {
+   "id": "cart-09",
+   "votos": [
+    "cambio",
+    "leer",
+    "cambio"
+   ],
+   "conector": "cambio",
+   "opus": "cambio",
+   "dudas": [
+    "leer",
+    "cambio",
+    "leer"
+   ],
+   "pregunta": "y el agua? me llegó una boleta que no entendí, ¿por qué subió tanto?"
+  },
+  {
+   "id": "cart-19",
+   "votos": [
+    "magnitud",
+    "estado",
+    "estado"
+   ],
+   "conector": "estado",
+   "opus": "estado",
+   "dudas": [
+    "estado",
+    "magnitud",
+    "magnitud"
+   ],
+   "pregunta": "cuántas cuotas me quedan pagando y hasta cuándo, en una lista corta"
+  },
+  {
+   "id": "casa-02",
+   "votos": [
+    "magnitud",
+    "estimar",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "estimar",
+    "vacio"
+   ],
+   "pregunta": "oye cuántas veces me pidió comida mi gato en un día, po, con esa cara de pena"
+  },
+  {
+   "id": "casa-03",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "comparar",
+    "estimar",
+    "comparar"
+   ],
+   "pregunta": "cuántas hojas se me cayeron a la planta del living esta semana, la está matando o es norma"
+  },
+  {
+   "id": "casa-05",
+   "votos": [
+    "magnitud",
+    "estimar",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "magnitud",
+   "dudas": [
+    "magnitud"
+   ],
+   "pregunta": "cuántos pasos hice hoy si solo fui al baño y a la cocina, cachái"
+  },
+  {
+   "id": "casa-06",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "vacio",
+    "magnitud"
+   ],
+   "pregunta": "cuántas veces dije ya en el día, pa saber si soy muy de ya"
+  },
+  {
+   "id": "casa-08",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "estimar"
+   ],
+   "pregunta": "cuántos tés me tomo en una semana, porque ya no sé si son cinco o veinte"
+  },
+  {
+   "id": "casa-10",
+   "votos": [
+    "magnitud",
+    "parte_todo",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "magnitud",
+   "dudas": [
+    "parte_todo",
+    "magnitud",
+    "parte_todo"
+   ],
+   "pregunta": "cuántas veces me escribió mi mamá este mes, y cuántas eran solo estás bien?"
+  },
+  {
+   "id": "casa-12",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "magnitud"
+   ],
+   "pregunta": "cuántas veces se me cayó el celular esta semana, pa saber si ya es de adorno"
+  },
+  {
+   "id": "casa-14",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "magnitud"
+   ],
+   "pregunta": "cuántas veces abrí el refri hoy sin saber qué quería"
+  },
+  {
+   "id": "casa-20",
+   "votos": [
+    "estimar",
+    "estimar",
+    "vacio"
+   ],
+   "conector": "magnitud",
+   "opus": "vacio",
+   "dudas": [
+    "magnitud",
+    "vacio",
+    "reconocer"
+   ],
+   "pregunta": "cuántas canciones escuché hoy sin darme cuenta, las de la micro y las del supermercado"
+  },
+  {
+   "id": "nsq-01",
+   "votos": [
+    "vacio",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "reconocer",
+   "dudas": [
+    "magnitud",
+    "magnitud",
+    "vacio"
+   ],
+   "pregunta": "how do i know how many people come into my shop every month? i think its a lot but i never"
+  },
+  {
+   "id": "nsq-04",
+   "votos": [
+    "estimar",
+    null,
+    "estimar"
+   ],
+   "conector": null,
+   "opus": "estimar",
+   "dudas": [
+    "vacio"
+   ],
+   "pregunta": "siempre me pregunta cosas así y yo le digo 'no sé, búscalo en Google'. ¿cómo hago para que"
+  },
+  {
+   "id": "nsq-14",
+   "votos": [
+    "reconocer",
+    "cambio",
+    "reconocer"
+   ],
+   "conector": "reconocer",
+   "opus": "cambio",
+   "dudas": [
+    "cambio",
+    "reconocer",
+    "cambio"
+   ],
+   "pregunta": "tengo las notas de mis niños en un cuaderno y quiero mostrar en la reunión de apoderados c"
+  },
+  {
+   "id": "nsq-16",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "reconocer",
+   "opus": "reconocer",
+   "dudas": [
+    "vacio",
+    "magnitud",
+    "reconocer"
+   ],
+   "pregunta": "manejo un colectivo y no sé cuánta gente me sube en el día. ¿Eso se puede saber? ¿Y sirve "
+  },
+  {
+   "id": "num-03",
+   "votos": [
+    "leer",
+    "leer",
+    "magnitud"
+   ],
+   "conector": "leer",
+   "opus": "leer",
+   "dudas": [
+    "magnitud",
+    "magnitud",
+    "leer"
+   ],
+   "pregunta": "mi nieta me dice que con la pensión nueva me toca más plata, pero en el papel salen un mon"
+  },
+  {
+   "id": "num-09",
+   "votos": [
+    "localizar",
+    "localizar",
+    "leer"
+   ],
+   "conector": "localizar",
+   "opus": "localizar",
+   "dudas": [
+    "leer",
+    "leer"
+   ],
+   "pregunta": "me hice un examen de azúcar en ayunas y me sale un número, y al lado hay un rango que dice"
+  },
+  {
+   "id": "num-13",
+   "votos": [
+    "leer",
+    "leer",
+    "cambio"
+   ],
+   "conector": "cambio",
+   "opus": "leer",
+   "dudas": [
+    "cambio",
+    "cambio",
+    "leer"
+   ],
+   "pregunta": "mi jefa me mandó un excel con números y en el correo dice que 'la tendencia va a la baja'."
+  },
+  {
+   "id": "num-15",
+   "votos": [
+    "magnitud",
+    "magnitud",
+    "estimar"
+   ],
+   "conector": "leer",
+   "opus": "magnitud",
+   "dudas": [
+    "estimar",
+    "leer",
+    "proyectar"
+   ],
+   "pregunta": "si pido el crédito en cuotas, el de la tienda dice 2,5% mensual. ¿qué significa eso al año"
+  },
+  {
+   "id": "num-17",
+   "votos": [
+    "leer",
+    "localizar",
+    "localizar"
+   ],
+   "conector": "localizar",
+   "opus": "localizar",
+   "dudas": [
+    "localizar",
+    "leer",
+    "leer"
+   ],
+   "pregunta": "me llegó una carta del municipio que dice que me puedo postular a un bono y tiene una tabl"
+  },
+  {
+   "id": "ppt-04",
+   "votos": [
+    "comparar",
+    "comparar",
+    "ordenar"
+   ],
+   "conector": "ordenar",
+   "opus": "comparar",
+   "dudas": [
+    "ordenar",
+    "ordenar",
+    "comparar"
+   ],
+   "pregunta": "tenemos 3 sucursales y la jefa quiere saber cuál vende más. cómo las comparo sin que parez"
+  },
+  {
+   "id": "ppt-05",
+   "votos": [
+    "parte_todo",
+    "distribucion",
+    "distribucion"
+   ],
+   "conector": null,
+   "opus": "parte_todo",
+   "dudas": [
+    "distribucion",
+    "parte_todo",
+    "parte_todo"
+   ],
+   "pregunta": "hice una encuesta en google forms a 60 trabajadores sobre el casino, respondieron 45. son "
+  },
+  {
+   "id": "ppt-13",
+   "votos": [
+    "distribucion",
+    "ordenar",
+    "ordenar"
+   ],
+   "conector": "ordenar",
+   "opus": "ordenar",
+   "dudas": [
+    "ordenar",
+    "distribucion",
+    "distribucion"
+   ],
+   "pregunta": "tengo el conteo de visitas por hora de la semana pasada, a qué hora llega más gente? la pl"
+  },
+  {
+   "id": "ppt-15",
+   "votos": [
+    "estado",
+    "estado",
+    "ordenar"
+   ],
+   "conector": "estado",
+   "opus": "estado",
+   "dudas": [
+    "ordenar",
+    "ordenar",
+    "comparar"
+   ],
+   "pregunta": "tengo el porcentaje de cumplimiento de 12 indicadores de 4 áreas y quiero que la jefa vea "
+  },
+  {
+   "id": "prof-04",
+   "votos": [
+    "distribucion",
+    "parte_todo",
+    "parte_todo"
+   ],
+   "conector": "distribucion",
+   "opus": "distribucion",
+   "dudas": [
+    "magnitud",
+    "distribucion",
+    "distribucion"
+   ],
+   "pregunta": "tengo las notas de la prueba de mate sin nombre, cuántos sacaron 4 o más y cuántos quedaro"
+  },
+  {
+   "id": "prof-06",
+   "votos": [
+    "ordenar",
+    "distribucion",
+    "ordenar"
+   ],
+   "conector": "magnitud",
+   "opus": "comparar",
+   "dudas": [
+    "magnitud",
+    "ordenar",
+    "magnitud"
+   ],
+   "pregunta": "pa el paseo, a dónde quiere ir la mayoría? zoológico, museo o laguna? levanten la mano, de"
+  },
+  {
+   "id": "prof-07",
+   "votos": [
+    "magnitud",
+    "vacio",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "magnitud",
+   "dudas": [
+    "magnitud"
+   ],
+   "pregunta": "tía, cuántas veces tose el curso en una clase? yo llevo tres"
+  },
+  {
+   "id": "prof-12",
+   "votos": [
+    "comparar",
+    "magnitud",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "comparar",
+   "dudas": [
+    "magnitud",
+    "cambio",
+    "cambio"
+   ],
+   "pregunta": "hoy hace frío, cuántos llegaron con chaqueta y cuántos sin? y ayer cuántos?"
+  },
+  {
+   "id": "prof-14",
+   "votos": [
+    "magnitud",
+    "distribucion",
+    "magnitud"
+   ],
+   "conector": "magnitud",
+   "opus": "distribucion",
+   "dudas": [
+    "magnitud",
+    "distribucion"
+   ],
+   "pregunta": "en los trabajos en grupo, cuántas veces le toca hablar a cada uno? pa darle la oportunidad"
+  },
+  {
+   "id": "prof-15",
+   "votos": [
+    "parte_todo",
+    "magnitud",
+    "parte_todo"
+   ],
+   "conector": "magnitud",
+   "opus": "magnitud",
+   "dudas": [
+    "magnitud",
+    "magnitud"
+   ],
+   "pregunta": "cuántos somos hoy? y cuántas niñas y cuántos niños? pa el dibujo de la familia"
+  },
+  {
+   "id": "prof-20",
+   "votos": [
+    "parte_todo",
+    "distribucion",
+    "parte_todo"
+   ],
+   "conector": "magnitud",
+   "opus": "parte_todo",
+   "dudas": [
+    "ordenar",
+    "ordenar",
+    "magnitud"
+   ],
+   "pregunta": "en la encuesta que mandamos a los papás, qué quieren que se refuerce más: lectura, mate, i"
+  }
+ ],
+ "acuerdo_total": 69,
+ "ambito": {
+  "unanime_conector_igual": 83,
+  "unanime_conector_distinto": 23,
+  "mayoria_conector_distinto": 8,
+  "mayoria_conector_igual": 6
+ },
+ "resumen": {
+  "jurados": [
+   "jurado dos",
+   "jurado tres",
+   "jurado uno"
+  ],
+  "preguntas": 120,
+  "tareas": {
+   "todos_de_acuerdo": 69,
+   "mayoria_2_de_3": 33,
+   "jurado_y_conector_vs_opus": 11,
+   "jurado_unanime_conector_distinto": 7
+  },
+  "ambito": {
+   "unanime_conector_igual": 83,
+   "unanime_conector_distinto": 23,
+   "mayoria_conector_distinto": 8,
+   "mayoria_conector_igual": 6
+  },
+  "acuerdo_jurado_conector": 100,
+  "acuerdo_jurado_opus": 88,
+  "acuerdo_conector_opus": 85
+ }
+}

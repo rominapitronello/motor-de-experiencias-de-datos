@@ -1,0 +1,348 @@
+{
+ "tareas": [
+  {
+   "id": "localizar",
+   "desc": "¿dónde está?"
+  },
+  {
+   "id": "magnitud",
+   "desc": "¿cuánto hay?"
+  },
+  {
+   "id": "comparar",
+   "desc": "¿cómo se compara A con B?"
+  },
+  {
+   "id": "ordenar",
+   "desc": "¿cuál tiene más o menos?"
+  },
+  {
+   "id": "cambio",
+   "desc": "¿cambió en el tiempo?"
+  },
+  {
+   "id": "distribucion",
+   "desc": "¿cómo se reparte?"
+  },
+  {
+   "id": "parte_todo",
+   "desc": "¿de qué está hecho?"
+  },
+  {
+   "id": "relacionar",
+   "desc": "¿se mueven juntas dos cosas?"
+  },
+  {
+   "id": "flujo",
+   "desc": "¿desde dónde hacia dónde?"
+  },
+  {
+   "id": "secuencia",
+   "desc": "¿qué pasó y en qué orden?"
+  },
+  {
+   "id": "estado",
+   "desc": "¿en qué va lo comprometido?"
+  },
+  {
+   "id": "incertidumbre",
+   "desc": "¿qué tan seguros estamos?"
+  },
+  {
+   "id": "procedencia",
+   "desc": "¿de dónde sale esta cifra?"
+  },
+  {
+   "id": "vacio",
+   "desc": "¿qué no sabemos?"
+  },
+  {
+   "id": "estimar",
+   "desc": "¿cuánto será, si nadie lo contó? se arma un número con supuestos a la vista y se entrega como rango"
+  },
+  {
+   "id": "proyectar",
+   "desc": "¿qué pasa si sigo así? se extiende lo que ya pasó hacia adelante bajo un supuesto que se escribe"
+  },
+  {
+   "id": "leer",
+   "desc": "¿qué me está diciendo este gráfico, tabla o papel con números que me pasaron? se trabaja sobre lo que la persona trae, no se hace uno nuevo"
+  },
+  {
+   "id": "reconocer",
+   "desc": "¿qué datos tengo? ¿eso es un dato? ¿a alguien le importan los míos? se mira algo de la vida (la libreta del fiado, la caja, la app de pasos, las fotos, el gmail) y se descubre que ya es un registro: qué anota, desde cuándo, y quién más lo ve. viene en tres tonos: qué son los datos, si yo tengo, y si a alguien le importan"
+  }
+ ],
+ "ambitos": [
+  {
+   "id": "territorio_o_servicio",
+   "desc": "la unidad de análisis es un lugar o un servicio: manzana, unidad vecinal, comuna, sede, consultorio. corresponde a unidad_analisis territorio o servicio de la VES"
+  },
+  {
+   "id": "personas",
+   "desc": "la unidad de análisis es una persona (estudiante, paciente, trabajadora), siempre desidentificada"
+  },
+  {
+   "id": "datos_propios",
+   "desc": "los datos son de quien pregunta: su cartola, su boleta, su casa, su perro, el excel de su trabajo. la unidad puede ser ella misma, sus cosas o su organización. si la unidad son otras personas que no están en la conversación, el ámbito es personas"
+  },
+  {
+   "id": "la_sala",
+   "desc": "los datos son de un grupo que comparte un espacio (un curso, un taller, una reunión), levantados con ellos o sobre ellos, para mostrárselos a ellos mismos o a quien los cuida (apoderados)"
+  },
+  {
+   "id": "cosas",
+   "desc": "la unidad de análisis no es una persona ni un lugar, y los datos no son de nadie en la conversación: instancias de un modelo, productos de un catálogo, máquinas, piezas, animales, especies. aquí la privacidad no es el riesgo; el riesgo es no decir qué cuenta como uno (CU-11) y titular un proxy como hecho (definicion_junto_al_dato). si las cosas son de quien pregunta (sus ventas, su perro), el ámbito es datos_propios"
+  }
+ ],
+ "como_elegir_ambito": "el ámbito dice qué restricciones y qué cuidados aplican. se elige por dos preguntas, en este orden:\n1. ¿la unidad de análisis son personas que no están en la conversación (trabajadores encuestados, vendedores, socios)? → personas, aunque el excel sea de quien pregunta.\n2. si no, ¿de quién son los datos? de un organismo público (censo, INE, ministerios) → territorio_o_servicio; de quien pregunta o de su organización → datos_propios; de un grupo que los levanta y los mira junto (un curso, un taller) → la_sala.\n3. (v0.3, #22) si la unidad no es una persona ni un lugar y los datos no son de nadie en la conversación (instancias de un modelo, productos de un catálogo, máquinas, el elefante del zoológico) → cosas. si son cosas de quien pregunta (sus ventas, su perro, su caja), sigue siendo datos_propios.\nsi no se puede saber, el conector no adivina: entrega todas las restricciones con su condición y lo declara (contrato del pr #3).",
+ "formas": [
+  {
+   "id": "unit_chart",
+   "desc": "una figura = N personas (Isotype)"
+  },
+  {
+   "id": "mapa_sin_base",
+   "desc": "geometría propia, sin teselas"
+  },
+  {
+   "id": "mosaico_uv",
+   "desc": "celdas iguales por unidad territorial"
+  },
+  {
+   "id": "dorling",
+   "desc": "círculos proporcionales ubicados en el territorio"
+  },
+  {
+   "id": "pequenos_multiplos",
+   "desc": "la misma forma repetida por categoría"
+  },
+  {
+   "id": "ranked_dots",
+   "desc": "puntos ordenados en un eje"
+  },
+  {
+   "id": "slope",
+   "desc": "antes y después unidos por líneas"
+  },
+  {
+   "id": "barras_apiladas",
+   "desc": "partes de un todo"
+  },
+  {
+   "id": "flujos_agregados",
+   "desc": "líneas entre áreas, nunca entre personas"
+  },
+  {
+   "id": "linea_de_tiempo",
+   "desc": "hitos en orden"
+  },
+  {
+   "id": "matriz_estados",
+   "desc": "filas de compromisos con su estado"
+  },
+  {
+   "id": "resultados_discretos",
+   "desc": "incertidumbre como pocos resultados posibles (Hullman 2018)"
+  },
+  {
+   "id": "ficha_procedencia",
+   "desc": "fuente, fecha, nivel, supresión, límite"
+  },
+  {
+   "id": "serie_temporal",
+   "desc": "una línea por serie sobre el tiempo; pocas series o pequeños múltiplos; si la serie es un índice publicado por edición, verificar que la escala no cambió entre ediciones (TR-04)"
+  },
+  {
+   "id": "dispersion",
+   "desc": "un punto por caso en dos ejes (scatter); la correlación no es causa y hay que decirlo"
+  },
+  {
+   "id": "histograma",
+   "desc": "barras contiguas por intervalo; el ancho del intervalo cambia la lectura y se declara"
+  },
+  {
+   "id": "boxplot",
+   "desc": "mediana y cuartiles por grupo; con N chico se muestran los puntos, no la caja; para público no experto, preferir los puntos o una franja con la mediana marcada (la caja se lee mal: mediana por promedio, bigotes por rango)"
+  },
+  {
+   "id": "cifra_grande",
+   "desc": "un solo número, grande, con una frase y algo conocido al lado para darle tamaño (más que un auto, la mitad del arriendo); la unidad siempre escrita"
+  },
+  {
+   "id": "pictograma",
+   "desc": "dibujitos iguales repetidos, una figura = N cosas (manzanas, cafés, bolsitas); la leyenda dice cuánto vale cada figura (PR-04); es el unit_chart de la vida diaria: la figura es la cosa contada, no una persona"
+  },
+  {
+   "id": "palitos",
+   "desc": "conteo de a cinco con palitos, armado en vivo con quienes miran (levanten la mano); al final se lee en voz alta y la suma tiene que cuadrar con los presentes"
+  },
+  {
+   "id": "barras_simples",
+   "desc": "barras horizontales, pocas (hasta 7), desde cero, ordenadas de mayor a menor salvo que el orden sea natural (meses), con el valor escrito en la punta de cada barra; nada de 3D ni de ejes recortados"
+  },
+  {
+   "id": "antes_y_despues",
+   "desc": "dos cifras o dos barras lado a lado, con la diferencia escrita en palabras y en número (subió 20 mil, un 12 %); si no cambió nada, se dice igual de claro"
+  },
+  {
+   "id": "tabla_en_voz_alta",
+   "desc": "tabla corta (hasta 7 filas) que se puede leer en voz alta de arriba a abajo: qué, cuánto, y una frase; sin decimales que nadie va a decir"
+  },
+  {
+   "id": "lista_corta",
+   "desc": "lista de 3 a 7 cosas con su número al lado (suscripciones, cuotas, lo que falta); se cuenta cuántas hay al principio"
+  },
+  {
+   "id": "barra_de_avance",
+   "desc": "una barra que se va llenando hacia una meta: cuánto llevamos, cuánto falta, y la meta escrita (82 % de 50 millones, la plata del paseo, cuánto falta para el recreo)"
+  },
+  {
+   "id": "escala_con_tramos",
+   "desc": "una línea con los tramos o rangos de referencia dibujados y un «tú estás aquí»; los tramos salen del papel que trae la persona, no se inventan"
+  },
+  {
+   "id": "cuenta_a_la_vista",
+   "desc": "la cuenta escrita como se diría en voz alta, con cada supuesto en su línea (2 al día × 365 días × 200 g); se puede cambiar un supuesto y ver cómo se mueve el resultado"
+  },
+  {
+   "id": "linea_con_proyeccion",
+   "desc": "lo que ya pasó en línea llena y lo que vendría en línea punteada, con el supuesto escrito encima (si sigo gastando como este mes); nunca una sola fecha sin su supuesto"
+  },
+  {
+   "id": "desglose_del_cambio",
+   "desc": "de dónde viene una diferencia: escalones desde el valor de antes hasta el de ahora, uno por componente (consumo, tarifa, cargo fijo); muestra qué cambió, no por qué"
+  },
+  {
+   "id": "lo_mismo_anotado",
+   "desc": "el mismo gráfico, tabla o papel que trajo la persona, con marcas encima y una frase corta por marca (esta barra es..., aquí mira); no se rehace, se acompaña"
+  },
+  {
+   "id": "planilla_para_empezar",
+   "desc": "una tabla vacía y simple para empezar a contar desde hoy (fecha, cuántas veces); cuando no hay dato, la experiencia es empezarlo, y eso también es una respuesta"
+  },
+  {
+   "id": "un_registro_desarmado",
+   "desc": "una sola línea de algo que la persona ya tiene (una venta de la caja, un movimiento de la cartola, una foto, un correo), desarmada en sus partes: fecha, hora, lugar, monto, quién; cada parte con su nombre («esto es un dato») y lo que se podría contar si se juntan muchas líneas. es la respuesta a «¿qué es un dato?» con algo propio en la mano"
+  },
+  {
+   "id": "inventario_de_lo_que_tienes",
+   "desc": "lista corta de las cosas de la vida de la persona que ya anotan algo (la libreta del fiado, el QR de pago, la app de pasos, las fotos), cada una con qué anota, desde cuándo y si ella la puede ver o descargar; sin juicio de si es mucho o poco"
+  },
+  {
+   "id": "quien_mas_lo_ve",
+   "desc": "dos columnas: lo que la persona sabe de su dato y lo que el servicio que lo guarda también sabe (la app de pasos sabe a qué hora se quedó quieto el teléfono, la foto guarda dónde se sacó); solo lo que se puede comprobar en la configuración o en la descarga de la cuenta, con el camino para mirarlo; lo que se sospecha va aparte y se dice que es sospecha (CU-10)"
+  },
+  {
+   "id": "pregunta_de_vuelta",
+   "desc": "la respuesta es una pregunta a la persona que convierte lo que tiene en algo que quiere saber («¿qué te gustaría saber de tu local?», «¿qué crees que cuenta la caja?»), con dos o tres ejemplos de preguntas que su propio dato podría contestar; ella elige, y si no quiere elegir, también está bien"
+  }
+ ],
+ "tarea_forma": {
+  "magnitud": [
+   "unit_chart",
+   "dorling",
+   "cifra_grande",
+   "pictograma",
+   "palitos",
+   "tabla_en_voz_alta",
+   "lista_corta",
+   "cuenta_a_la_vista"
+  ],
+  "localizar": [
+   "mapa_sin_base",
+   "mosaico_uv",
+   "escala_con_tramos"
+  ],
+  "comparar": [
+   "pequenos_multiplos",
+   "ranked_dots",
+   "dorling",
+   "barras_simples",
+   "antes_y_despues",
+   "tabla_en_voz_alta",
+   "cuenta_a_la_vista",
+   "palitos"
+  ],
+  "ordenar": [
+   "ranked_dots",
+   "barras_simples",
+   "lista_corta"
+  ],
+  "cambio": [
+   "slope",
+   "pequenos_multiplos",
+   "serie_temporal",
+   "antes_y_despues",
+   "desglose_del_cambio",
+   "barras_simples",
+   "cifra_grande"
+  ],
+  "distribucion": [
+   "histograma",
+   "boxplot",
+   "ranked_dots",
+   "barras_simples",
+   "palitos",
+   "pictograma"
+  ],
+  "parte_todo": [
+   "barras_apiladas",
+   "barras_simples",
+   "lista_corta",
+   "cifra_grande",
+   "pictograma",
+   "palitos",
+   "tabla_en_voz_alta"
+  ],
+  "relacionar": [
+   "dispersion",
+   "ranked_dots",
+   "pequenos_multiplos"
+  ],
+  "flujo": [
+   "flujos_agregados"
+  ],
+  "secuencia": [
+   "linea_de_tiempo"
+  ],
+  "estado": [
+   "matriz_estados",
+   "barra_de_avance",
+   "lista_corta"
+  ],
+  "incertidumbre": [
+   "resultados_discretos"
+  ],
+  "procedencia": [
+   "ficha_procedencia"
+  ],
+  "vacio": [
+   "mapa_sin_base",
+   "ficha_procedencia",
+   "planilla_para_empezar"
+  ],
+  "estimar": [
+   "cuenta_a_la_vista",
+   "cifra_grande",
+   "resultados_discretos",
+   "pictograma"
+  ],
+  "proyectar": [
+   "linea_con_proyeccion",
+   "cifra_grande",
+   "resultados_discretos"
+  ],
+  "leer": [
+   "lo_mismo_anotado",
+   "cifra_grande"
+  ],
+  "reconocer": [
+   "un_registro_desarmado",
+   "inventario_de_lo_que_tienes",
+   "quien_mas_lo_ve",
+   "pregunta_de_vuelta",
+   "planilla_para_empezar"
+  ]
+ }
+}
