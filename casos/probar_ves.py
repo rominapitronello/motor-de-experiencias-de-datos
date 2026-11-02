@@ -89,6 +89,8 @@ def coherencia(doc, grafo):
         errores.append(f"forma {d['forma']} no respaldada por tarea {d['tarea']}")
     if d["alternativa"]["forma"] not in formas:
         errores.append("alternativa fuera de formas candidatas del grafo")
+    if d["alternativa"]["forma"] == d["forma"]:
+        errores.append("alternativa no es alternativa: repite la forma principal")
     tecnicas = aristas["proposito_tecnica"].get(d["proposito"], [])
     if d["tecnica_id"] not in tecnicas:
         errores.append(f"técnica {d['tecnica_id']} no respaldada por propósito {d['proposito']}")
@@ -101,13 +103,21 @@ def coherencia(doc, grafo):
     elif orden_icap[d["compromiso"]] > orden_icap[nivel]:
         if orden_icap[d["compromiso"]] >= 2 and r["interaccion"]["tipo"] not in ("prediccion", "explicacion"):
             errores.append("elevación ICAP: falta predicción o explicación que produzca una idea")
+    if d["compromiso"] in ("constructivo", "interactivo") and r["interaccion"]["tipo"] not in ("prediccion", "explicacion"):
+        errores.append("ICAP constructivo exige predicción o explicación; no basta el piso del grafo")
     if d["compromiso"] == "interactivo" and not r["interaccion"]["co_construccion"]:
         errores.append("ICAP interactivo requiere co-construcción verificable")
+    if r["interaccion"]["co_construccion"] and d["compromiso"] != "interactivo":
+        errores.append("co-construcción declarada requiere ICAP interactivo")
     if d["patron"] == "predict_reveal":
         if r["interaccion"]["tipo"] != "prediccion":
             errores.append("predict_reveal exige interacción de predicción")
         if not r["interaccion"]["permite_no_adivinar"]:
             errores.append("predict_reveal debe ofrecer 'prefiero no adivinar'")
+
+    variables_declaradas = {v for f in doc["fuentes"] for v in f["variables"]}
+    if r["codificacion"]["variable"] not in variables_declaradas:
+        errores.append("codificación: variable no figura en fuentes declaradas")
 
     if r["codificacion"]["usa_coropletico"] and r["codificacion"]["normalizacion"] == "ninguna":
         errores.append("no se permite coropleta de conteos brutos")
