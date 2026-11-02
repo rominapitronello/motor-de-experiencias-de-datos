@@ -1,0 +1,27 @@
+name: VES validation
+on:
+  pull_request:
+    paths:
+      - 'ves/**'
+      - 'casos/**'
+      - 'grafo/grafo.yaml'
+      - '.github/workflows/ves-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ves/**'
+      - 'casos/**'
+      - 'grafo/grafo.yaml'
+      - '.github/workflows/ves-validation.yml'
+jobs:
+  verify-ves:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r casos/requirements.txt
+      - run: python casos/probar_ves.py
