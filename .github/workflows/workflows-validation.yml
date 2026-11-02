@@ -2,10 +2,7 @@
 # un cambio que da despliegue automático necesita su propio check; "CI: no aplica" sería falso.
 name: Workflows validation
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/**'
-      - 'ci/**'
+  pull_request:   # sin filtro por rutas: este check es obligatorio en el ruleset de main y tiene que existir en todo PR (fable · procedencia, 2-nov-2026, segunda pluma de sol en el #13). el filtro queda solo en push.
   push:
     branches: [main]
     paths:

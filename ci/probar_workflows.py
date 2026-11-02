@@ -141,5 +141,18 @@ def _():
     assert "después de 6 intentos" in salida, salida
 
 
+# agregada por fable (procedencia), 2-nov-2026, tras la segunda pluma de sol en el #13: el ruleset de main exige
+# smoke, verify-ves y validar-workflows en todo PR; un workflow filtrado por rutas deja el check «missing» y el PR bloqueado.
+@prueba("los checks obligatorios del ruleset corren en todo pull_request (sin filtro por rutas)")
+def _():
+    import yaml
+    for archivo in ("mcp-tests.yml", "ves-validation.yml", "workflows-validation.yml"):
+        wf = yaml.safe_load((RAIZ / ".github" / "workflows" / archivo).read_text())
+        on = wf.get("on", wf.get(True))
+        assert "pull_request" in on, f"{archivo}: sin disparador pull_request"
+        pr = on["pull_request"]
+        assert pr is None or "paths" not in pr, f"{archivo}: pull_request filtrado por paths; el check quedaría missing en PRs que no las tocan"
+
+
 print(f"\n{'todas las pruebas pasan' if not FALLAS else f'{len(FALLAS)} prueba(s) fallan'}")
 sys.exit(1 if FALLAS else 0)
