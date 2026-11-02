@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.0' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.1' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -84,6 +84,21 @@ SINONIMOS.proposito.jugar = ['por gusto', 'me da risa', 'da risa', 'absurdo', 'p
 SINONIMOS.proposito.curiosidad = ['me pregunto', 'siempre quise saber', 'se puede saber', 'eso se puede saber', 'como se calcula eso', 'como hago para saber', 'de donde saco', 'como lo cuento', 'como se sabe', 'how would i know', 'how do i know', 'como eu sei'];
 // reconocer: frases que la gente parte («¿qué sabe el gmail de mí?»); los tokens contiguos no las alcanzan, así que van las dos mitades.
 SINONIMOS.tarea.reconocer = [...(SINONIMOS.tarea.reconocer || []), 'que sabe', 'sabe de mi', 'sabe de ella', 'sabe de el', 'me escucha', 'me espia', 'me espian', 'por que me llegan', 'lo sabe alguien', 'tengo datos', 'son datos', 'es un dato', 'what does it know', 'is that data'];
+// 0.3.1: lo que el jurado de tres haikus (corpus/jurado/) dijo unánime y el conector no entendía, con la palabra exacta que los hizo decidir.
+SINONIMOS.tarea.magnitud.push('cuanto gasto', 'cuanto me gasto', 'lo que me gasto', 'cuanto queda', 'cuanto queda pagando');
+SINONIMOS.tarea.reconocer.push('sirve para algo', 'se acuerda de', 'sabe a que hora', 'la app sabe', 'de los pasos sabe', 'lo sabe la app');
+SINONIMOS.tarea.ordenar.push('lo que mas se vende', 'que es lo que mas', 'cual subio mas', 'cual bajo mas');
+SINONIMOS.tarea.estimar.push('cuanto voy a pagar', 'al final del credito', 'cuantas veces al ano', 'en un ano', 'al ano');
+SINONIMOS.tarea.leer.push('esta bien lo que hice', 'lo hice bien');
+SINONIMOS.tarea.comparar.push('arrendar o comprar', 'le fue mejor', 'cual le fue mejor');
+SINONIMOS.tarea.parte_todo.push('gasto en cada', 'en cada cosa', 'y cuantos no', 'cuantos son de cada', 'de cada tipo', 'cuantos en auto', 'cuantos caminando', 'los que no');
+SINONIMOS.tarea.distribucion.push('en cada mes', 'caen en cada', 'cuantos por mes', 'cuantos en cada');
+SINONIMOS.tarea.cambio.push('de los ultimos', 'ultimos anos', 'ultimos 2 anos', 'ultimos dos anos');
+// del regalo de romina (issue #27): un cuadro de 1952 con el déficit de viviendas «según diferentes hipótesis (cifras redondas)».
+SINONIMOS.tarea.incertidumbre.push('hipotesis', 'segun diferentes hipotesis', 'segun hipotesis', 'escenarios', 'segun escenarios', 'puede ser mas o menos');
+SINONIMOS.tarea.estimar.push('cifras redondas', 'cifra redonda', 'en numeros redondos');
+// el jurado dividió 'la mayoria' y 'cada uno': eran demasiado genéricos para comparar.
+SINONIMOS.tarea.comparar = SINONIMOS.tarea.comparar.filter((w) => !['la mayoria', 'cada uno', 'cada una'].includes(w));
 SINONIMOS.proposito.perder_el_miedo = ['no soy de numeros', 'no soy de matematicas', 'no entiendo nada', 'me da verguenza', 'perdona la pregunta', 'perdona si es tonto', 'pregunta tonta', 'como si fuera chica', 'como si fuera chico', 'me siento tonta', 'me siento tonto', 'nunca fui bueno', 'nunca fui buena', 'im not a numbers person', 'nao sou de numeros'];
 
 // patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
