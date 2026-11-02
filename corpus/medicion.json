@@ -1,41 +1,64 @@
 {
   "resumen": {
-    "commit": "749f39c",
-    "medido": "2026-11-02T21:47:10.798Z",
+    "commit": "15bd3dc",
+    "medido": "2026-11-02T22:14:43.500Z",
     "preguntas": 100,
-    "con_tarea": 54,
-    "sin_tarea": 46,
-    "con_ambito": 2,
+    "con_tarea": 94,
+    "sin_tarea": 6,
+    "con_ambito": 95,
+    "formas_de_lo_hermida_en_magnitud": 3,
+    "contra_anotacion_opus": {
+      "tarea_igual": 65,
+      "ambito_igual": 88,
+      "forma_esperada_en_primeras_3": 69,
+      "de": 100
+    },
     "por_tarea": {
-      "magnitud": 38,
-      "cambio": 6,
-      "parte_todo": 4,
+      "magnitud": 39,
+      "cambio": 10,
+      "parte_todo": 3,
+      "estimar": 6,
+      "proyectar": 2,
+      "ordenar": 4,
+      "estado": 5,
+      "vacio": 2,
+      "leer": 10,
+      "comparar": 6,
       "localizar": 2,
-      "distribucion": 1,
-      "estado": 1,
-      "ordenar": 1,
-      "comparar": 1
+      "procedencia": 1,
+      "distribucion": 3,
+      "flujo": 1
     },
     "por_persona": {
       "cartola": {
         "total": 20,
-        "entendidas": 12
+        "entendidas": 19,
+        "tarea_ok": 18,
+        "ambito_ok": 19
       },
       "casa": {
         "total": 20,
-        "entendidas": 8
+        "entendidas": 20,
+        "tarea_ok": 9,
+        "ambito_ok": 20
       },
       "no-soy-de-numeros": {
         "total": 20,
-        "entendidas": 11
+        "entendidas": 19,
+        "tarea_ok": 11,
+        "ambito_ok": 16
       },
       "ppt": {
         "total": 20,
-        "entendidas": 8
+        "entendidas": 17,
+        "tarea_ok": 16,
+        "ambito_ok": 16
       },
       "profesora": {
         "total": 20,
-        "entendidas": 15
+        "entendidas": 19,
+        "tarea_ok": 11,
+        "ambito_ok": 17
       }
     }
   },
@@ -44,31 +67,85 @@
       "id": "cart-01",
       "persona": "cartola",
       "pregunta": "cuánta plata se me fue en comida al paso el mes pasado, de verdad",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanta plata»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-02",
       "persona": "cartola",
       "pregunta": "y comparado con el mes antes, ¿subí o bajé?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "cambio",
+      "por": "sinónimo «comparado con el mes»",
+      "formas": [
+        "slope",
+        "pequenos_multiplos",
+        "serie_temporal",
+        "antes_y_despues",
+        "desglose_del_cambio",
+        "barras_simples",
+        "cifra_grande"
+      ],
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "cart-03",
       "persona": "cartola",
       "pregunta": "en qué se me va la plata así en pedazos, o sea, cuánto en delivery, cuánto en el café, cuánto en el super",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "parte_todo",
+      "por": "sinónimo «en que se me va la plata»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "barras_simples",
+        "lista_corta",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "barras_apiladas"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-04",
@@ -77,80 +154,182 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-05",
       "persona": "cartola",
       "pregunta": "cuántos cafés me tomé este año, más o menos, tiro un número",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "estimar",
+      "por": "sinónimo «tiro un numero»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-06",
       "persona": "cartola",
       "pregunta": "cuánto llevo gastado en el gato este año",
       "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "por": "sinónimo «cuanto llevo»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-07",
       "persona": "cartola",
       "pregunta": "me alcanza la plata para lo que queda de mes o me quedo en cero antes del 25?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "proyectar",
+      "por": "sinónimo «me alcanza»",
+      "formas": [
+        "linea_con_proyeccion",
+        "cifra_grande",
+        "resultados_discretos"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "proyectar",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-08",
       "persona": "cartola",
       "pregunta": "cuánto me cobraron de luz este año comparado con el otro?",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "cambio",
+      "por": "sinónimo «comparado con el otro»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
+        "slope",
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-09",
       "persona": "cartola",
       "pregunta": "y el agua? me llegó una boleta que no entendí, ¿por qué subió tanto?",
       "tarea": "cambio",
-      "por": "sinónimo «subio»",
+      "por": "sinónimo «por que subio tanto»",
       "formas": [
-        "pequenos_multiplos",
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
         "slope",
-        "serie_temporal"
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "desglose_del_cambio"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "cart-10",
       "persona": "cartola",
       "pregunta": "cuánto gasto en bencina al mes más o menos, porque no me cuadra",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "estimar",
+      "por": "sinónimo «mas o menos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-11",
@@ -159,39 +338,106 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-12",
       "persona": "cartola",
       "pregunta": "cuántas suscripciones tengo activas que ni uso",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "lista_corta"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-13",
       "persona": "cartola",
       "pregunta": "en qué mes me gasté más plata este año y qué pasó ese mes",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "ordenar",
+      "por": "sinónimo «en que mes»",
+      "formas": [
+        "barras_simples",
+        "lista_corta",
+        "ranked_dots"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "ordenar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-14",
       "persona": "cartola",
       "pregunta": "cuánto de mi sueldo se me va en el arriendo, en porcentaje",
       "tarea": "parte_todo",
-      "por": "sinónimo «porcentaje»",
+      "por": "sinónimo «cuanto de mi sueldo»",
       "formas": [
+        "cifra_grande",
+        "barras_simples",
+        "lista_corta",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
         "barras_apiladas"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-15",
@@ -200,16 +446,42 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "cart-16",
       "persona": "cartola",
       "pregunta": "si sigo gastando así, ¿cuándo me quedo sin plata en la tarjeta?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "proyectar",
+      "por": "sinónimo «cuando me quedo sin plata»",
+      "formas": [
+        "linea_con_proyeccion",
+        "cifra_grande",
+        "resultados_discretos"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "proyectar",
+        "ambito": "datos_propios",
+        "forma": "linea_con_proyeccion"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-17",
@@ -218,10 +490,26 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "lista_corta"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-18",
@@ -230,19 +518,50 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-19",
       "persona": "cartola",
       "pregunta": "cuántas cuotas me quedan pagando y hasta cuándo, en una lista corta",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "estado",
+      "por": "sinónimo «cuantas cuotas me quedan»",
+      "formas": [
+        "lista_corta",
+        "barra_de_avance",
+        "matriz_estados"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estado",
+        "ambito": "datos_propios",
+        "forma": "lista_corta"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "cart-20",
@@ -251,37 +570,106 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-01",
       "persona": "casa",
       "pregunta": "oye cuánta caca hace mi perro en un año, pa saber cuánta recojo",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "estimar",
+      "por": "sinónimo «en un ano»",
+      "formas": [
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-02",
       "persona": "casa",
       "pregunta": "oye cuántas veces me pidió comida mi gato en un día, po, con esa cara de pena",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-03",
       "persona": "casa",
       "pregunta": "cuántas hojas se me cayeron a la planta del living esta semana, la está matando o es normal",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-04",
@@ -290,10 +678,26 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-05",
@@ -302,31 +706,78 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-06",
       "persona": "casa",
       "pregunta": "cuántas veces dije ya en el día, pa saber si soy muy de ya",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-07",
       "persona": "casa",
       "pregunta": "cuánto papel higiénico gasto en un mes, ni idea po, pero siento que se va rápido",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "estimar",
+      "por": "sinónimo «ni idea po»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-08",
@@ -335,28 +786,82 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-09",
       "persona": "casa",
       "pregunta": "cuántas horas de teleserie me tragué este año, con capítulos repetidos y todo",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-10",
       "persona": "casa",
       "pregunta": "cuántas veces me escribió mi mamá este mes, y cuántas eran solo estás bien?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-11",
@@ -365,133 +870,339 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-12",
       "persona": "casa",
       "pregunta": "cuántas veces se me cayó el celular esta semana, pa saber si ya es de adorno",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-13",
       "persona": "casa",
       "pregunta": "cuánta plata me gasto en café en un mes, sin contar el que me invitan",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanta plata»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-14",
       "persona": "casa",
       "pregunta": "cuántas veces abrí el refri hoy sin saber qué quería",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "casa-15",
       "persona": "casa",
       "pregunta": "cuántos paraguas he perdido en la vida, así más o menos",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "estimar",
+      "por": "sinónimo «mas o menos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-16",
       "persona": "casa",
       "pregunta": "cuántas veces me golpeé el dedo chico del pie con la cama en un año",
-      "tarea": "parte_todo",
-      "por": "sinónimo «pie»",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
       "formas": [
-        "barras_apiladas"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-17",
       "persona": "casa",
       "pregunta": "cuántos kilos de pan me como en un año, más o menos",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "estimar",
+      "por": "sinónimo «mas o menos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-18",
       "persona": "casa",
       "pregunta": "cuántas horas al día miro el celular, sin mentir po",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-19",
       "persona": "casa",
       "pregunta": "cuántas veces me reí sola en el día con el celular, sin que nadie me viera",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "vacio",
+      "por": "sinónimo «sin que nadie me viera»",
+      "formas": [
+        "planilla_para_empezar",
+        "ficha_procedencia"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "casa-20",
       "persona": "casa",
       "pregunta": "cuántas canciones escuché hoy sin darme cuenta, las de la micro y las del supermercado",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "planilla_para_empezar"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-01",
       "persona": "no-soy-de-numeros",
       "pregunta": "hola, perdona la pregunta tan básica pero yo no soy de matemáticas, nunca lo fui. me mandaron del banco un gráfico con barras de colores y no entiendo qué es lo que me quieren decir con la barra más alta. ¿me lo explicas? me da vergüenza preguntarle al ejecutivo, ya me siento medio tonta de solo mirarlo",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «que me quieren decir»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "datos_propios",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-02",
       "persona": "no-soy-de-numeros",
       "pregunta": "me llegó la cuenta de la luz y subió harto, como 20 mil más que el mes pasado. en la boleta sale kWh por todos lados y cargo fijo y no sé ni qué mirar. ¿eso es mucho? no entiendo nada de esta cuenta",
       "tarea": "cambio",
-      "por": "sinónimo «subio»",
+      "por": "sinónimo «que el mes pasado»",
       "formas": [
-        "pequenos_multiplos",
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
         "slope",
-        "serie_temporal"
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "desglose_del_cambio"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-03",
       "persona": "no-soy-de-numeros",
       "pregunta": "mi nieta me dice que con la pensión nueva me toca más plata, pero en el papel salen un montón de números y no entiendo cuánto me van a pagar al mes. explícame como si fuera una niña, porfa, que yo nunca estudié mucho",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "leer",
+      "por": "sinónimo «no entiendo»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "lo_mismo_anotado",
+        "cifra_grande"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "datos_propios",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-04",
@@ -500,63 +1211,145 @@
       "tarea": "parte_todo",
       "por": "sinónimo «porcentaje»",
       "formas": [
+        "cifra_grande",
+        "barras_simples",
+        "lista_corta",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
         "barras_apiladas"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-05",
       "persona": "no-soy-de-numeros",
       "pregunta": "ya, tengo un ramo de estadística en la u y la profe no para de decir 'desviación estándar' y yo no tengo idea qué es. no sé ni por dónde partir. explícamelo con algo de mi vida, no con fórmulas, que si no me voy a quedar dormida jajaja",
-      "tarea": "localizar",
-      "por": "sinónimo «donde»",
+      "tarea": "leer",
+      "por": "sinónimo «explicamelo»",
       "formas": [
-        "mapa_sin_base",
-        "mosaico_uv"
+        "lo_mismo_anotado",
+        "cifra_grande"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "datos_propios",
+        "forma": "ranked_dots"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-06",
       "persona": "no-soy-de-numeros",
       "pregunta": "estoy viendo un crédito hipotecario a 30 años y el banco me habla de la tasa, del CAE, de no sé qué más, y yo ya me perdí. no entiendo nada de esto. ¿me dices cuánto voy a pagar al final? tengo miedo de firmar algo que no entiendo",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "leer",
+      "por": "sinónimo «no entiendo»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "lo_mismo_anotado",
+        "cifra_grande"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": null,
+        "ambito": null,
+        "forma": null
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": null
+      }
     },
     {
       "id": "num-07",
       "persona": "no-soy-de-numeros",
       "pregunta": "tengo que elegir entre dos planes del celular. uno cuesta 12.990 al mes con 60 GB y otro 9.990 con 30 GB. yo uso como 25 gigas, pero no sé si me cobran más si me paso. perdona si es tonto pero no quiero que me pase lo de la otra vez",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "comparar",
+      "por": "sinónimo «elegir entre»",
+      "formas": [
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
+        "tabla_en_voz_alta",
+        "palitos",
+        "pequenos_multiplos",
+        "ranked_dots"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-08",
       "persona": "no-soy-de-numeros",
       "pregunta": "la doctora me dio un papel con dos números, uno arriba y otro abajo, y me dijo que los controlara. no sé si eso es mucho o poco ni qué tengo que hacer con eso. no quiero volver a preguntarle lo mismo porque ya se nota que no entiendo nada",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «no entiendo»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "localizar",
+        "ambito": "datos_propios",
+        "forma": "escala_con_tramos"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-09",
       "persona": "no-soy-de-numeros",
       "pregunta": "me hice un examen de azúcar en ayunas y me sale un número, y al lado hay un rango que dice 'referencia'. no sé leer eso. ¿estoy en la zona buena o no? no me expliqué nada en el laboratorio",
-      "tarea": "distribucion",
-      "por": "sinónimo «rango»",
+      "tarea": "localizar",
+      "por": "sinónimo «estoy en la zona buena»",
       "formas": [
-        "histograma",
-        "boxplot"
+        "escala_con_tramos"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "localizar",
+        "ambito": "datos_propios",
+        "forma": "escala_con_tramos"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-10",
@@ -565,19 +1358,49 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-11",
       "persona": "no-soy-de-numeros",
       "pregunta": "en el noticiero mostraron un gráfico de la inflación con una línea que sube y baja y el señor habló de 'el IPC acumulado'. yo cambié de canal porque no entiendo esas cosas. ¿me explicas en dos palabras si eso me afecta a mí o no?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «no entiendo»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "territorio_o_servicio",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-12",
@@ -586,10 +1409,26 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-13",
@@ -598,31 +1437,72 @@
       "tarea": "cambio",
       "por": "sinónimo «tendencia»",
       "formas": [
-        "pequenos_multiplos",
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
         "slope",
-        "serie_temporal"
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "datos_propios",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-14",
       "persona": "no-soy-de-numeros",
       "pregunta": "me mandaron una presentación de la empresa con un gráfico de torta donde las partes no suman lo que dice el título. ¿me estoy volviendo loca o está mal? no entiendo nada de esto y no quiero decir una tontera en la reunión",
-      "tarea": "parte_todo",
-      "por": "sinónimo «torta»",
+      "tarea": "leer",
+      "por": "sinónimo «no entiendo»",
       "formas": [
-        "barras_apiladas"
+        "lo_mismo_anotado",
+        "cifra_grande"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "datos_propios",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-15",
       "persona": "no-soy-de-numeros",
       "pregunta": "si pido el crédito en cuotas, el de la tienda dice 2,5% mensual. ¿qué significa eso al año? ¿es mucho? me gustaría entender la idea, no solo que me digan un número, para no volver a quedar a ciegas la próxima vez",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «que significa»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-16",
@@ -631,25 +1511,68 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": null,
+        "ambito": null,
+        "forma": null
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": null
+      }
     },
     {
       "id": "num-17",
       "persona": "no-soy-de-numeros",
       "pregunta": "me llegó una carta del municipio que dice que me puedo postular a un bono y tiene una tabla con 'tramos' y letras y números. yo tengo una pensión de 480 mil. no sé en qué tramo estoy ni qué significa estar en uno u otro. ¿me ayudas a leerla?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "localizar",
+      "por": "sinónimo «en que tramo estoy»",
+      "formas": [
+        "escala_con_tramos"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "localizar",
+        "ambito": "datos_propios",
+        "forma": "escala_con_tramos"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-18",
       "persona": "no-soy-de-numeros",
       "pregunta": "la marca de zapatillas tiene 2x1 o 30% en la segunda unidad. ¿cuál me conviene? las dos suenan igual pero no sé ni cómo compararlas. no quiero que sea mentira la oferta y me esté cobrando de más",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "comparar",
+      "por": "sinónimo «cual me conviene»",
+      "formas": [
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
+        "tabla_en_voz_alta",
+        "palitos",
+        "pequenos_multiplos",
+        "ranked_dots"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "datos_propios",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "num-19",
@@ -658,19 +1581,49 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuanto»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "num-20",
       "persona": "no-soy-de-numeros",
       "pregunta": "mi mamá dice que ya no le alcanza con lo que gana y yo quería entender por qué, hay un gráfico del INE en un trabajo del cole que no pillo ni la mitad. ¿cómo se lee? no quiero que la profe piense que soy floja por no saber esto",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «como se lee»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "territorio_o_servicio",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-01",
@@ -679,11 +1632,26 @@
       "tarea": "cambio",
       "por": "sinónimo «subio»",
       "formas": [
-        "pequenos_multiplos",
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
         "slope",
-        "serie_temporal"
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-02",
@@ -692,28 +1660,70 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "serie_temporal"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "ppt-03",
       "persona": "ppt",
       "pregunta": "me mandaron un excel con la asistencia a los talleres, como 40 personas y 4 talleres. cuántas personas fueron en total y cuántas repitieron? es pa mañana",
       "tarea": "magnitud",
-      "por": "sinónimo «total»",
+      "por": "sinónimo «cuantas»",
       "formas": [
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "pictograma",
+        "palitos",
+        "cuenta_a_la_vista",
         "unit_chart",
-        "dorling"
+        "lista_corta"
       ],
-      "ambito": "personas"
+      "ambito": "personas",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "personas",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-04",
       "persona": "ppt",
       "pregunta": "tenemos 3 sucursales y la jefa quiere saber cuál vende más. cómo las comparo sin que parezca que una es mejor por cualquier cosa",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "ordenar",
+      "por": "sinónimo «cual vende mas»",
+      "formas": [
+        "barras_simples",
+        "lista_corta",
+        "ranked_dots"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-05",
@@ -722,43 +1732,120 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": "personas"
+      "ambito": "personas",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "personas",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "ppt-06",
       "persona": "ppt",
       "pregunta": "la encuesta me dio que el 70% está contento con el casino. lo puedo poner como 'la mayoría'? eso es correcto o es mentira?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "procedencia",
+      "por": "sinónimo «es correcto o es mentira»",
+      "formas": [
+        "ficha_procedencia"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "procedencia",
+        "ambito": "personas",
+        "forma": "ficha_procedencia"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-07",
       "persona": "ppt",
       "pregunta": "tengo los gastos de la oficina de los últimos 6 meses (luz, agua, internet, arriendo) y quiero mostrar que bajaron. cómo lo hago",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "cambio",
+      "por": "sinónimo «bajaron»",
+      "formas": [
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
+        "slope",
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-08",
       "persona": "ppt",
       "pregunta": "la meta del trimestre era vender 50 millones y llevamos 41. cómo lo muestro pa que no parezca que fracasamos pero tampoco que mentí",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "estado",
+      "por": "sinónimo «llevamos»",
+      "formas": [
+        "lista_corta",
+        "barra_de_avance",
+        "matriz_estados"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estado",
+        "ambito": "datos_propios",
+        "forma": "barra_de_avance"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-09",
       "persona": "ppt",
       "pregunta": "quiero mostrar que los tickets de soporte bajaron después de cambiar el sistema, pero no sé si fue por el sistema o porque en esos meses hubo menos gente. eso cómo se muestra?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "cambio",
+      "por": "sinónimo «despues de cambiar»",
+      "formas": [
+        "slope",
+        "pequenos_multiplos",
+        "serie_temporal",
+        "antes_y_despues",
+        "desglose_del_cambio",
+        "barras_simples",
+        "cifra_grande"
+      ],
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "ppt-10",
@@ -767,50 +1854,123 @@
       "tarea": "cambio",
       "por": "sinónimo «subio»",
       "formas": [
-        "pequenos_multiplos",
+        "barras_simples",
+        "cifra_grande",
+        "antes_y_despues",
         "slope",
-        "serie_temporal"
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-11",
       "persona": "ppt",
       "pregunta": "tengo un hueco: no sé cuántos clientes nuevos llegaron en agosto porque el sistema no lo guardaba. cómo digo eso en la ppt sin que suene a que no hice la pega",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "vacio",
+      "por": "sinónimo «el sistema no lo guardaba»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "planilla_para_empezar",
+        "ficha_procedencia"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "vacio",
+        "ambito": "datos_propios",
+        "forma": "ficha_procedencia"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-12",
       "persona": "ppt",
       "pregunta": "me mandaron un pdf de indicadores de otra área y no entiendo nada, hay porcentajes y cosas como 'índice de rotación ajustado'. qué significa eso y qué le digo a mi jefe que es lo importante",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "leer",
+      "por": "sinónimo «que significa»",
+      "formas": [
+        "lo_mismo_anotado",
+        "cifra_grande"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "perder_el_miedo",
+      "esperado": {
+        "tarea": "leer",
+        "ambito": "datos_propios",
+        "forma": "lo_mismo_anotado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-13",
       "persona": "ppt",
       "pregunta": "tengo el conteo de visitas por hora de la semana pasada, a qué hora llega más gente? la planilla tiene una fila por hora y una columna por día",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "ordenar",
+      "por": "sinónimo «a que hora llega mas gente»",
+      "formas": [
+        "barras_simples",
+        "lista_corta",
+        "ranked_dots"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "ordenar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-14",
       "persona": "ppt",
       "pregunta": "mi jefa dice que las ventas de los vendedores están muy desparejas, uno vende el triple que otro. es verdad o se nota igual? tengo los números de 8 vendedores",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "distribucion",
+      "por": "sinónimo «estan muy desparejas»",
+      "formas": [
+        "barras_simples",
+        "ranked_dots",
+        "palitos",
+        "pictograma",
+        "histograma",
+        "boxplot"
+      ],
+      "ambito": "personas",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "personas",
+        "forma": "ranked_dots"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-15",
@@ -819,9 +1979,22 @@
       "tarea": "estado",
       "por": "sinónimo «cumplimiento»",
       "formas": [
+        "lista_corta",
+        "barra_de_avance",
         "matriz_estados"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estado",
+        "ambito": "datos_propios",
+        "forma": "matriz_estados"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-16",
@@ -830,18 +2003,50 @@
       "tarea": "ordenar",
       "por": "sinónimo «ranking»",
       "formas": [
+        "barras_simples",
+        "lista_corta",
         "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "ordenar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-17",
       "persona": "ppt",
       "pregunta": "tenemos 3 cuentas de redes sociales y me pidieron ver si crecieron. tengo los seguidores de cada mes desde enero, pero en mayo cambié la contraseña y no sé si perdí algunos",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "cambio",
+      "por": "sinónimo «crecieron»",
+      "formas": [
+        "cifra_grande",
+        "barras_simples",
+        "antes_y_despues",
+        "slope",
+        "pequenos_multiplos",
+        "serie_temporal",
+        "desglose_del_cambio"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "datos_propios",
+        "forma": "serie_temporal"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "ppt-18",
@@ -850,19 +2055,45 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": null
+      "ambito": "personas",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "personas",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "ppt-19",
       "persona": "ppt",
       "pregunta": "para la fiesta de fin de año tengo la lista de cumpleaños de los 80 de la oficina con fecha. cuántos cumplen en cada mes, y qué mes tiene más? quiero ponerlo en la ppt con algo gracioso",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "distribucion",
+      "por": "sinónimo «cuantos cumplen en cada mes»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "barras_simples",
+        "palitos",
+        "pictograma",
+        "histograma",
+        "boxplot",
+        "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "personas",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "ppt-20",
@@ -871,22 +2102,54 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
       ],
-      "ambito": null
+      "ambito": "datos_propios",
+      "proposito_sugerido": "jugar",
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-01",
       "persona": "profesora",
       "pregunta": "chiquillos, levanten la mano los que trajeron fruta de colación. ahora los que trajeron pan. cuántos son cada uno? cómo lo anoto pa que lo vean todos?",
       "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "por": "sinónimo «levanten la mano»",
       "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
         "unit_chart",
-        "dorling"
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "la_sala",
+        "forma": "pictograma"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-02",
@@ -895,68 +2158,161 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
         "unit_chart",
-        "dorling"
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "la_sala",
+        "forma": "tabla_en_voz_alta"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-03",
       "persona": "profesora",
       "pregunta": "la plantita que sembramos hace tres semanas, cuánto creció cada una? las medimos con la regla y las anotamos",
-      "tarea": "cambio",
-      "por": "sinónimo «crecio»",
+      "tarea": "comparar",
+      "por": "sinónimo «cada una»",
       "formas": [
+        "palitos",
+        "tabla_en_voz_alta",
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
         "pequenos_multiplos",
-        "slope",
-        "serie_temporal"
+        "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-04",
       "persona": "profesora",
       "pregunta": "tengo las notas de la prueba de mate sin nombre, cuántos sacaron 4 o más y cuántos quedaron abajo? pa ver si repaso mañana o sigo",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "distribucion",
+      "por": "sinónimo «cuantos sacaron 4 o mas»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "palitos",
+        "pictograma",
+        "barras_simples",
+        "histograma",
+        "boxplot",
+        "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "la_sala",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-05",
       "persona": "profesora",
       "pregunta": "cuánta plata llevamos pa el paseo a la laguna y cuánto nos falta? somos 28 cabros",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "estado",
+      "por": "sinónimo «cuanto nos falta»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "barra_de_avance",
+        "matriz_estados",
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estado",
+        "ambito": "la_sala",
+        "forma": "barra_de_avance"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-06",
       "persona": "profesora",
       "pregunta": "pa el paseo, a dónde quiere ir la mayoría? zoológico, museo o laguna? levanten la mano, de a una opción",
-      "tarea": "localizar",
-      "por": "sinónimo «donde»",
+      "tarea": "magnitud",
+      "por": "sinónimo «levanten la mano»",
       "formas": [
-        "mapa_sin_base",
-        "mosaico_uv"
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
+        "unit_chart",
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "palitos"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-07",
       "persona": "profesora",
       "pregunta": "tía, cuántas veces tose el curso en una clase? yo llevo tres",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
+        "unit_chart",
+        "lista_corta"
+      ],
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "la_sala",
+        "forma": "palitos"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-08",
@@ -966,9 +2322,26 @@
       "por": "sinónimo «cuantos»",
       "formas": [
         "unit_chart",
-        "dorling"
+        "dorling",
+        "cifra_grande",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "lista_corta",
+        "cuenta_a_la_vista"
       ],
-      "ambito": null
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "la_sala",
+        "forma": "pictograma"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "prof-09",
@@ -977,28 +2350,70 @@
       "tarea": null,
       "por": null,
       "formas": [],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "tabla_en_voz_alta"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "prof-10",
       "persona": "profesora",
       "pregunta": "a los apoderados quiero mostrarles cuántas veces faltaron los niños este trimestre, sin nombres, cómo lo muestro?",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
+        "unit_chart",
+        "lista_corta"
+      ],
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "la_sala",
+        "forma": "pictograma"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-11",
       "persona": "profesora",
       "pregunta": "cuánto falta pa el recreo? y el recreo ya empezó hace cuánto?",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "estado",
+      "por": "sinónimo «cuanto falta pa el recreo»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "barra_de_avance",
+        "matriz_estados",
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estado",
+        "ambito": "la_sala",
+        "forma": "barra_de_avance"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-12",
@@ -1008,9 +2423,26 @@
       "por": "sinónimo «cuantos»",
       "formas": [
         "unit_chart",
-        "dorling"
+        "dorling",
+        "cifra_grande",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "lista_corta",
+        "cuenta_a_la_vista"
       ],
-      "ambito": null
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "prof-13",
@@ -1019,20 +2451,55 @@
       "tarea": "comparar",
       "por": "sinónimo «diferencia»",
       "formas": [
-        "dorling",
+        "palitos",
+        "tabla_en_voz_alta",
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
         "pequenos_multiplos",
         "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-14",
       "persona": "profesora",
       "pregunta": "en los trabajos en grupo, cuántas veces le toca hablar a cada uno? pa darle la oportunidad al que no habla",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantas veces»",
+      "formas": [
+        "unit_chart",
+        "dorling",
+        "cifra_grande",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "lista_corta",
+        "cuenta_a_la_vista"
+      ],
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "la_sala",
+        "forma": "palitos"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "prof-15",
@@ -1041,43 +2508,102 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
         "unit_chart",
-        "dorling"
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "la_sala",
+        "forma": "pictograma"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-16",
       "persona": "profesora",
       "pregunta": "de los 32 de la lista, cuántos vienen en micro, cuántos en auto y cuántos caminando? pa ver cuántas micros pedimos pal paseo",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
-      "formas": [
-        "unit_chart",
-        "dorling"
-      ],
-      "ambito": null
+      "tarea": "flujo",
+      "por": "sinónimo «cuantos vienen en micro»",
+      "formas": [],
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "la_sala",
+        "forma": "tabla_en_voz_alta"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
     },
     {
       "id": "prof-17",
       "persona": "profesora",
       "pregunta": "los que se comieron toda la colación, los que comieron la mitad y los que no comieron nada, levanten la mano",
-      "tarea": null,
-      "por": null,
-      "formas": [],
-      "ambito": null
+      "tarea": "magnitud",
+      "por": "sinónimo «levanten la mano»",
+      "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
+        "unit_chart",
+        "lista_corta"
+      ],
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "la_sala",
+        "forma": "palitos"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-18",
       "persona": "profesora",
       "pregunta": "cada grupo armó el circuito con la pila y la ampolleta, cuánto tardó cada uno? el reloj del celular corre",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuanto»",
+      "tarea": "comparar",
+      "por": "sinónimo «cada grupo»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "palitos",
+        "tabla_en_voz_alta",
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
+        "pequenos_multiplos",
+        "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "comparar",
+        "ambito": "la_sala",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-19",
@@ -1086,22 +2612,54 @@
       "tarea": "magnitud",
       "por": "sinónimo «cuantos»",
       "formas": [
+        "palitos",
+        "pictograma",
+        "tabla_en_voz_alta",
+        "cifra_grande",
+        "cuenta_a_la_vista",
         "unit_chart",
-        "dorling"
+        "lista_corta"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "distribucion",
+        "ambito": "la_sala",
+        "forma": "pictograma"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     },
     {
       "id": "prof-20",
       "persona": "profesora",
       "pregunta": "en la encuesta que mandamos a los papás, qué quieren que se refuerce más: lectura, mate, inglés? cuántos eligieron cada uno?",
-      "tarea": "magnitud",
-      "por": "sinónimo «cuantos»",
+      "tarea": "comparar",
+      "por": "sinónimo «cada uno»",
       "formas": [
-        "unit_chart",
-        "dorling"
+        "palitos",
+        "tabla_en_voz_alta",
+        "barras_simples",
+        "antes_y_despues",
+        "cuenta_a_la_vista",
+        "pequenos_multiplos",
+        "ranked_dots"
       ],
-      "ambito": null
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "parte_todo",
+        "ambito": "la_sala",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
     }
   ]
 }

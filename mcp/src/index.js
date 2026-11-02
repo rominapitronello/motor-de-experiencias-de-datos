@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.4' };
+const SERVER = { name: 'experiencias-datos', version: '0.2.0' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -48,10 +48,39 @@ const SINONIMOS = {
   // ámbito = unidad de análisis (grafo/restricciones/ambitos, opus 5.5, 2-nov-2026). fable (procedencia), PR #3: solo palabras
   // que nombran la unidad; una pregunta que no la nombra no resuelve ámbito y recibe todas las restricciones, declarado.
   ambito: {
-    personas: ['personas', 'persona', 'estudiantes', 'estudiante', 'alumnos', 'alumnas', 'alumno', 'alumna', 'pacientes', 'paciente', 'trabajadores', 'trabajadoras', 'trabajador', 'trabajadora', 'usuarios', 'usuarias', 'individuos', 'por persona', 'por estudiante', 'cada persona'],
+    personas: ['personas', 'persona', 'estudiantes', 'estudiante', 'alumnos', 'alumnas', 'alumno', 'alumna', 'pacientes', 'paciente', 'trabajadores', 'trabajadoras', 'trabajador', 'trabajadora', 'usuarios', 'usuarias', 'individuos', 'por persona', 'por estudiante', 'cada persona', 'encuestados', 'vendedores', 'socios'],
     territorio_o_servicio: ['territorio', 'territorial', 'comuna', 'comunas', 'comunal', 'manzana', 'manzanas', 'unidad vecinal', 'unidades vecinales', 'barrio', 'barrios', 'region', 'regiones', 'sede', 'sedes', 'consultorio', 'consultorios', 'servicio', 'servicios', 'establecimiento', 'establecimientos', 'por comuna', 'por manzana'],
+    // v0.2 (grafo de opus, 2-nov-2026): los datos de quien pregunta y los de la sala. fable (procedencia): las palabras cortas
+    // son de la vida; las frases largas ganan por longitud cuando compiten («levanten la mano» le gana a «alumnos»).
+    datos_propios: ['tenemos', 'la jefa', 'mi jefa', 'la pega', 'la oficina', 'sucursales', 'la meta', 'nuestras', 'nuestros', 'la empresa', 'hice', 'estoy pagando', 'pago', 'he perdido', 'miro', 'escuche', 'dije', 'abri', 'me tomo', 'me tome', 'mi cartola', 'mi boleta', 'mi perro', 'mi gato', 'mi sueldo', 'mi tarjeta', 'mi cuenta', 'mi casa', 'mis gastos', 'mis cuotas', 'mis plantas', 'la cartola', 'el excel de la pega', 'me gasto', 'me gaste', 'gasto', 'gaste', 'se me fue', 'se me va', 'llevo gastado', 'tengo', 'mis', 'mi', 'me', 'yo'],
+    la_sala: ['cuantos somos', 'sembramos', 'medimos', 'hicimos', 'cada grupo', 'los grupos', 'de la lista', 'los papas', 'la prueba', 'el test', 'los del 7', 'ninas y', 'y ninos', 'la plantita', 'levanten la mano', 'levantar la mano', 'mano alzada', 'el curso', 'mi curso', 'los ninos', 'las ninas', 'los chiquillos', 'chiquillos', 'chiquillas', 'la sala', 'en la sala', 'el taller', 'la clase', 'mis alumnos', 'los alumnos', 'apoderados', 'recreo', 'colacion', 'el paseo', 'la pizarra', 'papelografo', 'tia'],
   },
 };
+
+// v0.2: el grafo trae `palabras_de_la_gente` por tarea y por ámbito en es, pt y en (opus, 2-nov-2026). se suman a los sinónimos:
+// los ids del grafo son el ancla y quedan en castellano; lo que la gente dice encima se resuelve en el idioma que traiga.
+for (const [id, idiomas] of Object.entries(K.grafo.palabras_de_la_gente || {})) {
+  const frases = Object.values(idiomas).flat().map(norm);
+  const tipo = (K.grafo.tareas || []).some((t) => t.id === id) ? 'tarea' : (K.grafo.restricciones?.ambitos || []).some((a) => a.id === id) ? 'ambito' : null;
+  if (!tipo) continue;
+  SINONIMOS[tipo][id] = [...new Set([...(SINONIMOS[tipo][id] || []), ...frases])];
+}
+// palabras de la vida que faltaban en v0.1 y el corpus (pr #16) dejó a la vista. fable (procedencia), 2-nov-2026.
+SINONIMOS.tarea.magnitud.push('cuanta', 'cuantas', 'cuanta plata', 'cuantos trajeron', 'cuanto llevo', 'how much', 'how many', 'quanto', 'quantos', 'quantas', 'levanten la mano', 'los que trajeron', 'quienes trajeron', 'manos arriba', 'levantem a mao', 'raise your hand'); // levantar la mano es contar
+SINONIMOS.tarea.cambio.push('subi', 'baje', 'subio', 'bajo', 'mas que antes', 'menos que antes', 'went up', 'went down', 'subiu', 'caiu');
+SINONIMOS.tarea.comparar.push('cual me conviene', 'versus', 'compared to', 'comparado con', 'comparado', 'mejor que', 'peor que', 'entre dos', 'elegir entre', 'cual de los dos', 'cual de las dos', 'la mayoria', 'cual prefieren', 'que prefieren', 'a cual le fue mejor', 'cual le fue mejor', 'cada grupo', 'cada uno', 'cada una');
+SINONIMOS.tarea.cambio.push('comparado con el mes', 'comparado con el ano', 'comparado con el otro', 'que el mes pasado', 'mes antes', 'y ayer', 'crecieron', 'despues de cambiar');
+SINONIMOS.tarea.parte_todo.push('en que se me va', 'en que se va', 'en pedazos', 'cuanto de mi sueldo', 'where does my money go');
+SINONIMOS.tarea.ordenar.push('en que mes', 'cual vende mas', 'el que mas', 'la que mas', 'which month', 'which sells the most');
+SINONIMOS.tarea.vacio.push('no se cuantos', 'nadie lo conto', 'sin que nadie', 'no lo guardaba', 'no tengo el dato', 'no hay registro', 'nobody counted');
+SINONIMOS.tarea.estado.push('cuanto nos falta', 'cuanto falta', 'llevamos', 'me quedan', 'how much is left');
+SINONIMOS.tarea.procedencia.push('de donde sale', 'es verdad o es mentira', 'es correcto o es mentira', 'where does this number come from');
+SINONIMOS.tarea.estimar = [...(SINONIMOS.tarea.estimar || []), 'mas o menos', 'tiro un numero', 'ni idea', 'en un ano', 'al ano', 'aproximado', 'un calculo', 'roughly', 'ballpark', 'in a year', 'mais ou menos'];
+SINONIMOS.tarea.proyectar = [...(SINONIMOS.tarea.proyectar || []), 'si sigo asi', 'si sigo', 'me alcanza', 'cuando me quedo sin', 'hasta cuando', 'if i keep', 'will it last', 'when will i run out', 'se eu continuar'];
+SINONIMOS.tarea.leer = [...(SINONIMOS.tarea.leer || []), 'no entiendo', 'que me quieren decir', 'que me estan diciendo', 'como se lee', 'explicame', 'explicamelo', 'que significa', 'how do i read', 'what is this chart telling me', 'nao entendo'];
+// propósitos de PARA_QUIEN.md (grafo v0.2): jugar y perder el miedo. INFERENCIA desde el corpus.
+SINONIMOS.proposito.jugar = ['por gusto', 'me da risa', 'da risa', 'absurdo', 'por curiosidad', 'pa saber nomas', 'por saber', 'pa reirme', 'pa mandarle', 'for fun', 'just curious', 'por diversao'];
+SINONIMOS.proposito.perder_el_miedo = ['no soy de numeros', 'no soy de matematicas', 'no entiendo nada', 'me da verguenza', 'perdona la pregunta', 'perdona si es tonto', 'pregunta tonta', 'como si fuera chica', 'como si fuera chico', 'me siento tonta', 'me siento tonto', 'nunca fui bueno', 'nunca fui buena', 'im not a numbers person', 'nao sou de numeros'];
 
 // patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
 // el motor dijo «predecir → revelar» y la salida terminó diciendo «mirar». Esto lo vuelve contrato, no consejo.
@@ -185,22 +214,26 @@ const TOOLS = [
   {
     name: 'consultar_grafo',
     description:
-      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Siempre incluye las restricciones duras del ámbito que corresponde: pasa ambito (territorio_o_servicio | personas, la unidad de análisis) o nómbrala en la tarea; si no se puede resolver, entrega todas y lo declara. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
+      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Acepta la pregunta tal como la dice la gente, en castellano, portugués o inglés («cuánta plata se me fue», «levanten la mano», «how much did I spend»). Siempre incluye las restricciones duras y los cuidados del ámbito que corresponde (territorio_o_servicio | personas | datos_propios | la_sala: de quién son los datos y quién los mira): pasa ambito o nómbralo en la tarea; si no se puede resolver, entrega todas y lo declara. Con ámbito, las formas vienen ordenadas por lo que ese público lee bien desde la última fila. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
     inputSchema: {
       type: 'object',
       properties: {
         tarea: { type: 'string' },
         proposito: { type: 'string' },
         patron: { type: 'string' },
-        ambito: { type: 'string', description: 'unidad de análisis: territorio_o_servicio (manzana, unidad vecinal, comuna, sede, consultorio) o personas (estudiante, paciente, trabajadora; siempre desidentificadas). Decide qué restricciones duras aplican.' },
+        ambito: { type: 'string', description: 'de quién son los datos y quién los mira: territorio_o_servicio (datos públicos: comuna, manzana, consultorio), personas (otras personas que no están en la conversación: encuestados, vendedores), datos_propios (los de quien pregunta: su cartola, su perro, el excel de su trabajo) o la_sala (un curso o taller que cuenta y mira junto). Decide restricciones, cuidados y el orden de las formas.' },
       },
     },
     run: ({ tarea, proposito, patron, ambito } = {}) => {
       const g = K.grafo;
       if (!tarea && !proposito && !patron) {
         return {
+          para_quien: g.para_quien ?? null,
           tareas: g.tareas, propositos: g.propositos, patrones: g.patrones,
           compromiso: g.compromiso, formas: g.formas, restricciones: g.restricciones,
+          como_elegir_ambito: g.como_elegir_ambito ?? null, cuidados: g.cuidados ?? null,
+          trampas_por_ambito: g.trampas_por_ambito ?? null, formas_por_ambito: g.formas_por_ambito ?? null,
+          palabras_de_la_gente: g.palabras_de_la_gente ?? null,
         };
       }
       const out = {};
@@ -229,6 +262,14 @@ const TOOLS = [
         out.restricciones_fuera_de_ambito = g.restricciones.duras
           .filter((r) => aplicabilidad[r.id] && !aplicabilidad[r.id].includes(ra.id))
           .map((r) => ({ ...r, aplica_en: aplicabilidad[r.id], razon: `aplica solo en ${aplicabilidad[r.id].join(', ')}; el ámbito resuelto es ${ra.id}` }));
+        // v0.2: cuidados de la vida diaria y trampas que aplican en este ámbito (grafo/trampas_por_ambito, opus).
+        const tpa = (g.trampas_por_ambito || {})[ra.id];
+        if (tpa) {
+          out.cuidados = (tpa.cuidados || []).map((id) => (g.cuidados || []).find((c) => c.id === id) || { id }).map(({ corpus, ...c }) => c);
+          out.trampas_aplicables = tpa.trampas || [];
+          out.nota_ambito = tpa.nota;
+          if (tpa.herramienta) out.revisar_fuente = `este ámbito usa datos públicos: pasa la fuente por ${tpa.herramienta} antes de visualizar`;
+        }
       } else {
         out.ambito = null;
         out.restricciones_duras = g.restricciones.duras.map(conAplicabilidad);
@@ -240,7 +281,28 @@ const TOOLS = [
         out.tarea = r ? r.id : tarea;
         interpretado('tarea', r, tarea);
         const ids = r ? g.aristas.tarea_forma[r.id] : null;
-        out.formas = ids ? g.formas.filter((f) => ids.includes(f.id)) : null;
+        // en el orden de la arista (el grafo dice qué ofrecer primero), no en el orden del bloque `formas`.
+        let formas = ids ? ids.map((id) => g.formas.find((f) => f.id === id)).filter(Boolean) : null;
+        // v0.2 (grafo/formas_por_ambito, opus): primero las formas que este ámbito lee bien; las que necesitan geometría
+        // no se ofrecen fuera de territorio_o_servicio, y se declara. sin ámbito, el orden del grafo y un aviso.
+        const fpa = g.formas_por_ambito || {};
+        if (formas && ra && ra.id !== 'territorio_o_servicio' && Array.isArray(fpa.solo_con_territorio)) {
+          const fuera = formas.filter((f) => fpa.solo_con_territorio.includes(f.id));
+          if (fuera.length) {
+            out.formas_fuera_de_ambito = fuera.map((f) => ({ id: f.id, razon: `necesita geometría del territorio; el ámbito resuelto es ${ra.id}` }));
+            formas = formas.filter((f) => !fpa.solo_con_territorio.includes(f.id));
+          }
+        }
+        // el orden del grafo manda cuando la arista ya empieza por una forma de la vida (estimar, proyectar, leer: las escribió
+        // opus pensando en esta gente). `primero` reordena las aristas de v0.1, donde isotype y dorling iban adelante.
+        const aristaYaEsDeLaVida = formas && formas.length && Object.hasOwn(formas[0], 'ultima_fila');
+        if (formas && ra && !aristaYaEsDeLaVida && fpa.primero && Array.isArray(fpa.primero[ra.id])) {
+          const orden = fpa.primero[ra.id];
+          const pos = (f) => { const i = orden.indexOf(f.id); return i === -1 ? orden.length + (f.ultima_fila ? 0 : 1) : i; };
+          formas = [...formas].sort((a, b) => pos(a) - pos(b));
+          out.formas_ordenadas_por = `formas_por_ambito.primero.${ra.id} del grafo; después las demás, las legibles desde la última fila antes`;
+        }
+        out.formas = formas;
         if (!r) out.aviso_tarea = `tarea desconocida; válidas: ${g.tareas.map((t) => `${t.id} (${t.desc})`).join(', ')}`;
         else if (!ids) out.aviso_tarea = `la tarea ${r.id} está en el vocabulario pero todavía no tiene formas asociadas; crece por PR`;
       }
@@ -252,6 +314,14 @@ const TOOLS = [
         out.tecnicas = ids ? K.tecnicas.filter((t) => ids.includes(t.id)) : null;
         if (!r) out.aviso_proposito = `propósito desconocido; válidos: ${g.propositos.map((p) => `${p.id} (${p.desc})`).join(', ')}`;
         else if (!ids) out.aviso_proposito = `el propósito ${r.id} está en el vocabulario pero todavía no tiene técnicas asociadas; crece por PR`;
+      }
+      if (!proposito && tarea) {
+        // v0.2: si la pregunta trae la voz de PARA_QUIEN.md («no soy de números», «me da risa»), se sugiere el propósito. no se impone.
+        const ps = resolver(tarea, g.propositos.map((p) => p.id), 'proposito');
+        if (ps && ps.interpretado && ['jugar', 'perder_el_miedo'].includes(ps.id)) {
+          const idsT = g.aristas.proposito_tecnica[ps.id];
+          out.proposito_sugerido = { id: ps.id, por: ps.por, tecnicas: idsT ? K.tecnicas.filter((t) => idsT.includes(t.id)).map((t) => t.id) : [] };
+        }
       }
       if (patron) {
         const r = resolver(patron, patronesIds, 'patron');
@@ -359,7 +429,8 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':

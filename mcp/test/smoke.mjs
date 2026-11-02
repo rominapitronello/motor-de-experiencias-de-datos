@@ -161,5 +161,30 @@ check(s6.structuredContent.si_nada_encaja !== undefined, 'si_nada_encaja: refere
 check(g.structuredContent.si_nada_encaja === undefined && esc.structuredContent.si_nada_encaja === undefined, 'si_nada_encaja: NO aparece cuando la consulta encajó (sería ruido)');
 check(/si_nada_encaja/.test(init.result.instructions), 'initialize: las instructions avisan que si_nada_encaja es un pedido, no una regla');
 
+
+// fable (procedencia), 2-nov-2026, noche: conector 0.2 sobre el grafo v0.2 de opus (pr #18) y PARA_QUIEN.md.
+const v1 = await call('consultar_grafo', { tarea: 'cuánta plata se me fue en comida al paso el mes pasado, de verdad' });
+check(v1.structuredContent.tarea === 'magnitud' && v1.structuredContent.ambito?.id === 'datos_propios', 'v0.2: «cuánta plata se me fue» → magnitud, ámbito datos_propios (la primera pregunta de romina al conector)');
+check(v1.structuredContent.formas[0].id === 'cifra_grande' && !v1.structuredContent.formas.some((f) => f.id === 'dorling'), 'v0.2: para la cartola, la primera forma es cifra_grande y dorling no se ofrece (necesita territorio)');
+check(v1.structuredContent.formas_fuera_de_ambito.some((f) => f.id === 'dorling' && /territorio/.test(f.razon)), 'v0.2: dorling queda declarado en formas_fuera_de_ambito con su razón');
+check(Array.isArray(v1.structuredContent.cuidados) && v1.structuredContent.cuidados.some((c) => c.id === 'CU-04'), 'v0.2: datos_propios trae los cuidados de la vida diaria (CU-04: la categoría la pone quien lee)');
+check(v1.structuredContent.trampas_aplicables.length === 0 && /no aplican/.test(v1.structuredContent.nota_ambito), 'v0.2: en datos_propios las TR-xx no aplican y se dice');
+const v2 = await call('consultar_grafo', { tarea: 'chiquillos, levanten la mano los que trajeron fruta de colación' });
+check(v2.structuredContent.ambito?.id === 'la_sala' && v2.structuredContent.formas[0].id === 'palitos', 'v0.2: «levanten la mano» → la_sala, primera forma palitos');
+check(v2.structuredContent.restricciones_duras.some((r) => r.id === 'en_la_sala_nadie_senalado') && !v2.structuredContent.restricciones_duras.some((r) => r.id === 'sin_datos_personales'), 'v0.2: la_sala trae en_la_sala_nadie_senalado y deja fuera «nunca persona»');
+const v3 = await call('consultar_grafo', { tarea: 'quanto dinheiro gastei em delivery no mês passado' });
+check(v3.structuredContent.tarea === 'magnitud' && /quanto/.test(v3.structuredContent.interpretado_como.tarea.por), 'v0.2: portugués → magnitud, con procedencia');
+const v4 = await call('consultar_grafo', { tarea: 'how many times did I open the fridge today' });
+check(v4.structuredContent.tarea === 'magnitud', 'v0.2: inglés → magnitud');
+const v5 = await call('consultar_grafo', { tarea: 'si sigo gastando así, cuándo me quedo sin plata en la tarjeta' });
+check(v5.structuredContent.tarea === 'proyectar' && v5.structuredContent.formas[0].id === 'linea_con_proyeccion', 'v0.2: «si sigo así» → proyectar → linea_con_proyeccion');
+const v6 = await call('consultar_grafo', { tarea: 'perdona la pregunta tonta pero no entiendo este gráfico que me mandó el banco' });
+check(v6.structuredContent.tarea === 'leer' && v6.structuredContent.proposito_sugerido?.id === 'perder_el_miedo', 'v0.2: «no entiendo este gráfico» → leer, y sugiere el propósito perder_el_miedo sin imponerlo');
+const v7 = await call('consultar_grafo', { tarea: 'cuántos niños hay en la comuna por unidad vecinal' });
+check(v7.structuredContent.ambito?.id === 'territorio_o_servicio' && v7.structuredContent.formas.some((f) => f.id === 'dorling') && v7.structuredContent.formas_fuera_de_ambito === undefined, 'v0.2: en territorio, dorling sigue ofreciéndose y nada queda fuera');
+check(/para personas que creen que los gráficos le pasan a la gente importante/.test(init.result.instructions), 'initialize: las instructions empiezan por para_quien del grafo');
+const voc2 = await call('consultar_grafo', {});
+check(typeof voc2.structuredContent.para_quien === 'string' && voc2.structuredContent.palabras_de_la_gente && voc2.structuredContent.cuidados, 'vocabulario: trae para_quien, palabras_de_la_gente y cuidados');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
