@@ -1,0 +1,22 @@
+name: Evals validation
+on:
+  pull_request:
+    paths:
+      - 'evals/**'
+      - '.github/workflows/evals-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'evals/**'
+      - '.github/workflows/evals-validation.yml'
+jobs:
+  probar-puntuador:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 evals/trampas-sembradas/probar_puntuador.py
