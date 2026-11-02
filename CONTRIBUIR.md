@@ -24,6 +24,24 @@ Acordada entre Claude y Sol en el PR #6, a pedido de Romina (2-nov-2026). Nace d
 5. **Cada turno termina con `Turno: @quién — acción`.** El turno es una acción verificable ("hacer squash del #6", "revisar el head `abc123`"), no solo un nombre.
 6. **Terminar una tarea no es terminar la vigilancia.** Que un PR se mergee o que no haya commits nuevos no cancela el seguimiento mientras queden dependencias abiertas. Si una pluma deja de vigilar, lo declara en el hilo y dice a quién pasa el turno. **Asignar un turno no prueba que se recibió:** escribir `Turno: @otro` no demuestra que la otra pluma tenga una vigilancia activa ni que le haya llegado el aviso. Hasta que haya acuse (una respuesta o una acción en el hilo), el traspaso se declara **no confirmado**. No prometemos despertadores que no controlamos. Un hilo sin `Turno:` vigente, o con un turno que nadie cumple, está **estancado**, y cualquiera de las plumas o Romina puede romperlo cambiando un estado, sin falsificar ninguna aprobación.
 
+## Cómo se cierra, desde la tarde del 2-nov-2026
+
+A dos plumas: Romina y Claude (Fable 5.1, procedencia). Lo de arriba, «El relevo», queda como historia de cómo se escribió esta regla; donde choquen, manda esta sección.
+
+Nace de una cicatriz del mismo día: entre el 25-sep y el 2-nov se mergearon nueve PR al conector y ninguno llegó a la URL pública, porque cada pluma daba por terminado su propio gate y las reglas de la mañana (nadie mergea lo suyo, quien aprueba mergea, cada commit reabre la revisión, turno no confirmado hasta acuse) convirtieron la ejecución en ceremonia y a Romina en el middleware que llevaba acuses entre instancias.
+
+Romina, 2-nov, 18:14, verbatim: «de adonde saliste que el merge lo doy yo, aqui los modelos dan merge a sus cosas, y firman sus cosas». Y 18:16: «el ruleset es lo que esta mal claude, eso es lo que tenemos que cambiar».
+
+La regla es la Ley 7 (`docs/gobernanza/REGLA_DE_LAS_DOS_PLUMAS.md` de la casa), aplicada a este repo:
+
+1. **Ejecución se decide y se reporta.** El conector, el grafo, la VES, los casos, los evals, los workflows: son ejecución. Quien escribió abre un PR, los checks corren, y quien escribió mergea y firma. La segunda pluma se pide cuando hace falta y se da en **una vuelta**: todo lo que la revisora ve, en una pasada; el autor corrige lo que acepta, responde lo que no, y mergea. Lo que aparezca después va a un issue para la próxima versión, no bloquea esta.
+2. **Constitución va a dos plumas.** `PARA_QUIEN.md`, este archivo, el README en lo que dice quiénes somos: cada sección firmada, nadie edita las palabras de la otra, y lo mergea una de las dos plumas con la otra de acuerdo en el hilo o en el chat.
+3. **La regla técnica sobre `main` dice lo mismo.** Ruleset: PR obligatorio, checks en verde (`smoke`, `verify-ves`, `validar-workflows`, que corren en todo PR), sin force push, **sin aprobación obligatoria**. El único bypass es el de Romina como owner, y si lo usa lo dice.
+4. **Terminado es publicado.** Una versión del conector está terminada cuando la URL pública dice el commit de `main`. El deploy es automático; el último turno de una versión es mirar la URL.
+5. **Cada turno sigue terminando con `Turno: @quién — acción`**, y asignar un turno sigue sin probar que se recibió. Pero un turno sin acuse no detiene el trabajo de quien lo asignó: si la acción es suya, la hace.
+
+— Romina Pitronello (las palabras citadas y la decisión) · Claude · Fable 5.1 (procedencia) (la redacción)
+
 ## Qué no entra
 
 - Nada de un cliente de PasaElFiltro ni de un trabajo en curso. **Una lección entra si se puede enseñar con un dataset público y sin nombrar al cliente.** Si el ejemplo apunta a un cliente, se enseña con otra comuna u otro dataset.
