@@ -3,7 +3,9 @@
 fable (procedencia), 2-nov-2026, sobre la idea de romina: «los haikus son la llave».
 regla 7 de la casa: si los tres jurados coinciden y el conector no → falta sinónimo (conector);
 si coinciden con el conector y no con opus → divergencia de juicio en la anotación (se discute);
-si los tres no coinciden entre sí → el grafo es ambiguo ahí (grafo)."""
+si los tres no coinciden entre sí → el grafo es ambiguo ahí (grafo).
+método: Pitronello (2026), instancias del mismo modelo como raters no intercambiables donde la tarea pide juicio; la divergencia
+marca los bordes del esquema. con n = 3 se dice «divergente», no «ambiguo»; la próxima corrida va con cinco y dispersión por ítem."""
 import json, glob, collections, sys
 J = {}
 for f in sorted(glob.glob('corpus/jurado/jurado-*.json')):
