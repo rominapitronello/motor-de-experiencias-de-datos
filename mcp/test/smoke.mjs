@@ -195,5 +195,18 @@ const pe = son.structuredContent.para_esta_pregunta;
 check(pe && pe.restricciones.some((r) => r.id === 'definicion_junto_al_dato' && r.porque.includes('proxy')), '0.2.1: «un proxy» destaca definicion_junto_al_dato pegada a la pregunta, con la palabra que calzó');
 check(/github.com/.test(pr.structuredContent.si_nada_encaja), '0.2.1: principios también trae el canal (issue o mail)');
 
+
+// 0.3.0: grafo v0.3 de opus (#26): reconocer, cosas, toda_experiencia, curiosidad.
+const q1 = await call('consultar_grafo', { tarea: 'yo no tengo datos, yo no soy empresa. soy una persona normal. qué datos voy a tener' });
+check(q1.structuredContent.tarea === 'reconocer' && q1.structuredContent.formas[0].id === 'un_registro_desarmado', '0.3: «yo no tengo datos, qué datos voy a tener» → reconocer → un_registro_desarmado');
+const q2 = await call('consultar_grafo', { tarea: '¿qué sabe el gmail de mí? porque a veces me sale publicidad de cosas que sólo hablé' });
+check(q2.structuredContent.tarea === 'reconocer' && q2.structuredContent.cuidados.some((c) => c.id === 'CU-09'), '0.3: «qué sabe el gmail de mí» → reconocer, con CU-09 (lo que no sabías que tenías, alguien más lo sabe)');
+const q3 = await call('consultar_grafo', { tarea: 'cuántas conversaciones hubo por cada instancia del modelo', ambito: 'cosas' });
+check(q3.structuredContent.ambito?.id === 'cosas' && q3.structuredContent.cuidados.some((c) => c.id === 'CU-11') && !q3.structuredContent.restricciones_duras.some((r) => r.id === 'sin_datos_personales'), '0.3: ámbito cosas (el caso del sonnet, #22): CU-11 qué cuenta como uno, y sin «nunca persona»');
+check(Array.isArray(q1.structuredContent.toda_experiencia) && q1.structuredContent.toda_experiencia.some((t) => t.id === 'no_califica') && q1.structuredContent.restricciones_duras.some((r) => r.id === 'no_se_califica'), '0.3: toda respuesta trae toda_experiencia (no_califica) y la restricción no_se_califica');
+const q4 = await call('consultar_grafo', { tarea: 'how do i know how many people come into my shop every month' });
+check(q4.structuredContent.proposito_sugerido?.id === 'curiosidad', '0.3: «how do i know…» sugiere el propósito curiosidad');
+check(/reconocer/.test(JSON.stringify(c1.structuredContent.patrones_candidatos)) === false, '0.3: patrones_candidatos no se contamina con tareas (reconocer es tarea, no patrón)');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);

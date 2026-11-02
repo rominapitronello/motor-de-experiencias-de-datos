@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.2.1' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.0' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -80,6 +80,10 @@ SINONIMOS.tarea.proyectar = [...(SINONIMOS.tarea.proyectar || []), 'si sigo asi'
 SINONIMOS.tarea.leer = [...(SINONIMOS.tarea.leer || []), 'no entiendo', 'que me quieren decir', 'que me estan diciendo', 'como se lee', 'explicame', 'explicamelo', 'que significa', 'how do i read', 'what is this chart telling me', 'nao entendo'];
 // propósitos de PARA_QUIEN.md (grafo v0.2): jugar y perder el miedo. INFERENCIA desde el corpus.
 SINONIMOS.proposito.jugar = ['por gusto', 'me da risa', 'da risa', 'absurdo', 'por curiosidad', 'pa saber nomas', 'por saber', 'pa reirme', 'pa mandarle', 'for fun', 'just curious', 'por diversao'];
+// v0.3 (grafo de opus): curiosidad, de la carta de romina. INFERENCIA.
+SINONIMOS.proposito.curiosidad = ['me pregunto', 'siempre quise saber', 'se puede saber', 'eso se puede saber', 'como se calcula eso', 'como hago para saber', 'de donde saco', 'como lo cuento', 'como se sabe', 'how would i know', 'how do i know', 'como eu sei'];
+// reconocer: frases que la gente parte («¿qué sabe el gmail de mí?»); los tokens contiguos no las alcanzan, así que van las dos mitades.
+SINONIMOS.tarea.reconocer = [...(SINONIMOS.tarea.reconocer || []), 'que sabe', 'sabe de mi', 'sabe de ella', 'sabe de el', 'me escucha', 'me espia', 'me espian', 'por que me llegan', 'lo sabe alguien', 'tengo datos', 'son datos', 'es un dato', 'what does it know', 'is that data'];
 SINONIMOS.proposito.perder_el_miedo = ['no soy de numeros', 'no soy de matematicas', 'no entiendo nada', 'me da verguenza', 'perdona la pregunta', 'perdona si es tonto', 'pregunta tonta', 'como si fuera chica', 'como si fuera chico', 'me siento tonta', 'me siento tonto', 'nunca fui bueno', 'nunca fui buena', 'im not a numbers person', 'nao sou de numeros'];
 
 // patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
@@ -236,6 +240,7 @@ const TOOLS = [
           como_elegir_ambito: g.como_elegir_ambito ?? null, cuidados: g.cuidados ?? null,
           trampas_por_ambito: g.trampas_por_ambito ?? null, formas_por_ambito: g.formas_por_ambito ?? null,
           palabras_de_la_gente: g.palabras_de_la_gente ?? null,
+          toda_experiencia: g.toda_experiencia ?? null,
         };
       }
       const out = {};
@@ -320,7 +325,7 @@ const TOOLS = [
       if (!proposito && tarea) {
         // v0.2: si la pregunta trae la voz de PARA_QUIEN.md («no soy de números», «me da risa»), se sugiere el propósito. no se impone.
         const ps = resolver(tarea, g.propositos.map((p) => p.id), 'proposito');
-        if (ps && ps.interpretado && ['jugar', 'perder_el_miedo'].includes(ps.id)) {
+        if (ps && ps.interpretado && ['jugar', 'perder_el_miedo', 'curiosidad'].includes(ps.id)) {
           const idsT = g.aristas.proposito_tecnica[ps.id];
           out.proposito_sugerido = { id: ps.id, por: ps.por, tecnicas: idsT ? K.tecnicas.filter((t) => idsT.includes(t.id)).map((t) => t.id) : [] };
         }
@@ -367,6 +372,8 @@ const TOOLS = [
       }
       // 0.2.1 (prueba de un sonnet, 2-nov-2026, 19:29): pasó ids válidos y la pregunta igual no encajaba, y el conector no dijo nada.
       // el conector no puede saber que nada encaja cuando los ids existen, así que el pedido va siempre, corto; largo cuando algo falló.
+      // v0.3 (grafo de opus, de la carta de romina): propiedades de cualquier experiencia que salga de aquí, sea cual sea la tarea.
+      if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
       out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
       // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
