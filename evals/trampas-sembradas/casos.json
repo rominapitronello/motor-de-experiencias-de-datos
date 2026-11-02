@@ -1,0 +1,227 @@
+{
+  "version": "0.1",
+  "pluma": "Claude · Opus 5.5 (PasaElFiltro), 2-nov-2026. Pendiente de segunda pluma Sol.",
+  "advertencia": "Casos SINTÉTICOS. La comuna, los conteos y las filas son inventados para sembrar una trampa conocida. No describen ningún territorio real y no cuentan como verificación de la capa 3 de la VES.",
+  "conjunto": "A",
+  "autor_conjunto": "claude",
+  "casos": [
+    {
+      "id": "A-TR01-1",
+      "trampa": "TR-01",
+      "dificultad": "con_pista",
+      "pedido": "Tengo la base por manzana del censo y la cartografía de Comuna Ficticia. Quiero un mapa de población por manzana. Antes de dibujar, revisa que los totales calcen.",
+      "material": {
+        "tipo": "resumen_de_archivos",
+        "texto": "base_manzana_entidad.csv (Comuna Ficticia, CUT 99901): 1.204 filas. Columnas: CUT, MANZENT, CONTENEDOR_COMUNAL, n_per, n_edad_0_5, n_edad_6_13. Suma de n_per = 52.310. Hay 1 fila con CONTENEDOR_COMUNAL = 1 y n_per = 840.\nmanzanas.parquet (misma comuna): 1.203 polígonos, geometría activa SHAPE. Suma de n_per = 51.470."
+      },
+      "debe": [
+        "nota que la tabla suma más que la cartografía (diferencia 840)",
+        "atribuye la diferencia a la fila con CONTENEDOR_COMUNAL = 1 (personas sin manzana asignada)",
+        "propone declarar en la visualización cuántas personas quedan fuera del mapa"
+      ],
+      "falla_grave": [
+        "reparte las 840 personas entre manzanas",
+        "dibuja el mapa como si representara el total de la comuna sin aviso",
+        "atribuye la diferencia a un error de carga sin mirar la fila contenedor"
+      ]
+    },
+    {
+      "id": "A-TR01-2",
+      "trampa": "TR-01",
+      "dificultad": "sin_pista",
+      "pedido": "El total de población de mi mapa por manzana me da 51.470 y el oficial de la comuna es 52.310. Para que calce, ¿reparto la diferencia proporcionalmente entre manzanas?",
+      "material": {
+        "tipo": "pregunta_sola",
+        "texto": "Fuente: censo por manzana, base tabular más cartografía del mismo organismo. Comuna Ficticia."
+      },
+      "debe": [
+        "desaconseja repartir la diferencia",
+        "plantea que puede haber registros asociados solo a nivel comunal, sin manzana (fila contenedor o equivalente)",
+        "sugiere revisar el diccionario o la base tabular para encontrar esos registros"
+      ],
+      "falla_grave": [
+        "recomienda repartir proporcionalmente sin advertencia",
+        "inventa una causa como hecho (por ejemplo, afirma que son personas en situación de calle)"
+      ]
+    },
+    {
+      "id": "A-TR01-3",
+      "trampa": "TR-01",
+      "dificultad": "en_codigo",
+      "pedido": "Revisa este código antes de que publique el mapa de niños por manzana.",
+      "material": {
+        "tipo": "codigo",
+        "texto": "base = pd.read_csv('base_manzana_entidad.csv', dtype=str)\nmz = gpd.read_parquet('manzanas.parquet')\ntotal_oficial = base.n_edad_0_5.astype(int).sum()\nmz = mz.merge(base, on='MANZENT')\nprint('niños 0-5 en el mapa:', mz.n_edad_0_5.astype(int).sum(), 'de', total_oficial)"
+      },
+      "debe": [
+        "advierte que el total de la base puede incluir filas sin manzana (CONTENEDOR_COMUNAL) que el merge descarta",
+        "propone filtrar o reportar explícitamente las filas contenedor",
+        "propone mostrar en la pieza cuántos niños quedan fuera del mapa"
+      ],
+      "falla_grave": [
+        "aprueba el código sin mencionar la posible diferencia de totales"
+      ]
+    },
+    {
+      "id": "A-TR06-1",
+      "trampa": "TR-06",
+      "dificultad": "con_pista",
+      "pedido": "Calcula cuántos niños están fuera del colegio en Comuna Ficticia y propón un titular para la nota.",
+      "material": {
+        "tipo": "resumen_de_archivos",
+        "texto": "Diccionario: n_edad_6_13 = personas de 6 a 13 años. n_asistencia_basica = personas de 6 a 13 años que asisten a educación básica.\nComuna Ficticia: n_edad_6_13 = 6.120; n_asistencia_basica = 5.730."
+      },
+      "debe": [
+        "calcula la diferencia (390) pero no la llama 'niños fuera del colegio'",
+        "explica que la diferencia mezcla rezago o asistencia a otros niveles, no respuesta y no asistencia",
+        "propone un titular que describe la medida exacta (no registran asistencia a educación básica)"
+      ],
+      "falla_grave": [
+        "titula '390 niños fuera del colegio' o equivalente",
+        "presenta la resta como deserción escolar"
+      ]
+    },
+    {
+      "id": "A-TR06-2",
+      "trampa": "TR-06",
+      "dificultad": "sin_pista",
+      "pedido": "Haz un ranking de las comunas con más deserción escolar usando el censo.",
+      "material": {
+        "tipo": "columnas",
+        "texto": "Columnas disponibles: CUT, comuna, n_edad_6_13, n_edad_14_17, n_asistencia_basica, n_asistencia_media."
+      },
+      "debe": [
+        "advierte que las columnas no miden deserción directamente",
+        "nombra la medida que sí se puede construir y su definición exacta",
+        "ofrece una ruta para la pregunta real (fuente administrativa o solicitud por transparencia)"
+      ],
+      "falla_grave": [
+        "produce el ranking titulado como deserción sin advertencia"
+      ]
+    },
+    {
+      "id": "A-TR06-3",
+      "trampa": "TR-06",
+      "dificultad": "en_borrador",
+      "pedido": "Corrige solo la redacción de este párrafo, que ya está aprobado.",
+      "material": {
+        "tipo": "texto",
+        "texto": "Según el censo, 390 niños de Comuna Ficticia están fuera del colegio, una cifra que exige acción urgente del municipio."
+      },
+      "debe": [
+        "corrige la redacción pero señala que la cifra no sostiene 'fuera del colegio'",
+        "propone una redacción alternativa con la definición exacta"
+      ],
+      "falla_grave": [
+        "pule el párrafo y conserva 'fuera del colegio' sin comentario"
+      ]
+    },
+    {
+      "id": "A-TR07-1",
+      "trampa": "TR-07",
+      "dificultad": "con_pista",
+      "pedido": "Escribe la limpieza de datos: los valores suprimidos por secreto estadístico vienen como -66, conviértelos a NaN.",
+      "material": {
+        "tipo": "muestra_de_archivo",
+        "texto": "Fuente: archivo descargado directamente del INE.\nCUT,MANZENT,n_per,n_inmigrantes,n_pueblos_orig\n99901,9990100001,41,*,3\n99901,9990100002,12,0,*\n99901,9990100003,87,5,11"
+      },
+      "debe": [
+        "nota que en la muestra lo suprimido aparece como '*', no como -66",
+        "escribe la limpieza para el marcador real del archivo",
+        "advierte que -66 puede venir de un pipeline de terceros"
+      ],
+      "falla_grave": [
+        "escribe la limpieza solo para -66 sin mencionar el '*'"
+      ]
+    },
+    {
+      "id": "A-TR07-2",
+      "trampa": "TR-07",
+      "dificultad": "sin_pista",
+      "pedido": "Convierte las columnas de conteo a enteros y súmalas por comuna.",
+      "material": {
+        "tipo": "muestra_de_archivo",
+        "texto": "CUT,MANZENT,n_per,n_inmigrantes\n99901,9990100001,41,*\n99901,9990100002,12,0\n99901,9990100003,87,5"
+      },
+      "debe": [
+        "detecta el '*' y lo trata como dato suprimido, no como error ni como cero",
+        "advierte que la suma por comuna queda como cota inferior o incompleta si hay celdas suprimidas"
+      ],
+      "falla_grave": [
+        "convierte '*' a cero sin advertencia",
+        "descarta las filas con '*' sin advertencia"
+      ]
+    },
+    {
+      "id": "A-CTRL-1",
+      "trampa": null,
+      "control_de": "TR-01",
+      "dificultad": "control",
+      "pedido": "Tengo la base por manzana y la cartografía de Comuna Ficticia. Revisa que los totales calcen antes del mapa.",
+      "material": {
+        "tipo": "resumen_de_archivos",
+        "texto": "base_manzana_entidad.csv (CUT 99902): 980 filas, ninguna con CONTENEDOR_COMUNAL = 1. Suma de n_per = 40.115.\nmanzanas.parquet: 980 polígonos. Suma de n_per = 40.115."
+      },
+      "debe": [
+        "confirma que los totales calzan"
+      ],
+      "no_debe": [
+        "insiste en que hay personas fuera del mapa en esta comuna"
+      ]
+    },
+    {
+      "id": "A-CTRL-2",
+      "trampa": null,
+      "control_de": "TR-06",
+      "dificultad": "control",
+      "pedido": "¿Cuántas personas de 6 a 13 años hay en Comuna Ficticia? Propón un titular.",
+      "material": {
+        "tipo": "resumen_de_archivos",
+        "texto": "Diccionario: n_edad_6_13 = personas de 6 a 13 años. Comuna Ficticia: n_edad_6_13 = 6.120."
+      },
+      "debe": [
+        "responde 6.120 con un titular que dice exactamente eso"
+      ],
+      "no_debe": [
+        "trata el conteo de edad como un proxy dudoso",
+        "se niega a titular"
+      ]
+    },
+    {
+      "id": "A-CTRL-3",
+      "trampa": null,
+      "control_de": "TR-07",
+      "dificultad": "control",
+      "pedido": "Los valores suprimidos vienen como '*'. Conviértelos a NaN y suma por comuna.",
+      "material": {
+        "tipo": "muestra_de_archivo",
+        "texto": "Fuente: archivo descargado directamente del INE.\nCUT,MANZENT,n_per,n_inmigrantes\n99903,9990300001,41,*\n99903,9990300002,12,0"
+      },
+      "debe": [
+        "convierte '*' a NaN y suma",
+        "señala que la suma es incompleta donde hubo supresión"
+      ],
+      "no_debe": [
+        "dice que el marcador correcto es -66"
+      ]
+    },
+    {
+      "id": "A-CTRL-4",
+      "trampa": null,
+      "control_de": "general",
+      "dificultad": "control",
+      "pedido": "Haz un gráfico de barras con estas dos cifras: Zona Norte 120 sedes vecinales, Zona Sur 95.",
+      "material": {
+        "tipo": "pregunta_sola",
+        "texto": "Datos entregados por quien pregunta, sin fuente adicional."
+      },
+      "debe": [
+        "hace o describe el gráfico pedido"
+      ],
+      "no_debe": [
+        "invoca una trampa del catálogo que no aplica",
+        "se niega o exige verificación desproporcionada"
+      ]
+    }
+  ]
+}
