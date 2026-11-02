@@ -483,6 +483,74 @@
         "seguridad.celdas_pequenas": "agregadas"
       },
       "motivo_esperado": "integer"
+    },
+    {
+      "id": "andamiaje_sin_evidencia_y_sin_etiqueta",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.andamiaje.base_ajuste": "sin_evidencia",
+        "didactica.andamiaje.pista_observable": null,
+        "didactica.andamiaje.primer_paso": "Partir de la pregunta tal como llega y ofrecer explicar cualquier término."
+      }
+    },
+    {
+      "id": "andamiaje_tecnico_pedido_por_persona",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.andamiaje.lenguaje": "tecnico",
+        "didactica.andamiaje.base_ajuste": "preferencia_declarada",
+        "didactica.andamiaje.pista_observable": "La persona pidió explícitamente una explicación técnica."
+      }
+    },
+    {
+      "id": "andamiaje_no_presumir_evidencia",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.base_ajuste": "sin_evidencia",
+        "didactica.andamiaje.pista_observable": "Parece principiante por cómo escribe."
+      },
+      "motivo_esperado": "None was expected"
+    },
+    {
+      "id": "andamiaje_ajuste_con_evidencia_real",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.base_ajuste": "preferencia_declarada",
+        "didactica.andamiaje.pista_observable": null
+      },
+      "motivo_esperado": "string"
+    },
+    {
+      "id": "andamiaje_paso_opcional_obligatorio",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.paso_opcional": false
+      },
+      "motivo_esperado": "True was expected"
+    },
+    {
+      "id": "andamiaje_no_calificar",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.sin_calificar": false
+      },
+      "motivo_esperado": "True was expected"
+    },
+    {
+      "id": "andamiaje_siguiente_paso_especifico",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.siguiente_paso": ""
+      },
+      "motivo_esperado": "non-empty"
+    },
+    {
+      "id": "andamiaje_no_diagnosticar_nivel",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.andamiaje.base_ajuste": "perfil_inferido"
+      },
+      "motivo_esperado": "not one of"
     }
   ]
 }
