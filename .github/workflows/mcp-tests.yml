@@ -1,0 +1,38 @@
+# pruebas de humo del conector MCP. fable, PR #3, 2-nov-2026 (pedido de Sol: «28 pruebas en verde» era evidencia local).
+# se dispara también cuando cambia el conocimiento que el build compila (grafo, trampas, catálogo, principios).
+name: MCP tests
+on:
+  pull_request:
+    paths:
+      - 'mcp/**'
+      - 'grafo/**'
+      - 'trampas/**'
+      - 'catalogo/**'
+      - 'principios/**'
+      - '.github/workflows/mcp-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'mcp/**'
+      - 'grafo/**'
+      - 'trampas/**'
+      - 'catalogo/**'
+      - 'principios/**'
+      - '.github/workflows/mcp-tests.yml'
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mcp/package-lock.json
+      - run: npm ci
+      - run: npm test

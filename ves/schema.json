@@ -373,7 +373,11 @@
                 "linea_de_tiempo",
                 "matriz_estados",
                 "resultados_discretos",
-                "ficha_procedencia"
+                "ficha_procedencia",
+                "serie_temporal",
+                "dispersion",
+                "histograma",
+                "boxplot"
               ]
             },
             "tecnica_id": {
@@ -403,7 +407,11 @@
                     "linea_de_tiempo",
                     "matriz_estados",
                     "resultados_discretos",
-                    "ficha_procedencia"
+                    "ficha_procedencia",
+                    "serie_temporal",
+                    "dispersion",
+                    "histograma",
+                    "boxplot"
                   ]
                 },
                 "motivo": {

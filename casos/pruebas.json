@@ -178,7 +178,8 @@
       "cambios": {
         "didactica.tarea": "distribucion"
       },
-      "motivo_esperado": "grafo sin arista"
+      "motivo_esperado": "forma ranked_dots no respaldada por tarea distribucion",
+      "nota": "motivo original: 'grafo sin arista'. desde el #3 (fable, piso convencional) distribucion tiene aristas [histograma, boxplot], así que este caso ahora bloquea porque ranked_dots no es forma de distribucion. la cobertura del bloqueo 'tarea sin arista' pasó a autoprueba_tarea_sin_arista en probar_ves.py, con un grafo mutado. opus 5.5, 2-nov-2026; el id se conserva para que sol decida si lo renombra."
     },
     {
       "id": "partial_sin_limites",
@@ -379,6 +380,53 @@
       "esperado_valido": true,
       "cambios": {
         "render.interaccion.tipo": "explicacion"
+      }
+    },
+    {
+      "id": "distribucion_histograma",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.tarea": "distribucion",
+        "didactica.forma": "histograma",
+        "didactica.alternativa.forma": "boxplot"
+      }
+    },
+    {
+      "id": "cambio_serie_temporal",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.tarea": "cambio",
+        "didactica.forma": "serie_temporal",
+        "didactica.alternativa.forma": "slope"
+      }
+    },
+    {
+      "id": "relacionar_dispersion",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.tarea": "relacionar",
+        "didactica.forma": "dispersion",
+        "didactica.alternativa.forma": "ranked_dots"
+      }
+    },
+    {
+      "id": "distribucion_con_forma_de_otra_tarea",
+      "esperado_valido": false,
+      "motivo_esperado": "forma dispersion no respaldada por tarea distribucion",
+      "cambios": {
+        "didactica.tarea": "distribucion",
+        "didactica.forma": "dispersion",
+        "didactica.alternativa.forma": "histograma"
+      }
+    },
+    {
+      "id": "alternativa_nueva_fuera_de_la_tarea",
+      "esperado_valido": false,
+      "motivo_esperado": "alternativa fuera de formas candidatas del grafo",
+      "cambios": {
+        "didactica.tarea": "cambio",
+        "didactica.forma": "serie_temporal",
+        "didactica.alternativa.forma": "histograma"
       }
     },
     {

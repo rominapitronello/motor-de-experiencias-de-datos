@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.2' };
+const SERVER = { name: 'experiencias-datos', version: '0.1.3' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -19,14 +19,14 @@ const incluye = (hay, aguja) => norm(hay).includes(norm(aguja));
 // palabras de todos los días → id del grafo. segunda pluma (fable), 24-sep-2026: un profe escribe "tendencia", no "cambio".
 const SINONIMOS = {
   tarea: {
-    cambio: ['tendencia', 'evolucion', 'tiempo', 'antes y despues', 'crecio', 'bajo', 'subio', 'cambio'],
+    cambio: ['tendencia', 'evolucion', 'tiempo', 'serie', 'mes a mes', 'antes y despues', 'crecio', 'bajo', 'subio', 'cambio'],
     comparar: ['comparacion', 'versus', 'vs', 'diferencia', 'contra'],
     ordenar: ['ranking', 'top', 'mayor', 'menor', 'quien tiene mas', 'orden'],
     magnitud: ['cuanto', 'cuantos', 'total', 'cantidad', 'volumen'],
     parte_todo: ['porcentaje', 'proporcion', 'torta', 'pie', 'composicion', 'reparto', 'participacion'],
-    distribucion: ['histograma', 'dispersion', 'como se reparte', 'rango'],
+    distribucion: ['histograma', 'boxplot', 'caja', 'como se reparte', 'rango', 'frecuencia'],
     localizar: ['donde', 'mapa', 'ubicacion', 'territorio'],
-    relacionar: ['correlacion', 'relacion', 'depende', 'asociacion'],
+    relacionar: ['correlacion', 'relacion', 'depende', 'asociacion', 'scatter', 'dispersion', 'x e y'],
     flujo: ['migracion', 'movimiento', 'de donde a donde', 'origen destino'],
     secuencia: ['cronologia', 'hitos', 'etapas', 'pasos'],
     estado: ['avance', 'cumplimiento', 'semaforo', 'compromisos'],
@@ -45,19 +45,83 @@ const SINONIMOS = {
     rendicion_de_cuentas: ['transparencia', 'rendir cuentas', 'compromisos', 'promesas'],
     activos_primero: ['lo bueno primero', 'fortalezas', 'activos', 'sin estigma'],
   },
+  // ámbito = unidad de análisis (grafo/restricciones/ambitos, opus 5.5, 2-nov-2026). fable (procedencia), PR #3: solo palabras
+  // que nombran la unidad; una pregunta que no la nombra no resuelve ámbito y recibe todas las restricciones, declarado.
+  ambito: {
+    personas: ['personas', 'persona', 'estudiantes', 'estudiante', 'alumnos', 'alumnas', 'alumno', 'alumna', 'pacientes', 'paciente', 'trabajadores', 'trabajadoras', 'trabajador', 'trabajadora', 'usuarios', 'usuarias', 'individuos', 'por persona', 'por estudiante', 'cada persona'],
+    territorio_o_servicio: ['territorio', 'territorial', 'comuna', 'comunas', 'comunal', 'manzana', 'manzanas', 'unidad vecinal', 'unidades vecinales', 'barrio', 'barrios', 'region', 'regiones', 'sede', 'sedes', 'consultorio', 'consultorios', 'servicio', 'servicios', 'establecimiento', 'establecimientos', 'por comuna', 'por manzana'],
+  },
 };
 
-// devuelve {id, interpretado} : id exacto (sin tildes ni mayusculas), o el primer sinonimo que aparezca en el texto, o null.
+// patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
+// el motor dijo «predecir → revelar» y la salida terminó diciendo «mirar». Esto lo vuelve contrato, no consejo.
+const INTERACCION = {
+  predict_reveal: ['antes: la persona anota o dibuja su predicción (con opción "prefiero no adivinar")', 'acción: confirma', 'revelación: aparece el dato y la brecha con lo que creía', 'después: una frase que nombra la brecha'],
+  recall_guess_feedback: ['antes: se pide recordar o estimar', 'acción: responde', 'revelación: dato + retroalimentación', 'después: qué cambió en lo que creía'],
+  manipulate_observe: ['antes: hipótesis escrita ("si muevo X, pasa Y")', 'acción: manipula el control', 'observación: el cambio', 'después: contrastar con la hipótesis'],
+  sequence_branch: ['guía: mensaje central primero', 'rama: la persona elige por dónde seguir', 'exploración libre al final'],
+  compare_explain: ['ver A y B bajo la misma lógica', 'explicar la diferencia con una frase propia'],
+  overview_focus_context: ['vista general', 'foco elegido por la persona', 'el contexto sigue visible'],
+  personalize_situate: ['la persona se ubica ("mi calle", "mi curso")', 've su caso dentro del patrón general'],
+  same_object_transform: ['el mismo objeto cambia de forma sin saltos', 'lo que no cambió se queda quieto'],
+};
+const SIN_INTERACCION = 'Si tu superficie no permite interacción y vas a entregar algo estático, declara degradado_a_estatico: true con la razón, y conserva al menos el "antes" como pregunta escrita antes del gráfico. Una salida estática que no lo declara no cumple el patrón.';
+
+// operación cognitiva mínima de cada patrón, en el vocabulario de ves/schema.json → interaccion.tipo
+// (ninguna | filtro | prediccion | explicacion | exploracion). fable, PR #3, 2-nov-2026, tras las notas de Sol:
+// «constructivo» en ICAP es producir una idea (predicción, explicación, hipótesis), no hacer clics ni mirar una
+// conclusión. interaccion_requerida dice si la superficie tiene que ser interactiva; esto dice qué tiene que
+// producir la persona, con o sin interacción. La VES ya exige prediccion|explicacion para aceptar constructivo.
+const OPERACION = {
+  predict_reveal: { tipo: 'prediccion', minimo: 'la persona registra su predicción antes de ver el dato' },
+  recall_guess_feedback: { tipo: 'prediccion', minimo: 'la persona recuerda o estima antes de ver el dato' },
+  manipulate_observe: { tipo: 'prediccion', minimo: 'la persona escribe una hipótesis ("si muevo X, pasa Y") antes de manipular; sin ella el compromiso es activo, no constructivo' },
+  compare_explain: { tipo: 'explicacion', minimo: 'la persona explica la diferencia entre A y B con una frase propia' },
+  sequence_branch: { tipo: 'exploracion', minimo: 'la persona elige por dónde seguir' },
+  overview_focus_context: { tipo: 'exploracion', minimo: 'la persona elige el foco; el contexto sigue visible' },
+  personalize_situate: { tipo: 'filtro', minimo: 'la persona se ubica a sí misma dentro del patrón general' },
+  same_object_transform: { tipo: 'ninguna', minimo: 'mirar el mismo objeto cambiar de forma; sube a activo si la persona dispara la transformación' },
+  // estáticos legítimos con piso constructivo: la pieza no necesita UI, pero tiene que pedir una idea producida por quien lee.
+  claim_evidence_limit: { tipo: 'explicacion', minimo: 'la pieza separa afirmación, evidencia y límite, y le pide a quien lee que diga (o escriba) qué sostiene la afirmación y dónde deja de sostenerla; sin esa explicación producida por la persona, la pieza es «mirar una conclusión» y el compromiso baja a pasivo' },
+  // INFERENCIA (fable, 2-nov-2026): el patrón no tiene estados escritos en este repo; la operación que lo hace constructivo es formular la pregunta propia. Se puede contestar en el hilo.
+  unknown_route_to_evidence: { tipo: 'explicacion', minimo: 'la persona formula qué no sabe, con sus palabras, antes de recorrer el camino hasta la evidencia' },
+};
+const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
+// compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
+const compromisoConContrato = (piso, operacion) => {
+  if (!(piso in ORDEN_ICAP)) return null;
+  const produce = operacion && ['prediccion', 'explicacion'].includes(operacion.tipo);
+  return produce && ORDEN_ICAP[piso] < ORDEN_ICAP.constructivo ? 'constructivo' : piso;
+};
+
+// tokens: palabras sin tildes ni mayúsculas. fable, PR #3, 2-nov-2026 (nota de Sol): el parser buscaba subcadenas y
+// «pie» calzaba en «piedra», «top» en «topografía». Un sinónimo de varias palabras es una secuencia de tokens contigua.
+const tokens = (s) => norm(s).split(/[^a-z0-9]+/).filter(Boolean);
+function contieneFrase(ts, frase) {
+  const fs = tokens(frase);
+  if (!fs.length || fs.length > ts.length) return false;
+  for (let i = 0; i + fs.length <= ts.length; i++) {
+    let j = 0;
+    while (j < fs.length && ts[i + j] === fs[j]) j++;
+    if (j === fs.length) return true;
+  }
+  return false;
+}
+
+// devuelve {id, interpretado, por} : id exacto (sin tildes ni mayusculas), o el sinonimo más largo que aparezca como
+// tokens en el texto, o el id del vocabulario que aparezca como tokens, o null. `por` dice cómo se llegó (procedencia).
 function resolver(entrada, ids, tipo) {
   const n = norm(entrada).replace(/[\s-]+/g, '_');
-  if (ids.includes(n)) return { id: n, interpretado: n !== entrada };
-  const suelto = norm(entrada);
+  if (ids.includes(n)) return { id: n, interpretado: n !== entrada, por: 'id del vocabulario' };
+  const ts = tokens(entrada);
+  let mejor = null; // gana el sinónimo más largo: "scatter" le gana a "vs" en "scatter de notas vs asistencia"
   for (const [id, palabras] of Object.entries(SINONIMOS[tipo] || {})) {
     if (!ids.includes(id)) continue;
-    if (palabras.some((w) => suelto.includes(w))) return { id, interpretado: true };
+    for (const w of palabras) if (contieneFrase(ts, w) && (!mejor || w.length > mejor.w.length)) mejor = { id, w };
   }
-  const parecido = ids.find((id) => suelto.includes(id.replace(/_/g, ' ')) || suelto.includes(id));
-  if (parecido) return { id: parecido, interpretado: true };
+  if (mejor) return { id: mejor.id, interpretado: true, por: `sinónimo «${mejor.w}»` };
+  const parecido = ids.find((id) => contieneFrase(ts, id.replace(/_/g, ' ')));
+  if (parecido) return { id: parecido, interpretado: true, por: `id «${parecido}» dentro del texto` };
   return null;
 }
 
@@ -117,12 +181,17 @@ const TOOLS = [
   {
     name: 'consultar_grafo',
     description:
-      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el nivel de compromiso ICAP esperado. Siempre incluye las restricciones duras. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
+      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Siempre incluye las restricciones duras del ámbito que corresponde: pasa ambito (territorio_o_servicio | personas, la unidad de análisis) o nómbrala en la tarea; si no se puede resolver, entrega todas y lo declara. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
     inputSchema: {
       type: 'object',
-      properties: { tarea: { type: 'string' }, proposito: { type: 'string' }, patron: { type: 'string' } },
+      properties: {
+        tarea: { type: 'string' },
+        proposito: { type: 'string' },
+        patron: { type: 'string' },
+        ambito: { type: 'string', description: 'unidad de análisis: territorio_o_servicio (manzana, unidad vecinal, comuna, sede, consultorio) o personas (estudiante, paciente, trabajadora; siempre desidentificadas). Decide qué restricciones duras aplican.' },
+      },
     },
-    run: ({ tarea, proposito, patron } = {}) => {
+    run: ({ tarea, proposito, patron, ambito } = {}) => {
       const g = K.grafo;
       if (!tarea && !proposito && !patron) {
         return {
@@ -130,11 +199,42 @@ const TOOLS = [
           compromiso: g.compromiso, formas: g.formas, restricciones: g.restricciones,
         };
       }
-      const out = { restricciones_duras: g.restricciones.duras };
+      const out = {};
+      // procedencia por dimensión (Sol, PR #3): cada clave interpretada dice desde qué texto y por qué camino llegó.
+      const interpretado = (dim, r, desde) => {
+        if (!r || !r.interpretado) return;
+        out.interpretado_como = { ...(out.interpretado_como || {}), [dim]: { id: r.id, desde, por: r.por } };
+      };
+      // restricciones duras por ámbito (P1 de Sol: «nunca persona» chocaba con la dispersión de estudiantes). El grafo
+      // (opus, 2-nov-2026) dice en `aplicabilidad` dónde aplica cada una; una que no aparece vale en todo ámbito.
+      // El ámbito se resuelve por parámetro o por palabras que nombran la unidad en la tarea; si no se resuelve,
+      // se entregan todas y se declara. No se adivina.
+      const ambitosIds = (g.restricciones.ambitos || []).map((a) => a.id);
+      const aplicabilidad = g.restricciones.aplicabilidad || {};
+      let ra = ambito ? resolver(ambito, ambitosIds, 'ambito') : null;
+      let resueltoPor = ra ? (ra.interpretado ? `parámetro ambito (${ra.por})` : 'parámetro ambito') : null;
+      if (ambito && !ra) out.aviso_ambito = `ámbito desconocido: «${ambito}»; válidos: ${ambitosIds.join(', ')}. Se entregan todas las restricciones duras.`;
+      if (!ra && !ambito && tarea) {
+        const inferido = resolver(tarea, ambitosIds, 'ambito');
+        if (inferido) { ra = inferido; resueltoPor = `inferido de la tarea (${inferido.por})`; }
+      }
+      const conAplicabilidad = (r) => (aplicabilidad[r.id] ? { ...r, aplica_en: aplicabilidad[r.id] } : r);
+      if (ra && ambitosIds.length) {
+        out.ambito = { id: ra.id, resuelto_por: resueltoPor };
+        out.restricciones_duras = g.restricciones.duras.filter((r) => !aplicabilidad[r.id] || aplicabilidad[r.id].includes(ra.id)).map(conAplicabilidad);
+        out.restricciones_fuera_de_ambito = g.restricciones.duras
+          .filter((r) => aplicabilidad[r.id] && !aplicabilidad[r.id].includes(ra.id))
+          .map((r) => ({ ...r, aplica_en: aplicabilidad[r.id], razon: `aplica solo en ${aplicabilidad[r.id].join(', ')}; el ámbito resuelto es ${ra.id}` }));
+      } else {
+        out.ambito = null;
+        out.restricciones_duras = g.restricciones.duras.map(conAplicabilidad);
+        if (ambitosIds.length && !out.aviso_ambito) out.aviso_ambito = `no se pudo resolver el ámbito (unidad de análisis); se entregan todas las restricciones duras. Las que traen aplica_en valen solo en esos ámbitos: pasa ambito (${ambitosIds.join(' | ')}) o nombra la unidad en la tarea para filtrar.`;
+      }
+      const patronesIds = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
       if (tarea) {
         const r = resolver(tarea, g.tareas.map((t) => t.id), 'tarea');
         out.tarea = r ? r.id : tarea;
-        if (r && r.interpretado) out.interpretado_como = { tarea: r.id, desde: tarea };
+        interpretado('tarea', r, tarea);
         const ids = r ? g.aristas.tarea_forma[r.id] : null;
         out.formas = ids ? g.formas.filter((f) => ids.includes(f.id)) : null;
         if (!r) out.aviso_tarea = `tarea desconocida; válidas: ${g.tareas.map((t) => `${t.id} (${t.desc})`).join(', ')}`;
@@ -143,20 +243,48 @@ const TOOLS = [
       if (proposito) {
         const r = resolver(proposito, g.propositos.map((p) => p.id), 'proposito');
         out.proposito = r ? r.id : proposito;
-        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), proposito: r.id, desde: proposito };
+        interpretado('proposito', r, proposito);
         const ids = r ? g.aristas.proposito_tecnica[r.id] : null;
         out.tecnicas = ids ? K.tecnicas.filter((t) => ids.includes(t.id)) : null;
         if (!r) out.aviso_proposito = `propósito desconocido; válidos: ${g.propositos.map((p) => `${p.id} (${p.desc})`).join(', ')}`;
         else if (!ids) out.aviso_proposito = `el propósito ${r.id} está en el vocabulario pero todavía no tiene técnicas asociadas; crece por PR`;
       }
       if (patron) {
-        const ids = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
-        const r = resolver(patron, ids, 'patron');
+        const r = resolver(patron, patronesIds, 'patron');
         out.patron = r ? r.id : patron;
-        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), patron: r.id, desde: patron };
-        if (!r) out.aviso_patron = `patrón desconocido; válidos: ${ids.join(', ')}`;
-        out.compromiso_esperado = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        interpretado('patron', r, patron);
+        if (!r) out.aviso_patron = `patrón desconocido; válidos: ${patronesIds.join(', ')}`;
+        const piso = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        out.compromiso_esperado = piso; // piso ICAP del grafo (INFERENCIA de la pluma del grafo); la VES lo lee como piso, no como igualdad
+        if (r && INTERACCION[r.id]) {
+          out.interaccion_requerida = true;
+          out.estados_minimos = INTERACCION[r.id];
+          out.si_no_puedes_interactuar = SIN_INTERACCION;
+        } else if (r) {
+          out.interaccion_requerida = false;
+        }
+        if (r && OPERACION[r.id]) {
+          out.operacion_cognitiva_minima = OPERACION[r.id].tipo;
+          out.que_produce_la_persona = OPERACION[r.id].minimo;
+          const efectivo = compromisoConContrato(piso, OPERACION[r.id]);
+          if (efectivo) {
+            out.compromiso_con_contrato = efectivo;
+            if (efectivo !== piso) out.nota_compromiso = `el grafo pone piso ${piso}; cumpliendo los estados mínimos de este contrato (operación «${OPERACION[r.id].tipo}») el compromiso efectivo es ${efectivo}. Si no pides esa operación, declara ${piso}.`;
+          }
+          if (!out.interaccion_requerida) out.si_no_hay_operacion = `una pieza estática que no pide esta operación a quien lee no cumple el patrón: declara el compromiso real (pasivo), no el piso del grafo.`;
+        }
         out.referentes = r ? K.referentes.filter((x) => (x.patron || []).includes(r.id)) : [];
+      } else {
+        // Sol, PR #3: sin patrón, el contrato de interacción no existe y hay que decirlo. No hay arista tarea→patrón ni
+        // propósito→patrón en el grafo (crece por PR), así que los candidatos son todos, con su piso y su contrato.
+        out.interaccion_no_evaluada = true;
+        out.aviso_patron = 'consultaste sin patrón: la dimensión pedagógica quedó sin evaluar. Diseñar una experiencia exige resolver un patrón; elige uno de patrones_candidatos y vuelve a consultar con patron. Si vas a entregar algo estático sin patrón, no lo llames experiencia.';
+        out.patrones_candidatos = patronesIds.map((id) => ({
+          id,
+          compromiso_esperado: g.aristas.patron_compromiso[id] ?? 'sin arista todavía',
+          interaccion_requerida: Boolean(INTERACCION[id]),
+          operacion_cognitiva_minima: OPERACION[id]?.tipo ?? null,
+        }));
       }
       return out;
     },
@@ -219,7 +347,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
