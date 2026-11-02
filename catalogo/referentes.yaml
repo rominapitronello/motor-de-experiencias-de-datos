@@ -223,7 +223,7 @@ referentes:
   - id: "P-23"
     titulo: "Census at School: los datos de nuestra sala"
     titulo_es: "Censo en la escuela"
-    claves_es: "estudiantes sala encuesta propia responder contar comparar curso mediciones"
+    claves_es: "estudiantes sala encuesta propia responder contar comparar grupo escolar mediciones"
     autor: "American Statistical Association / programa internacional Census at School"
     anio: 2000
     url: "https://ww2.amstat.org/censusatschool/about.cfm"
