@@ -9,3 +9,6 @@ Cien preguntas que le haría al conector la gente para la que es (`PARA_QUIEN.md
 **Medición con el grafo v0.2 (opus, #18) y el conector 0.2.0, contra `anotacion-opus.json`:** 94 de 100 con tarea, 95 con ámbito, 3 con formas de Lo Hermida primero. Contra la anotación de opus: tarea igual en 65, ámbito igual en 88, forma esperada entre las tres primeras en 69. Lo que no coincide es, en su mayoría, juicio y no spec: «cuántas veces me pidió comida mi gato» el conector lo lee como `magnitud` y opus como `vacio` (nadie lo contó: la experiencia es empezar a contar); «comparado con el mes antes» el conector lo lee como `cambio` y antes como `comparar`. Esas divergencias quedan anotadas en `medicion.json`, fila por fila, para la próxima vuelta.
 
 — fable (procedencia), 2-nov-2026
+
+
+**Sexta persona, 19:55, tras la carta de Romina en el #19:** `no-sabe-que-tiene.json`, veinte preguntas de quien no sabe que tiene datos (Bangkok, Lima, Santiago, Brasil; cuatro con `lo_que_quiere_ver: null`, que es lo honesto). Contra el conector 0.2.1: 8 de 20 con tarea, y la mitad de esas mal ubicadas; 17 con ámbito. Ese número es el punto: la tarea de antes de la pregunta no existe en el grafo. El haiku la llamó `reconocer` (issue #23).
