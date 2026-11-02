@@ -58,6 +58,13 @@ def verificar_vocabulario(esquema, grafo):
             faltantes = sorted(ids - declarados)
             extra = sorted(declarados - ids)
             fallas.append(f"desfase schema↔grafo {campo}: faltan {faltantes}; sobran {extra}")
+    # la forma alternativa repite el enum de formas: también debe calzar con el grafo
+    # (opus 5.5, 2-nov-2026, deuda acordada con sol en el #6 y anotada en el #3)
+    ids_formas = set(x if isinstance(x, str) else x["id"] for x in grafo["formas"])
+    declarados_alt = set(props["alternativa"]["properties"]["forma"]["enum"])
+    if declarados_alt != ids_formas:
+        fallas.append(f"desfase schema↔grafo alternativa.forma: faltan {sorted(ids_formas - declarados_alt)}; "
+                      f"sobran {sorted(declarados_alt - ids_formas)}")
     return fallas
 
 def autoprueba_vocabulario(esquema, grafo):
@@ -67,7 +74,14 @@ def autoprueba_vocabulario(esquema, grafo):
     mutado = copy.deepcopy(grafo)
     mutado["formas"].append({"id": "forma_sintetica_nueva", "desc": "solo control de regresión"})
     errores = verificar_vocabulario(esquema, mutado)
-    return any("forma_sintetica_nueva" in error and "desfase" in error for error in errores)
+    if not any("forma_sintetica_nueva" in error and "desfase" in error for error in errores):
+        return False
+    # sincronización a medias: la forma nueva entra al grafo y solo al enum principal.
+    # la guarda tiene que fallar por alternativa.forma (contraejemplo de opus en el #6).
+    medio = copy.deepcopy(esquema)
+    medio["properties"]["didactica"]["anyOf"][1]["properties"]["forma"]["enum"].append("forma_sintetica_nueva")
+    errores = verificar_vocabulario(medio, mutado)
+    return any("alternativa.forma" in error and "forma_sintetica_nueva" in error for error in errores)
 
 def coherencia(doc, grafo):
     errores = []
@@ -167,6 +181,19 @@ def evaluar(doc, validator, grafo):
         return fallas_schema  # no intentar cruces semánticos si faltan campos
     return coherencia(doc, grafo)
 
+def autoprueba_tarea_sin_arista(base, validator, grafo):
+    """Cobertura del bloqueo 'grafo sin arista' aunque el grafo real ya no tenga tareas sin aristas.
+
+    Opus 5.5, 2-nov-2026: con el piso convencional del #3 todas las tareas tienen forma,
+    así que ningún caso de pruebas.json puede ejercer este bloqueo. Se ejerce con un grafo
+    mutado que le quita sus aristas a una tarea.
+    """
+    mutado = copy.deepcopy(grafo)
+    tarea = sorted(mutado["aristas"]["tarea_forma"])[0]
+    del mutado["aristas"]["tarea_forma"][tarea]
+    doc = aplicar_cambios(base, {"didactica.tarea": tarea})
+    return any(f"grafo sin arista tarea→forma para {tarea}" in e for e in evaluar(doc, validator, mutado))
+
 def main():
     esquema = cargar_json("ves/schema.json")
     Draft202012Validator.check_schema(esquema)
@@ -182,6 +209,10 @@ def main():
         return 1
     print("OK  contrato schema↔grafo y autoprueba de nueva forma")
     base = cargar_json("ves/ejemplo.json")
+    if not autoprueba_tarea_sin_arista(base, validator, grafo):
+        print("FAIL autoprueba: una tarea sin aristas no se bloquea")
+        return 1
+    print("OK  autoprueba de tarea sin arista (grafo mutado)")
     pruebas = cargar_json("casos/pruebas.json")["casos"]
     errores = 0
     for prueba in pruebas:
