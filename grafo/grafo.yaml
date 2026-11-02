@@ -189,7 +189,7 @@ aristas:
     estado: [matriz_estados, barra_de_avance, lista_corta]  # + v0.2 opus: INFERENCIA (ppt-08, prof-05, prof-11, cart-19)
     incertidumbre: [resultados_discretos]
     # fuente, además de hullman 2018: cuadro n.º 1, «deficiencia en viviendas en 1952, según diferentes hipótesis (cifras redondas)», p. 112 de corfo,
-    # «programa nacional de desarrollo económico 1961-1970» (título según romina, que tiene el ejemplar; fecha de edición: null), fotografiado por romina en la feria de av. valparaíso (#27). siete hipótesis en vez de una cifra: el déficit va de 45 a 447 mil
+    # «programa nacional de desarrollo económico 1961-1970» (ejemplar de romina: aprobado por el consejo de corfo por unanimidad en la sesión extraordinaria n.º 783 del 18-ene-1961, ley n.º 6.640; impreso en talleres gráficos «la nación», santiago; año de impresión: null, no aparece en las páginas fotografiadas; no está en internet), fotografiado por romina en la feria de av. valparaíso (#27). siete hipótesis en vez de una cifra: el déficit va de 45 a 447 mil
     # viviendas, y con la hipótesis cambia también la conclusión: en I y II la mayoría es rural (58 y 60 %), de la III en adelante es urbana.
     # opus 5.5 verificó las 28 sumas y porcentajes del cuadro: todas cuadran. la definición no mueve solo el tamaño, mueve la historia.
     procedencia: [ficha_procedencia]
