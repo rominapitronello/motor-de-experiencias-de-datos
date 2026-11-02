@@ -317,7 +317,10 @@
                 "estado",
                 "incertidumbre",
                 "procedencia",
-                "vacio"
+                "vacio",
+                "estimar",
+                "proyectar",
+                "leer"
               ]
             },
             "proposito": {
@@ -331,7 +334,9 @@
                 "mostrar_incertidumbre",
                 "invitar_a_explorar",
                 "rendicion_de_cuentas",
-                "activos_primero"
+                "activos_primero",
+                "jugar",
+                "perder_el_miedo"
               ]
             },
             "patron": {
@@ -377,7 +382,21 @@
                 "serie_temporal",
                 "dispersion",
                 "histograma",
-                "boxplot"
+                "boxplot",
+                "cifra_grande",
+                "pictograma",
+                "palitos",
+                "barras_simples",
+                "antes_y_despues",
+                "tabla_en_voz_alta",
+                "lista_corta",
+                "barra_de_avance",
+                "escala_con_tramos",
+                "cuenta_a_la_vista",
+                "linea_con_proyeccion",
+                "desglose_del_cambio",
+                "lo_mismo_anotado",
+                "planilla_para_empezar"
               ]
             },
             "tecnica_id": {
@@ -411,7 +430,21 @@
                     "serie_temporal",
                     "dispersion",
                     "histograma",
-                    "boxplot"
+                    "boxplot",
+                    "cifra_grande",
+                    "pictograma",
+                    "palitos",
+                    "barras_simples",
+                    "antes_y_despues",
+                    "tabla_en_voz_alta",
+                    "lista_corta",
+                    "barra_de_avance",
+                    "escala_con_tramos",
+                    "cuenta_a_la_vista",
+                    "linea_con_proyeccion",
+                    "desglose_del_cambio",
+                    "lo_mismo_anotado",
+                    "planilla_para_empezar"
                   ]
                 },
                 "motivo": {

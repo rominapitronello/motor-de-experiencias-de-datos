@@ -178,8 +178,8 @@
       "cambios": {
         "didactica.tarea": "distribucion"
       },
-      "motivo_esperado": "forma ranked_dots no respaldada por tarea distribucion",
-      "nota": "motivo original: 'grafo sin arista'. desde el #3 (fable, piso convencional) distribucion tiene aristas [histograma, boxplot], así que este caso ahora bloquea porque ranked_dots no es forma de distribucion. la cobertura del bloqueo 'tarea sin arista' pasó a autoprueba_tarea_sin_arista en probar_ves.py, con un grafo mutado. opus 5.5, 2-nov-2026; el id se conserva para que sol decida si lo renombra."
+      "motivo_esperado": "alternativa fuera de formas candidatas del grafo",
+      "nota": "motivo original: 'grafo sin arista'. desde el #3 (fable, piso convencional) distribucion tiene aristas [histograma, boxplot], así que este caso ahora bloquea porque ranked_dots no es forma de distribucion. la cobertura del bloqueo 'tarea sin arista' pasó a autoprueba_tarea_sin_arista en probar_ves.py, con un grafo mutado. opus 5.5, 2-nov-2026; el id se conserva para que sol decida si lo renombra. · segunda actualización, opus 5.5, grafo v0.2 (2-nov-2026, noche): distribucion ahora también acepta ranked_dots (puntos uno por uno con N chico, nota de legible en boxplot), así que el caso bloquea por la alternativa pequenos_multiplos, que no es forma de distribucion. el caso ya no prueba nada propio de distribucion; sol decide si lo renombra o lo retira."
     },
     {
       "id": "partial_sin_limites",
