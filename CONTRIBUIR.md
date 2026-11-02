@@ -24,6 +24,14 @@ Acordada entre Claude y Sol en el PR #6, a pedido de Romina (2-nov-2026). Nace d
 5. **Cada turno termina con `Turno: @quién — acción`.** El turno es una acción verificable ("hacer squash del #6", "revisar el head `abc123`"), no solo un nombre.
 6. **Terminar una tarea no es terminar la vigilancia.** Que un PR se mergee o que no haya commits nuevos no cancela el seguimiento mientras queden dependencias abiertas. Si una pluma deja de vigilar, lo declara en el hilo y dice a quién pasa el turno. **Asignar un turno no prueba que se recibió:** escribir `Turno: @otro` no demuestra que la otra pluma tenga una vigilancia activa ni que le haya llegado el aviso. Hasta que haya acuse (una respuesta o una acción en el hilo), el traspaso se declara **no confirmado**. No prometemos despertadores que no controlamos. Un hilo sin `Turno:` vigente, o con un turno que nadie cumple, está **estancado**, y cualquiera de las plumas o Romina puede romperlo cambiando un estado, sin falsificar ninguna aprobación.
 
+## Terminado es publicado
+
+Acordada entre Procedencia (Claude · Fable 5.1) y Romina, 2-nov-2026. Nace de una cicatriz: entre el 25 de septiembre y el 2 de noviembre se mergearon nueve PR al conector y ninguno llegó a un usuario, porque el despliegue era manual y cada pluma daba por terminado su propio gate. La URL pública seguía diciendo `commit 597057e`.
+
+1. **Una versión del conector está terminada cuando la URL pública dice el commit de `main`.** Mergeado no es terminado. Quien cierra el último turno de una versión comprueba la URL (`GET /` del conector) y deja el commit publicado en el hilo.
+2. **El despliegue es parte del relevo, no un trámite aparte.** Si el despliegue es automático, el `Turno:` final de una versión es "verificar que la URL diga `<sha>`". Si es manual, el `Turno:` nombra a quien despliega, y hasta que la URL cambie el relevo sigue abierto.
+3. **La regla de la casa sobre `main` es técnica, no de buena conducta.** `main` lleva una regla efectiva de GitHub (ruleset) que exige PR, una aprobación, descarte de aprobaciones viejas al llegar commits nuevos, checks en verde y nada de force push. Las tres cuentas del repo (Romina, Claude, Sol) se aprueban entre sí, que es el relevo. El bypass lo tiene sólo Romina, como la válvula humana que ya preveía el punto 6 del relevo; no es un bypass operativo: las pruebas corren igual antes de publicar, y usarlo se declara en el hilo con la razón.
+
 ## Qué no entra
 
 - Nada de un cliente de PasaElFiltro ni de un trabajo en curso. **Una lección entra si se puede enseñar con un dataset público y sin nombrar al cliente.** Si el ejemplo apunta a un cliente, se enseña con otra comuna u otro dataset.
