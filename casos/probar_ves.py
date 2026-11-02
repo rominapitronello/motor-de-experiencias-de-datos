@@ -88,8 +88,12 @@ def coherencia(doc, grafo):
     rev = doc["revision"]
     vacios = rev["vacios"]
     tipos = [v["tipo"] for v in vacios]
+    unidad = doc["pregunta"]["unidad_analisis"]
     tipos_esperados = {"sin_residentes", "fusion_organismo", "agregacion_propia"}
-    if set(tipos) != tipos_esperados or len(tipos) != 3:
+    if unidad == "persona":
+        if vacios:
+            errores.append("vacios: persona no usa las tres clases censales")
+    elif set(tipos) != tipos_esperados or len(tipos) != 3:
         errores.append("vacios: faltan clases o hay duplicados")
     trampas_ids = [t["id"] for t in rev["trampas"]]
     if len(trampas_ids) != len(set(trampas_ids)):
@@ -116,7 +120,7 @@ def coherencia(doc, grafo):
         errores.append("hay clases de vacío sin evaluar")
     if doc["seguridad"]["celdas_pequenas"] == "pendientes":
         errores.append("celdas pequeñas sin resolver")
-    if doc["seguridad"]["celdas_pequenas"] == "agregadas":
+    if doc["seguridad"]["celdas_pequenas"] == "agregadas" and unidad != "persona":
         propia = [v for v in vacios if v["tipo"] == "agregacion_propia"]
         if len(propia) != 1 or propia[0]["estado"] != "presente" or not propia[0]["leyenda"].strip():
             errores.append("agregacion_propia: celdas pequeñas agregadas requieren vacío presente y leyenda")

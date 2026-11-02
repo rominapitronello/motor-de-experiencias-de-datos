@@ -428,6 +428,61 @@
         "didactica.forma": "serie_temporal",
         "didactica.alternativa.forma": "histograma"
       }
+    },
+    {
+      "id": "persona_sintetica_desidentificada",
+      "esperado_valido": true,
+      "cambios": {
+        "pregunta.unidad_analisis": "persona",
+        "revision.vacios": [],
+        "fuentes.0.nivel_geografico": "no_aplica"
+      }
+    },
+    {
+      "id": "persona_con_vacios_censales",
+      "esperado_valido": false,
+      "cambios": {
+        "pregunta.unidad_analisis": "persona"
+      },
+      "nota": "No fingir categorías censales para observaciones de personas."
+    },
+    {
+      "id": "territorio_sin_vacios",
+      "esperado_valido": false,
+      "cambios": {
+        "pregunta.unidad_analisis": "territorio",
+        "revision.vacios": []
+      }
+    },
+    {
+      "id": "persona_con_identificables",
+      "esperado_valido": false,
+      "cambios": {
+        "pregunta.unidad_analisis": "persona",
+        "revision.vacios": [],
+        "seguridad.datos_personales": true
+      },
+      "motivo_esperado": "False was expected"
+    },
+    {
+      "id": "persona_celdas_agregadas_con_umbral",
+      "esperado_valido": true,
+      "cambios": {
+        "pregunta.unidad_analisis": "persona",
+        "revision.vacios": [],
+        "seguridad.celdas_pequenas": "agregadas",
+        "seguridad.umbral_agregacion": 5
+      }
+    },
+    {
+      "id": "persona_celdas_agregadas_sin_umbral",
+      "esperado_valido": false,
+      "cambios": {
+        "pregunta.unidad_analisis": "persona",
+        "revision.vacios": [],
+        "seguridad.celdas_pequenas": "agregadas"
+      },
+      "motivo_esperado": "integer"
     }
   ]
 }
