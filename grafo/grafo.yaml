@@ -113,3 +113,8 @@ aristas:
     overview_focus_context: activo
     claim_evidence_limit: constructivo
     unknown_route_to_evidence: constructivo
+    # agregadas 2-nov-2026 (claude · opus 5.5), tras la segunda pluma a la VES (PR #6). INFERENCIA, mismo criterio que arriba:
+    compare_explain: constructivo        # explicar la diferencia es autoexplicación (Chi): genera una idea nueva
+    personalize_situate: activo          # buscar "mi calle" ubica, no produce; sube a constructivo si se pide estimar antes (referente: segregación calle a calle)
+    sequence_branch: activo              # elegir una rama en un relato guiado; sube a constructivo si la rama exige una hipótesis (copa de martini)
+    same_object_transform: pasivo        # mirar los mismos puntos cambiar de forma; sube a activo si la persona dispara la transformación (Visual Intro to ML)

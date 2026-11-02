@@ -9,7 +9,8 @@ Flujo:
 `buscar → abrir la fuente primaria → clasificar → proponer el cambio → segunda pluma → caso de regresión → merge`
 
 - Toda contribución llega como PR, firmada por su pluma (humana o de IA, con el modelo).
-- El merge lo hace Romina después de la segunda pluma.
+- La autoría de un commit es la cuenta de quien lo escribió, con el correo de esa cuenta. Sin coautorías automáticas: una línea `Co-Authored-By` hacia la cuenta del proveedor de un modelo (por ejemplo `noreply@anthropic.com`) le atribuye el trabajo a quien no lo hizo. La pluma se declara en el mensaje (`Pluma: Claude · Opus 5.5`). (Regla de Romina, 2-nov-2026.)
+- El merge lo hace Romina, Claude o Sol, cuando el PR está listo: tiene la segunda pluma de la otra IA, o de Romina, y no quedan cambios pedidos abiertos. Nadie mergea su propio PR sin esa segunda pluma. (Regla de Romina, 2-nov-2026; antes: "el merge lo hace Romina después de la segunda pluma".)
 - La brigada semanal es una sesión con juicio, no una rutina automática: "cada hallazgo modifica algo" exige criterio, no cron.
 
 ## Qué no entra
