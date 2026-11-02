@@ -2,9 +2,11 @@
 # opus 5.5, 2-nov-2026, a pedido de romina: hasta hoy se desplegaba a mano y el conector publicado
 # seguía en el commit 597057e (25-sep) mientras main avanzaba. así, lo publicado es siempre main.
 #
-# corre solo en main (después de un merge con segunda pluma) o a mano desde la pestaña Actions.
+# corre solo desde main: después de un merge, o a mano desde la pestaña Actions eligiendo main.
 # antes de publicar repite las mismas pruebas del CI; si alguna falla, no publica nada.
 # necesita dos secretos del repo: CLOUDFLARE_API_TOKEN (permiso mínimo: editar Workers) y CLOUDFLARE_ACCOUNT_ID.
+# la segunda pluma la garantiza la protección de la rama main, no este archivo (ver el PR #13).
+# segunda pluma de sol en el #13: gate de ref, reintento real y no publicar si main ya avanzó.
 name: MCP deploy
 on:
   push:
@@ -22,7 +24,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   deploy:
-    if: github.repository == 'rominapitronello/motor-de-experiencias-de-datos'
+    # solo este repo y solo main: un despacho manual desde otra rama no publica (sol, #13)
+    if: github.repository == 'rominapitronello/motor-de-experiencias-de-datos' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -52,19 +55,39 @@ jobs:
         working-directory: mcp
       - run: npm test
         working-directory: mcp
+      # una ejecución atrasada no publica código viejo: si main ya avanzó, la publica la ejecución siguiente
+      - name: este commit sigue siendo la punta de main
+        id: punta
+        run: |
+          git fetch --quiet origin main
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+            echo "publicar=si" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::main avanzó a $(git rev-parse --short origin/main); este run ($(git rev-parse --short HEAD)) no publica"
+            echo "publicar=no" >> "$GITHUB_OUTPUT"
+          fi
       - name: publicar en cloudflare
+        if: steps.punta.outputs.publicar == 'si'
         working-directory: mcp
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy
-      # el conector dice desde qué commit se construyó; si no es este, la publicación no quedó
+      # el conector dice desde qué commit se construyó; si no es este, la publicación no quedó.
+      # un curl que falla no corta el bucle: se anota y se reintenta (sol, #13)
       - name: comprobar el commit publicado
+        if: steps.punta.outputs.publicar == 'si'
         run: |
           esperado="$(git rev-parse --short HEAD)"
           for intento in 1 2 3 4 5 6; do
-            publicado="$(curl -fsS https://experiencias-datos.romina-pitronello.workers.dev/ | sed -n 's/^conocimiento: commit \([^,]*\),.*/\1/p')"
-            if [ "$publicado" = "$esperado" ]; then echo "publicado: commit $publicado"; exit 0; fi
-            echo "intento $intento: el conector dice $publicado, se esperaba $esperado"; sleep 10
+            if respuesta="$(curl -fsS --max-time 10 https://experiencias-datos.romina-pitronello.workers.dev/)"; then
+              publicado="$(printf '%s\n' "$respuesta" | sed -n 's/^conocimiento: commit \([^,]*\),.*/\1/p')"
+              if [ "$publicado" = "$esperado" ]; then echo "publicado: commit $publicado"; exit 0; fi
+              echo "intento $intento: el conector dice '$publicado', se esperaba $esperado"
+            else
+              echo "intento $intento: el conector no respondió"
+            fi
+            sleep 10
           done
-          echo "::error::el conector publicado no coincide con main ($esperado)"; exit 1
+          echo "::error::el conector publicado no coincide con main ($esperado) después de 6 intentos"
+          exit 1
