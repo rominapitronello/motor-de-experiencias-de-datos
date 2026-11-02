@@ -36,7 +36,8 @@
           "type": "string",
           "enum": [
             "territorio",
-            "servicio"
+            "servicio",
+            "persona"
           ]
         }
       }
@@ -247,7 +248,7 @@
         },
         "vacios": {
           "type": "array",
-          "minItems": 3,
+          "minItems": 0,
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -649,6 +650,47 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pregunta": {
+            "properties": {
+              "unidad_analisis": {
+                "const": "persona"
+              }
+            },
+            "required": [
+              "unidad_analisis"
+            ]
+          }
+        },
+        "required": [
+          "pregunta"
+        ]
+      },
+      "then": {
+        "properties": {
+          "revision": {
+            "properties": {
+              "vacios": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "revision": {
+            "properties": {
+              "vacios": {
+                "minItems": 3
+              }
+            }
+          }
+        }
+      }
+    },
     {
       "if": {
         "properties": {
