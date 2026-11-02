@@ -188,6 +188,10 @@ aristas:
     secuencia: [linea_de_tiempo]
     estado: [matriz_estados, barra_de_avance, lista_corta]  # + v0.2 opus: INFERENCIA (ppt-08, prof-05, prof-11, cart-19)
     incertidumbre: [resultados_discretos]
+    # fuente, además de hullman 2018: cuadro n.º 1, «deficiencia en viviendas en 1952, según diferentes hipótesis (cifras redondas)», p. 112 de un libro
+    # chileno sin identificar, fotografiado por romina en la feria de av. valparaíso (#27). siete hipótesis en vez de una cifra: el déficit va de 45 a 447 mil
+    # viviendas, y con la hipótesis cambia también la conclusión: en I y II la mayoría es rural (58 y 60 %), de la III en adelante es urbana.
+    # opus 5.5 verificó las 28 sumas y porcentajes del cuadro: todas cuadran. la definición no mueve solo el tamaño, mueve la historia.
     procedencia: [ficha_procedencia]
     vacio: [mapa_sin_base, ficha_procedencia, planilla_para_empezar]  # + v0.2 opus: INFERENCIA: cuando nadie lo contó, la experiencia es empezar a contarlo (casa-19, casa-06, casa-14)
     # v0.2, opus 5.5: aristas de las tres tareas nuevas. INFERENCIA desde el corpus.
@@ -280,14 +284,14 @@ palabras_de_la_gente:   # cómo dice la gente cada tarea y cada ámbito. los ids
   estado:        {es: ["cuánto nos falta", "llevamos", "cuánto falta pa el recreo", "cuántas cuotas me quedan"], pt: ["quanto falta", "já temos"], en: ["how much is left", "how far along are we"]}
   vacio:         {es: ["no sé cuántos", "el sistema no lo guardaba", "sin que nadie me viera"], pt: ["não sei quantos", "o sistema não guardou"], en: ["I don't know how many", "nobody counted"]}
   procedencia:   {es: ["de dónde sale este número", "es verdad o es mentira"], pt: ["de onde vem esse número"], en: ["where does this number come from"]}
-  estimar:       {es: ["más o menos", "tiro un número", "ni idea po", "en un año"], pt: ["mais ou menos", "chuta um número"], en: ["roughly", "ballpark", "in a year"]}
+  estimar:       {es: ["más o menos", "tiro un número", "ni idea po", "en un año", "cifras redondas"], pt: ["mais ou menos", "chuta um número", "números redondos"], en: ["roughly", "ballpark", "in a year", "round figures"]}  # + v0.3 opus: «cifras redondas», mismo cuadro (#27)
   proyectar:     {es: ["si sigo así", "me alcanza", "cuándo me quedo sin plata"], pt: ["se eu continuar assim", "vai dar até o fim do mês"], en: ["if I keep this up", "will it last", "when will I run out"]}
   leer:          {es: ["qué me quieren decir", "no entiendo este gráfico", "cómo se lee", "explícamelo"], pt: ["não entendo esse gráfico", "como se lê"], en: ["what is this chart telling me", "how do I read this"]}
   datos_propios: {es: ["mi cartola", "mi boleta", "mi perro", "el excel de la pega"], pt: ["meu extrato", "minha conta de luz", "meu cachorro"], en: ["my bank statement", "my bill", "my dog", "my work spreadsheet"]}
   la_sala:       {es: ["levanten la mano", "el curso", "los niños", "chiquillos", "el taller"], pt: ["levantem a mão", "a turma", "as crianças"], en: ["raise your hand", "the class", "the kids"]}
   secuencia:     {es: ["qué pasó primero", "en qué orden"], pt: ["o que aconteceu primeiro"], en: ["what happened first", "in what order"]}
   flujo:         {es: ["de dónde a dónde", "cuántos vienen en micro"], pt: ["de onde para onde"], en: ["from where to where"]}
-  incertidumbre: {es: ["qué tan seguro", "puede ser más o menos"], pt: ["quão certo"], en: ["how sure", "could be more or less"]}
+  incertidumbre: {es: ["qué tan seguro", "puede ser más o menos", "según diferentes hipótesis", "hipótesis"], pt: ["quão certo", "segundo diferentes hipóteses"], en: ["how sure", "could be more or less", "under different assumptions"]}  # + v0.3 opus: «según diferentes hipótesis», cuadro n.º 1 de 1952, regalo de romina (#27)
   territorio_o_servicio: {es: ["por comuna", "en mi barrio", "el INE", "el censo"], pt: ["por município", "no meu bairro"], en: ["by district", "in my neighborhood", "census"]}
   personas:      {es: ["por estudiante", "los trabajadores", "los socios", "cada vendedor"], pt: ["por aluno", "os trabalhadores"], en: ["per student", "the workers", "each salesperson"]}
   # v0.3, opus 5.5. es: de corpus/no-sabe-que-tiene.json y del issue #22; pt y en: el corpus nuevo trae algunas (nsq-01, nsq-02, nsq-18), el resto INFERENCIA.
