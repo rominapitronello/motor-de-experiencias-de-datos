@@ -1,0 +1,197 @@
+{
+  "base": "../ves/ejemplo.json",
+  "casos": [
+    {
+      "id": "base_valida",
+      "esperado_valido": true,
+      "cambios": {}
+    },
+    {
+      "id": "parcial_visible",
+      "esperado_valido": true,
+      "cambios": {
+        "capacidad.estado": "partial",
+        "capacidad.no_afirmar": [
+          "No puede inferirse causalidad.",
+          "No extrapolar a otras zonas."
+        ],
+        "capacidad.limites": [
+          "Solo se representa el dato sintético observado."
+        ]
+      }
+    },
+    {
+      "id": "no_responde_bloquea",
+      "esperado_valido": true,
+      "cambios": {
+        "capacidad.estado": "not_answerable",
+        "capacidad.afirmaciones": [],
+        "capacidad.limites": [
+          "No se dispone de información para responder."
+        ],
+        "didactica": null,
+        "render": null,
+        "decision.accion": "bloquear",
+        "decision.motivos": [
+          "Faltan fuentes para responder la pregunta."
+        ]
+      }
+    },
+    {
+      "id": "no_responde_pero_dibuja",
+      "esperado_valido": false,
+      "cambios": {
+        "capacidad.estado": "not_answerable"
+      }
+    },
+    {
+      "id": "trampa_pendiente",
+      "esperado_valido": false,
+      "cambios": {
+        "revision.trampas": [
+          {
+            "id": "TR-01",
+            "estado": "pendiente",
+            "motivo": "Falta comprobar el contenedor."
+          }
+        ]
+      }
+    },
+    {
+      "id": "vacio_no_evaluado",
+      "esperado_valido": false,
+      "cambios": {
+        "revision.vacios.1.estado": "no_evaluado"
+      }
+    },
+    {
+      "id": "vacio_duplicado",
+      "esperado_valido": false,
+      "cambios": {
+        "revision.vacios.2.tipo": "fusion_organismo"
+      }
+    },
+    {
+      "id": "celda_sin_agregar",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.celdas_pequenas": "pendientes"
+      }
+    },
+    {
+      "id": "celda_agregada_sin_umbral",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.celdas_pequenas": "agregadas"
+      }
+    },
+    {
+      "id": "coropletico_conteos_brutos",
+      "esperado_valido": false,
+      "cambios": {
+        "render.codificacion.usa_coropletico": true
+      }
+    },
+    {
+      "id": "forma_fuera_del_grafo",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.forma": "slope"
+      }
+    },
+    {
+      "id": "patron_icap_incompatible",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.compromiso": "pasivo"
+      }
+    },
+    {
+      "id": "tecnica_fuera_del_grafo",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.tecnica_id": "T-01"
+      }
+    },
+    {
+      "id": "proxy_sin_definicion",
+      "esperado_valido": false,
+      "cambios": {
+        "capacidad.afirmaciones.0.tipo": "proxy",
+        "capacidad.afirmaciones.0.definicion": ""
+      }
+    },
+    {
+      "id": "datos_personales",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.datos_personales": true
+      }
+    },
+    {
+      "id": "sin_fecha",
+      "esperado_valido": false,
+      "cambios": {
+        "fuentes.0.fecha_corte": ""
+      }
+    },
+    {
+      "id": "dato_tiembla",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.dato_quieto": false
+      }
+    },
+    {
+      "id": "reduced_motion_no",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.reduced_motion": false
+      }
+    },
+    {
+      "id": "pagina_con_teselas",
+      "esperado_valido": false,
+      "cambios": {
+        "render.publicacion.sin_teselas": false
+      }
+    },
+    {
+      "id": "distribucion_sin_arista",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.tarea": "distribucion"
+      }
+    },
+    {
+      "id": "partial_sin_limites",
+      "esperado_valido": false,
+      "cambios": {
+        "capacidad.estado": "partial",
+        "capacidad.limites": []
+      }
+    },
+    {
+      "id": "render_sin_didactica",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica": null
+      }
+    },
+    {
+      "id": "bloquear_pero_render",
+      "esperado_valido": false,
+      "cambios": {
+        "decision.accion": "bloquear"
+      }
+    },
+    {
+      "id": "vacio_presente_sin_leyenda",
+      "esperado_valido": false,
+      "cambios": {
+        "revision.vacios.0.estado": "presente",
+        "revision.vacios.0.leyenda": ""
+      }
+    }
+  ]
+}
