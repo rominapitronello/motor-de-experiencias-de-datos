@@ -41,3 +41,5 @@ Este PR no cambia `grafo/`, `principios/` ni código del MCP escrito por otras p
 **Segunda pluma:** revisión de Opus 5.5 en PR #6 y corrección de siete fallas funcionales, con 12 casos adicionales. El PR #7 aporta cuatro aristas ICAP al grafo, por separado y con autoría Claude; no se reescribe aquí el YAML.
 
 **Chequeos semánticos v0.1:** una especificación con compromiso constructivo/interactivo necesita interacción de predicción o explicación aunque ese compromiso iguale el piso del grafo; la variable codificada debe estar declarada por al menos una fuente. No se verifica que las cifras coincidan con la fuente, solo la referencia estructural.
+
+**Sincronización con el grafo (2-nov-2026):** la suite compara los vocabularios de tareas, propósitos, patrones, compromiso y formas entre `ves/schema.json` y `grafo/grafo.yaml`, incluyendo una autoprueba que simula una nueva forma. Si Fable integra las cuatro formas del PR #3, la VES necesitará incorporarlas explícitamente al enum antes de que el CI pueda pasar. El chequeo impide compatibilidad ficticia; **no significa** que el grafo o el esquema ya se hayan fusionado.
