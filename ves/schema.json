@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://pasaelfiltro.cl/schemas/ves/0.1",
-  "title": "Visualization Experience Spec (VES) v0.1 — pluma Sol",
+  "title": "Visualization Experience Spec (VES) v0.2 — pluma Sol",
   "description": "Contrata afirmaciones, fuente y experiencia antes del renderer. JSON Schema valida la estructura; los cruces semánticos viven en casos/probar_ves.py.",
   "type": "object",
   "additionalProperties": false,
@@ -18,7 +18,7 @@
   ],
   "properties": {
     "version": {
-      "const": "0.1"
+      "const": "0.2"
     },
     "pregunta": {
       "type": "object",
@@ -298,7 +298,8 @@
             "forma",
             "tecnica_id",
             "alternativa",
-            "justificacion"
+            "justificacion",
+            "andamiaje"
           ],
           "properties": {
             "tarea": {
@@ -456,6 +457,95 @@
             "justificacion": {
               "type": "string",
               "minLength": 1
+            },
+            "andamiaje": {
+              "type": "object",
+              "description": "Contrato de adaptación para la experiencia, no diagnóstico ni nivel fijo de la persona. La pista se basa en la pregunta, preferencia, contexto autorizado, o se deja en null. Pluma Sol · GPT-6; carta Romina PR #19, issue #23.",
+              "additionalProperties": false,
+              "required": [
+                "lenguaje",
+                "base_ajuste",
+                "pista_observable",
+                "primer_paso",
+                "siguiente_paso",
+                "paso_opcional",
+                "sin_calificar"
+              ],
+              "properties": {
+                "lenguaje": {
+                  "type": "string",
+                  "enum": [
+                    "cotidiano",
+                    "cotidiano_con_terminos",
+                    "tecnico"
+                  ],
+                  "description": "Nivel de lenguaje de esta experiencia, NO calificación de competencia de la persona."
+                },
+                "base_ajuste": {
+                  "type": "string",
+                  "enum": [
+                    "pregunta_actual",
+                    "preferencia_declarada",
+                    "contexto_autorizado",
+                    "sin_evidencia"
+                  ],
+                  "description": "Por qué se eligió el lenguaje y punto de entrada. No deducir habilidad de errores de escritura, idioma o edad."
+                },
+                "pista_observable": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "Frase o preferencia que justifica el ajuste, sin datos sensibles; null cuando no hay evidencia."
+                },
+                "primer_paso": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Acción accesible en el punto de partida de esta interacción, no un test de conocimientos."
+                },
+                "siguiente_paso": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Invitación concreta a descubrir algo nuevo si la persona quiere. Debe poder decir que no."
+                },
+                "paso_opcional": {
+                  "const": true,
+                  "description": "Se puede cerrar con la respuesta actual; el siguiente paso no se exige."
+                },
+                "sin_calificar": {
+                  "const": true,
+                  "description": "No se puntúa ni califica a la persona por sus respuestas o dudas."
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "base_ajuste": {
+                        "const": "sin_evidencia"
+                      }
+                    },
+                    "required": [
+                      "base_ajuste"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "pista_observable": {
+                        "type": "null"
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "pista_observable": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              ]
             }
           }
         }

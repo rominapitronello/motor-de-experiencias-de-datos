@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "pregunta": {
     "texto": "En este ejercicio sintético, ¿en qué zona hay más unidades de servicio?",
     "unidad_analisis": "servicio"
@@ -67,7 +67,16 @@
       "forma": "pequenos_multiplos",
       "motivo": "Comparación equivalente, menos compacta."
     },
-    "justificacion": "Dos cantidades ficticias pueden compararse sobre un eje común."
+    "justificacion": "Dos cantidades ficticias pueden compararse sobre un eje común.",
+    "andamiaje": {
+      "lenguaje": "cotidiano",
+      "base_ajuste": "pregunta_actual",
+      "pista_observable": "La pregunta compara dos cantidades concretas y no solicita tecnicismos; no se infiere la habilidad de quien pregunta.",
+      "primer_paso": "Mostrar A y B con la misma unidad y preguntar qué diferencia ve la persona, sin calificarla.",
+      "siguiente_paso": "Si quiere, comparar cuánto cambia la diferencia cuando se modifica uno de los valores del ejemplo sintético.",
+      "paso_opcional": true,
+      "sin_calificar": true
+    }
   },
   "render": {
     "titulo": "En los datos sintéticos, la zona A tiene más unidades de servicio",
