@@ -1,27 +1,29 @@
 {
   "resumen": {
-    "commit": "15bd3dc",
-    "medido": "2026-11-02T22:14:43.500Z",
-    "preguntas": 100,
-    "con_tarea": 94,
-    "sin_tarea": 6,
-    "con_ambito": 95,
-    "formas_de_lo_hermida_en_magnitud": 3,
+    "commit": "070c133",
+    "medido": "2026-11-02T23:22:30.949Z",
+    "preguntas": 120,
+    "con_tarea": 112,
+    "sin_tarea": 8,
+    "con_ambito": 112,
+    "formas_de_lo_hermida_en_magnitud": 4,
     "contra_anotacion_opus": {
-      "tarea_igual": 65,
-      "ambito_igual": 88,
-      "forma_esperada_en_primeras_3": 69,
-      "de": 100
+      "tarea_igual": 76,
+      "ambito_igual": 102,
+      "forma_esperada_en_primeras_3": 79,
+      "de": 120
     },
     "por_tarea": {
-      "magnitud": 39,
+      "magnitud": 44,
       "cambio": 10,
       "parte_todo": 3,
-      "estimar": 6,
+      "estimar": 7,
       "proyectar": 2,
       "ordenar": 4,
       "estado": 5,
       "vacio": 2,
+      "reconocer": 11,
+      "secuencia": 1,
       "leer": 10,
       "comparar": 6,
       "localizar": 2,
@@ -41,6 +43,12 @@
         "entendidas": 20,
         "tarea_ok": 9,
         "ambito_ok": 20
+      },
+      "no-sabe-que-tiene": {
+        "total": 20,
+        "entendidas": 18,
+        "tarea_ok": 11,
+        "ambito_ok": 14
       },
       "no-soy-de-numeros": {
         "total": 20,
@@ -184,7 +192,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -316,7 +325,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -600,7 +610,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -764,7 +775,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -984,7 +996,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -1036,7 +1049,8 @@
       "formas": [
         "cuenta_a_la_vista",
         "cifra_grande",
-        "resultados_discretos"
+        "resultados_discretos",
+        "pictograma"
       ],
       "ambito": "datos_propios",
       "proposito_sugerido": null,
@@ -1128,6 +1142,520 @@
         "tarea": false,
         "ambito": true,
         "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-01",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "how do i know how many people come into my shop every month? i think its a lot but i never counted",
+      "tarea": "magnitud",
+      "por": "sinónimo «how many»",
+      "formas": [
+        "unit_chart",
+        "dorling",
+        "cifra_grande",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "lista_corta",
+        "cuenta_a_la_vista"
+      ],
+      "ambito": null,
+      "proposito_sugerido": "curiosidad",
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "un_registro_desarmado"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-02",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "my niece says the qr payment app writes down every sale. is that true? can i see it or is it just for the bank",
+      "tarea": "reconocer",
+      "por": "sinónimo «writes down every sale»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-03",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi hijo me preguntó cuánta comida come un elefante al mes y al año y no tengo ni idea cómo se saca eso, ¿me ayudas?",
+      "tarea": "estimar",
+      "por": "sinónimo «ni idea»",
+      "formas": [
+        "cuenta_a_la_vista",
+        "cifra_grande",
+        "resultados_discretos",
+        "pictograma"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "curiosidad",
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "cosas",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-04",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "siempre me pregunta cosas así y yo le digo 'no sé, búscalo en Google'. ¿cómo hago para que él mismo lo calcule?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "estimar",
+        "ambito": "cosas",
+        "forma": "cuenta_a_la_vista"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-05",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿por qué me llegan tantos correos de cosas que nunca compré si tengo el mismo gmail hace diez años? ¿cómo lo paro?",
+      "tarea": "reconocer",
+      "por": "sinónimo «por que me llegan»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "ordenar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-06",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "tengo como mil archivos en el compu, fotos, pdf, cosas de la pega, cosas del colegio de mis hijos. ¿sirve de algo tenerlos ordenados o es puro peso?",
+      "tarea": "reconocer",
+      "por": "sinónimo «sirve de algo»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "un_registro_desarmado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-07",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿qué sabe el gmail de mí? Porque a veces me sale publicidad de cosas que sólo hablé con mi hermana",
+      "tarea": "reconocer",
+      "por": "sinónimo «que sabe»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-08",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi nieta dice que el celular me escucha todo el día. Y si es así, ¿qué más da? ¿a quién le puede importar lo que hablo en la cocina?",
+      "tarea": "reconocer",
+      "por": "sinónimo «a quien le puede importar»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-09",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "la cartola del banco es un papel lleno de números. ¿eso sirve para algo más que para ver cuánta plata gasté?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanta plata»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "un_registro_desarmado"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-10",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "cuántos pasos llevo hoy? y si llego a diez mil me pasa algo o es nada?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "magnitud",
+        "ambito": "datos_propios",
+        "forma": "cifra_grande"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-11",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "oye, la app de los pasos sabe a qué hora me acuesto? porque yo no me muevo de noche jajaja",
+      "tarea": "secuencia",
+      "por": "sinónimo «pasos»",
+      "formas": [
+        "linea_de_tiempo"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-12",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi tío dice que los datos valen plata. ¿Y qué tengo yo que valga algo? Si yo no tengo nada.",
+      "tarea": "reconocer",
+      "por": "sinónimo «valen plata»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "inventario_de_lo_que_tienes"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-13",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "yo no tengo datos, yo no soy empresa. Soy una persona normal. ¿Qué datos voy a tener?",
+      "tarea": "reconocer",
+      "por": "sinónimo «que datos voy a tener»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "personas",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "un_registro_desarmado"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-14",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "tengo las notas de mis niños en un cuaderno y quiero mostrar en la reunión de apoderados cómo mejoraron. ¿Eso es data o es sólo un cuaderno?",
+      "tarea": "reconocer",
+      "por": "sinónimo «eso es data»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "la_sala",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "cambio",
+        "ambito": "la_sala",
+        "forma": "antes_y_despues"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-15",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿cómo sé qué es lo que más se vende en el almacén? Tengo la libreta del fiado pero es un desorden y no me sirve de nada.",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "ordenar",
+        "ambito": "datos_propios",
+        "forma": "barras_simples"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-16",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "manejo un colectivo y no sé cuánta gente me sube en el día. ¿Eso se puede saber? ¿Y sirve para algo?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanta»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": "curiosidad",
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "un_registro_desarmado"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-17",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿cómo sabe el mapa cuánto me demoro si voy a casa? ¿se acuerda de todos los lugares donde he ido?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "cifra_grande",
+        "lista_corta",
+        "cuenta_a_la_vista",
+        "pictograma",
+        "palitos",
+        "tabla_en_voz_alta",
+        "unit_chart"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": false,
+        "ambito": true,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-18",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "Minha mãe tem um mercadinho e anota as vendas num caderno. Isso serve pra alguma coisa? Ela acha que isso é coisa de empresa grande.",
+      "tarea": "reconocer",
+      "por": "sinónimo «isso serve pra alguma coisa»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": null,
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "pregunta_de_vuelta"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": false,
+        "forma_en_primeras_3": false
+      }
+    },
+    {
+      "id": "nsq-19",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "las fotos del celular tienen dónde y a qué hora las saqué, ¿eso lo sabe alguien? ¿o sólo yo?",
+      "tarea": "reconocer",
+      "por": "sinónimo «lo sabe alguien»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
+      }
+    },
+    {
+      "id": "nsq-20",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi hija de ocho años usa una app de dibujos. ¿Qué sabe la app de ella? ¿Y de mí, que le paso el celular a veces?",
+      "tarea": "reconocer",
+      "por": "sinónimo «que sabe»",
+      "formas": [
+        "un_registro_desarmado",
+        "inventario_de_lo_que_tienes",
+        "quien_mas_lo_ve",
+        "pregunta_de_vuelta",
+        "planilla_para_empezar"
+      ],
+      "ambito": "datos_propios",
+      "proposito_sugerido": null,
+      "esperado": {
+        "tarea": "reconocer",
+        "ambito": "datos_propios",
+        "forma": "quien_mas_lo_ve"
+      },
+      "acierto": {
+        "tarea": true,
+        "ambito": true,
+        "forma_en_primeras_3": true
       }
     },
     {

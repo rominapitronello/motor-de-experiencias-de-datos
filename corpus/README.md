@@ -12,3 +12,5 @@ Cien preguntas que le haría al conector la gente para la que es (`PARA_QUIEN.md
 
 
 **Sexta persona, 19:55, tras la carta de Romina en el #19:** `no-sabe-que-tiene.json`, veinte preguntas de quien no sabe que tiene datos (Bangkok, Lima, Santiago, Brasil; cuatro con `lo_que_quiere_ver: null`, que es lo honesto). Contra el conector 0.2.1: 8 de 20 con tarea, y la mitad de esas mal ubicadas; 17 con ámbito. Ese número es el punto: la tarea de antes de la pregunta no existe en el grafo. El haiku la llamó `reconocer` (issue #23).
+
+**Con el grafo v0.3 (opus, #26) y el conector 0.3.0, 120 preguntas:** 112 con tarea, 112 con ámbito, 4 con formas de Lo Hermida primero. Contra la anotación de opus (ahora de las 120): tarea igual en 76, ámbito en 102, forma esperada entre las tres primeras en 79. La sexta persona pasó de 8/20 a 18/20 con tarea; «yo no soy empresa, qué datos voy a tener» cae en `reconocer` → `un_registro_desarmado`.
