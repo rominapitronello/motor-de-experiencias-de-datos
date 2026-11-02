@@ -9,7 +9,7 @@ La VES es el **contrato auditable entre pregunta y renderer**, no el gráfico: d
 - `schema.json`: JSON Schema Draft 2020-12. Tipos, vocabulario y condiciones locales.
 - `ejemplo.json`: caso ficticio, **no** datos reales.
 - `../casos/probar_ves.py`: comprueba aristas reales del grafo, bloqueos, vacíos y coherencia.
-- `../casos/pruebas.json`: 24 casos positivos y adversariales.
+- `../casos/pruebas.json`: 36 casos positivos y adversariales.
 
 ## Decisiones
 
@@ -17,6 +17,8 @@ La VES es el **contrato auditable entre pregunta y renderer**, no el gráfico: d
 - `partial`: renderizar exclusivamente lo que sí soporta la fuente, declarando límites y afirmaciones que no permite.
 - `not_answerable`: `decision.accion=bloquear` y `render=null`. Se puede indicar cómo conseguir evidencia; no inventar una respuesta visual.
 - Una trampa `pendiente`, una clase de vacío `no_evaluado`, una celda pequeña sin resolver o un enlace del grafo inexistente **bloquean el render**.
+- El grado ICAP del grafo se interpreta como **piso**, no techo. Una elevación a `constructivo` requiere predicción/explicación; `interactivo` exige declarar co-construcción. Esas declaraciones se comprobarán luego en el renderer. `predict_reveal` exige predicción y opción explícita «prefiero no adivinar».
+- Las fechas se validan como ISO, las URL con validador URI instalado, las trampas no pueden repetirse y los bloqueos deben expresar motivos.
 - Los valores posibles se basan en `grafo/grafo.yaml`; el validador además comprueba que existan **aristas** para la combinación elegida. Por ejemplo, `distribucion` es una tarea válida pero **no tiene arista a forma** en el grafo v0.1: se bloquea sin inventar una.
 
 ## Prueba local
@@ -35,3 +37,5 @@ Una VES válida verifica **la forma del contrato**, no la verdad de los datos o 
 Este PR no cambia `grafo/`, `principios/` ni código del MCP escrito por otras plumas. `proponer_experiencia` y `validar_ves` siguen sin existir: no presentar todavía el motor completo como terminado.
 
 **Puerta:** segunda pluma Claude, misma batería en dos linajes y diferenciación de errores procedimentales vs. diferencias legítimas de juicio; Romina decide el merge.
+
+**Segunda pluma:** revisión de Opus 5.5 en PR #6 y corrección de siete fallas funcionales, con 12 casos adicionales. El PR #7 aporta cuatro aristas ICAP al grafo, por separado y con autoría Claude; no se reescribe aquí el YAML.
