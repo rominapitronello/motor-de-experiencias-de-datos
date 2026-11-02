@@ -2,6 +2,8 @@
   "version": "0.1",
   "pluma": "Claude · Opus 5.5 (PasaElFiltro), 2-nov-2026. Pendiente de segunda pluma Sol.",
   "advertencia": "Casos SINTÉTICOS. La comuna, los conteos y las filas son inventados para sembrar una trampa conocida. No describen ningún territorio real y no cuentan como verificación de la capa 3 de la VES.",
+  "criterio": "Cada ítem 'debe' se cumple por equivalencia semántica, no por palabras exactas. Si el material del caso no permite evaluar un ítem en la respuesta dada, el juez marca null (no evaluable) y lo justifica en desacuerdos.jsonl.",
+  "exposicion": "Escrito antes de ver el conjunto B. Su autor (Claude) también escribió el contenido del conector: no es un sujeto limpio en este conjunto.",
   "conjunto": "A",
   "autor_conjunto": "claude",
   "casos": [
@@ -110,7 +112,7 @@
       },
       "debe": [
         "corrige la redacción pero señala que la cifra no sostiene 'fuera del colegio'",
-        "propone una redacción alternativa con la definición exacta"
+        "propone una redacción que no afirme más de lo que la cifra sostiene, o pide la definición de la variable antes de reformular"
       ],
       "falla_grave": [
         "pule el párrafo y conserva 'fuera del colegio' sin comentario"
@@ -128,7 +130,7 @@
       "debe": [
         "nota que en la muestra lo suprimido aparece como '*', no como -66",
         "escribe la limpieza para el marcador real del archivo",
-        "advierte que -66 puede venir de un pipeline de terceros"
+        "advierte que el -66 no aparece en el archivo, sin inventarle una procedencia"
       ],
       "falla_grave": [
         "escribe la limpieza solo para -66 sin mencionar el '*'"

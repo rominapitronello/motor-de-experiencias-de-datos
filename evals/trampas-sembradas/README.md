@@ -11,8 +11,10 @@ La VES (`ves/`, `casos/`) responde otra pregunta: si un *contrato* está bien fo
 ## Qué hay
 
 - `casos.json`: conjunto **A**, escrito por Claude. Son 12 casos: 8 con una trampa sembrada (TR-01, TR-06 y TR-07, las tres VERIFICADO en `trampas/`) y 4 controles donde la trampa *no* aplica.
-- `puntuar.py`: calcula las métricas a partir de las etiquetas del juez. No llama a ningún modelo.
-- `PROTOCOLO.md`: cómo se corre, quién juzga y qué se publica.
+- `anonimizar.py`: separa las respuestas en lo que ve el juez (`para_juez.jsonl`, barajado y sin condición) y la tabla de asignación que el juez no ve.
+- `puntuar.py`: une asignación y etiquetas y calcula las métricas. No llama a ningún modelo. Rechaza las entradas que podrían dar un número falso.
+- `probar_puntuador.py`: contraejemplos automáticos para el puntuador. Corre en CI.
+- `PROTOCOLO.md`: cómo se corre, quién anonimiza, quién juzga y qué se publica.
 
 Cada caso trae un **pedido** como lo haría una persona, el **material** (un resumen de archivos, columnas, código o un borrador), una lista **debe** con lo que una buena respuesta tiene que contener y una lista **falla_grave** con lo que convierte la respuesta en un error publicable. Los controles traen **no_debe**: ver una trampa donde no la hay también es un error, porque un modelo que desconfía de todo no sirve.
 
@@ -33,16 +35,20 @@ El costo es que este eval **no verifica fuentes reales**. Esa sigue siendo la ca
 
 ## Métricas
 
-Por linaje y condición (`sin_conector` / `con_conector`):
+Son tres estimandos y se reportan **por separado**, nunca mezclados en un solo número:
 
-- **Puntaje en trampas:** 0 si hubo falla grave; si no, la fracción de "debe" cumplidos.
-- **Tasa de falla grave:** la métrica que más importa, porque es lo que llega publicado.
-- **Tasa de falso positivo en controles:** el costo de la desconfianza.
-- **Aporte del conector:** diferencia emparejada por caso (con − sin), con IC 95% por bootstrap. Con menos de 20 casos, el intervalo es orientativo.
+1. **Puntaje en casos con trampa:** 0 si hubo falla grave; si no, la fracción de ítems "debe" evaluables que se cumplen. Un ítem marcado `null` (no evaluable con ese material) sale del denominador.
+2. **Tasa de falla grave** en casos con trampa: la métrica que más importa, porque es lo que llega publicado.
+3. **Tasa de falso positivo** en controles: el costo de la desconfianza.
+
+Cada medida se promedia primero por caso (sobre sus corridas). El efecto del conector es la diferencia emparejada por caso (con − sin), con IC 95% que remuestrea casos. **Solo se calcula si el diseño está completo**: si falta un caso, una corrida o una condición, el puntuador lo reporta y no da efecto.
+
+El resultado principal es siempre **otro linaje juzgando sobre el conjunto ajeno**. El autojuicio y el conjunto propio se reportan aparte y marcados.
 
 ## Limitaciones conocidas
 
-- **Doce casos son pocos.** Sirven para ver si el diseño funciona, no para concluir. Con el conjunto B de Sol llegamos a 24, y la meta es 40 o más.
+- **Doce casos son pocos.** Sirven para ver si el diseño funciona, no para concluir. Con el conjunto B de Sol (PR #10) llegamos a 24, y la meta es 40 o más. El primer uso es un **piloto**: no permite concluir sobre modelos.
+- **Ningún conjunto es ciego todavía.** Sol vio fragmentos de A antes de escribir B y lo declaró en su archivo. Esta instancia de Claude leyó B para revisarlo. Un conjunto C ciego tiene que escribirlo una instancia que no haya visto ni A ni B, con bitácora de exposición.
 - **Claude escribió estos casos y también el contenido del conector.** Por eso Claude no es un sujeto limpio en el conjunto A. Ver `PROTOCOLO.md`.
 - **Las listas "debe" son juicio, no verdad.** Un juez puede discrepar de una lista, y ese desacuerdo también se registra.
 - **Sesgo hacia la condición con conector:** el conector nombra las trampas, así que en esa condición el modelo también recibe su vocabulario. Eso es parte de lo que se mide (el conector *es* ese vocabulario), pero hay que decirlo al publicar.
