@@ -1,45 +1,50 @@
 {
-  "pluma": "claude · opus 5.5, 2-nov-2026, con el grafo v0.2 del mismo pr",
+  "pluma": "claude · opus 5.5, 2-nov-2026: las cien con el grafo v0.2 (#18); las veinte de no-sabe-que-tiene con el grafo v0.3",
   "que_es": "el criterio de verdad del corpus: para cada pregunta, la tarea que debería resolver, el ámbito y la forma esperada; o null con la razón si no es del motor. sirve para medir el conector (corpus/medir.mjs) contra un blanco que no lo escribió el conector.",
   "como_leerla": "una sola forma por pregunta: la primera que yo ofrecería. otras formas de la misma tarea pueden ser igual de buenas; medir contra la tarea y el ámbito antes que contra la forma.",
   "sesgos": [
     "cinco haikus, veinte preguntas cada uno, una noche: el corpus es chileno, urbano y en castellano; no hay preguntas en pt ni en en.",
     "los haikus escribieron preguntas para el motor que imaginaron, así que sobran las que ya caben en una tarea y faltan las que nadie sabe formular.",
-    "la anotación es de una sola pluma (opus); sol o un humano deberían anotar una muestra a ciegas para medir acuerdo, como en evals/trampas-sembradas."
+    "la anotación es de una sola pluma (opus); sol o un humano deberían anotar una muestra a ciegas para medir acuerdo, como en evals/trampas-sembradas.",
+    "v0.3: las veinte de no-sabe-que-tiene las escribió un haiku que ya conocía la palabra «reconocer»; 14 de 20 caen ahí, y eso puede ser tanto hallazgo como eco. la próxima tanda debería escribirla alguien que no la haya leído."
   ],
   "resumen": {
-    "preguntas": 100,
-    "del_motor": 98,
+    "preguntas": 120,
+    "del_motor": 118,
     "no_del_motor": 2,
     "por_tarea": {
-      "magnitud": 25,
-      "cambio": 11,
+      "magnitud": 26,
+      "reconocer": 14,
+      "cambio": 12,
+      "estimar": 10,
       "vacio": 10,
       "parte_todo": 9,
       "comparar": 9,
-      "estimar": 8,
       "leer": 6,
       "distribucion": 6,
+      "ordenar": 5,
       "estado": 5,
-      "ordenar": 3,
       "localizar": 3,
       "proyectar": 2,
       "procedencia": 1
     },
     "por_ambito": {
-      "datos_propios": 70,
-      "la_sala": 20,
+      "datos_propios": 87,
+      "la_sala": 21,
       "personas": 6,
-      "territorio_o_servicio": 2
+      "territorio_o_servicio": 2,
+      "cosas": 2
     },
     "por_forma": {
-      "cifra_grande": 18,
-      "barras_simples": 15,
-      "cuenta_a_la_vista": 13,
+      "cifra_grande": 19,
+      "barras_simples": 17,
+      "cuenta_a_la_vista": 15,
       "planilla_para_empezar": 9,
-      "antes_y_despues": 6,
+      "antes_y_despues": 7,
+      "quien_mas_lo_ve": 7,
       "lo_mismo_anotado": 6,
       "pictograma": 5,
+      "un_registro_desarmado": 5,
       "palitos": 4,
       "lista_corta": 3,
       "escala_con_tramos": 3,
@@ -50,7 +55,9 @@
       "serie_temporal": 2,
       "ficha_procedencia": 2,
       "linea_con_proyeccion": 1,
-      "matriz_estados": 1
+      "matriz_estados": 1,
+      "inventario_de_lo_que_tienes": 1,
+      "pregunta_de_vuelta": 1
     }
   },
   "filas": [
@@ -948,6 +955,186 @@
       "ambito": "la_sala",
       "forma": "barras_simples",
       "nota": "CU-07: cuántos apoderados respondieron"
+    },
+    {
+      "id": "nsq-01",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "how do i know how many people come into my shop every month? i think its a lot but i never counted",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "un_registro_desarmado",
+      "nota": "CU-11: la caja cuenta ventas, no entradas; mostrar una venta desarmada y ofrecer contar entradas un sábado (planilla_para_empezar). «my husband says few»: se resuelve contando, no opinando"
+    },
+    {
+      "id": "nsq-02",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "my niece says the qr payment app writes down every sale. is that true? can i see it or is it just for the bank",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-09: sí, cada pago queda anotado; lo ve ella en la app del QR y también el banco; mostrar cómo descargarlo"
+    },
+    {
+      "id": "nsq-03",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi hijo me preguntó cuánta comida come un elefante al mes y al año y no tengo ni idea cómo se saca eso, ¿me ayudas?",
+      "tarea": "estimar",
+      "ambito": "cosas",
+      "forma": "cuenta_a_la_vista",
+      "nota": "con un niño al lado: kilos al día × 30 y × 365, y en bolsas dibujadas (pictograma); propósito jugar. el kilo por día sale de una fuente que se nombra"
+    },
+    {
+      "id": "nsq-04",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "siempre me pregunta cosas así y yo le digo 'no sé, búscalo en Google'. ¿cómo hago para que él mismo lo calcule?",
+      "tarea": "estimar",
+      "ambito": "cosas",
+      "forma": "cuenta_a_la_vista",
+      "nota": "propósito curiosidad: que él cambie un supuesto y vea moverse el resultado (T-01: adivinar antes)"
+    },
+    {
+      "id": "nsq-05",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿por qué me llegan tantos correos de cosas que nunca compré si tengo el mismo gmail hace diez años? ¿cómo lo paro?",
+      "tarea": "ordenar",
+      "ambito": "datos_propios",
+      "forma": "barras_simples",
+      "nota": "«cómo lo paro» es soporte técnico, no del motor; lo que sí: de quién llegan más correos, que es por donde se empieza a darse de baja (CU-09)"
+    },
+    {
+      "id": "nsq-06",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "tengo como mil archivos en el compu, fotos, pdf, cosas de la pega, cosas del colegio de mis hijos. ¿sirve de algo tenerlos ordenados o es puro peso?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "un_registro_desarmado",
+      "nota": "cada archivo ya trae fecha, tipo y tamaño: eso es un dato; contarlos por tipo o por año es la primera respuesta. lo_que_quiere_ver null: pregunta_de_vuelta después"
+    },
+    {
+      "id": "nsq-07",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿qué sabe el gmail de mí? Porque a veces me sale publicidad de cosas que sólo hablé con mi hermana",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-10: lo comprobable (la actividad y la descarga de la cuenta) separado de la sospecha (la conversación con la hermana); borrarlo es de la cuenta, no del motor"
+    },
+    {
+      "id": "nsq-08",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi nieta dice que el celular me escucha todo el día. Y si es así, ¿qué más da? ¿a quién le puede importar lo que hablo en la cocina?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-09 sin sermón; CU-10: el micrófono que escucha todo es sospecha, los audios guardados en el chat son comprobables"
+    },
+    {
+      "id": "nsq-09",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "la cartola del banco es un papel lleno de números. ¿eso sirve para algo más que para ver cuánta plata gasté?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "un_registro_desarmado",
+      "nota": "una línea de la cartola: fecha, comercio, monto; muchas juntas dicen rutinas (dónde almuerza, cuándo cobra). CU-09"
+    },
+    {
+      "id": "nsq-10",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "cuántos pasos llevo hoy? y si llego a diez mil me pasa algo o es nada?",
+      "tarea": "magnitud",
+      "ambito": "datos_propios",
+      "forma": "cifra_grande",
+      "nota": "propósito jugar (ganarle al amigo); el diez mil es una meta redonda, no un umbral que el motor pueda afirmar"
+    },
+    {
+      "id": "nsq-11",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "oye, la app de los pasos sabe a qué hora me acuesto? porque yo no me muevo de noche jajaja",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-10: el teléfono quieto de noche sí queda registrado en muchas apps de pasos; se comprueba en la app, no se supone"
+    },
+    {
+      "id": "nsq-12",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi tío dice que los datos valen plata. ¿Y qué tengo yo que valga algo? Si yo no tengo nada.",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "inventario_de_lo_que_tienes",
+      "nota": "«valen plata» juntos a millones, no uno solo: no inventar un precio (CU-10); el inventario muestra que sí tiene"
+    },
+    {
+      "id": "nsq-13",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "yo no tengo datos, yo no soy empresa. Soy una persona normal. ¿Qué datos voy a tener?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "un_registro_desarmado",
+      "nota": "tono vergüenza: propósito perder_el_miedo; una boleta o un mensaje suyo desarmado basta para decir «esto es un dato»"
+    },
+    {
+      "id": "nsq-14",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "tengo las notas de mis niños en un cuaderno y quiero mostrar en la reunión de apoderados cómo mejoraron. ¿Eso es data o es sólo un cuaderno?",
+      "tarea": "cambio",
+      "ambito": "la_sala",
+      "forma": "antes_y_despues",
+      "nota": "sí es data; en la reunión, el curso como grupo y nadie señalado (en_la_sala_nadie_senalado); no_se_califica no aplica a mostrar notas, aplica a quien mira"
+    },
+    {
+      "id": "nsq-15",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿cómo sé qué es lo que más se vende en el almacén? Tengo la libreta del fiado pero es un desorden y no me sirve de nada.",
+      "tarea": "ordenar",
+      "ambito": "datos_propios",
+      "forma": "barras_simples",
+      "nota": "CU-11: la libreta cuenta lo fiado, no todo lo vendido; las boletas de la distribuidora cuentan lo que entró. decir cuál se usó"
+    },
+    {
+      "id": "nsq-16",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "manejo un colectivo y no sé cuánta gente me sube en el día. ¿Eso se puede saber? ¿Y sirve para algo?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "un_registro_desarmado",
+      "nota": "cada pasada de tarjeta trae hora: «sí se puede saber»; después es distribucion por hora. CU-11: quien paga en efectivo no queda; la máquina puede ser de la empresa, no de él"
+    },
+    {
+      "id": "nsq-17",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "¿cómo sabe el mapa cuánto me demoro si voy a casa? ¿se acuerda de todos los lugares donde he ido?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-10: el historial de ubicaciones se mira y se apaga en la configuración; eso es comprobable"
+    },
+    {
+      "id": "nsq-18",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "Minha mãe tem um mercadinho e anota as vendas num caderno. Isso serve pra alguma coisa? Ela acha que isso é coisa de empresa grande.",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "pregunta_de_vuelta",
+      "nota": "«coisa de empresa grande»: devolver la pregunta («o que sua mãe gostaria de saber do mercadinho?») con dos ejemplos que el caderno puede contestar; responder en portugués"
+    },
+    {
+      "id": "nsq-19",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "las fotos del celular tienen dónde y a qué hora las saqué, ¿eso lo sabe alguien? ¿o sólo yo?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "CU-10: la ubicación en la foto es comprobable (detalles de la foto); quién más la ve depende de dónde la subió"
+    },
+    {
+      "id": "nsq-20",
+      "persona": "no-sabe-que-tiene",
+      "pregunta": "mi hija de ocho años usa una app de dibujos. ¿Qué sabe la app de ella? ¿Y de mí, que le paso el celular a veces?",
+      "tarea": "reconocer",
+      "ambito": "datos_propios",
+      "forma": "quien_mas_lo_ve",
+      "nota": "datos de una niña: solo lo comprobable (permisos de la app, qué pide al crear la cuenta), sin especular; nada de la hija sale de la ventana (no_sale_de_la_ventana)"
     }
   ]
 }
