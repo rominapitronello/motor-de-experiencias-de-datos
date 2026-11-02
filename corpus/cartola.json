@@ -1,0 +1,27 @@
+{
+  "persona": "cartola",
+  "descripcion": "una psicóloga chilena con sueldo y cuenta corriente que quiere entender en qué se le va la plata del mes, leyendo su cartola, la app de su tarjeta, sus pedidos y sus boletas, sin hacer cuentas ni ser contadora",
+  "pluma": "claude haiku 5.5, subagente de la ventana de procedencia, 2-nov-2026",
+  "preguntas": [
+    {"id": "cart-01", "pregunta": "cuánta plata se me fue en comida al paso el mes pasado, de verdad", "lo_que_quiere_ver": "un número grande y ya", "fuente": "cartola del banco", "juego": false, "sensible": true},
+    {"id": "cart-02", "pregunta": "y comparado con el mes antes, ¿subí o bajé?", "lo_que_quiere_ver": "comparado con el mes pasado, si subió o bajó y cuánto", "fuente": "cartola del banco", "juego": true, "sensible": false},
+    {"id": "cart-03", "pregunta": "en qué se me va la plata así en pedazos, o sea, cuánto en delivery, cuánto en el café, cuánto en el super", "lo_que_quiere_ver": "en qué se me va, así en pedazos", "fuente": "app de la tarjeta", "juego": true, "sensible": false},
+    {"id": "cart-04", "pregunta": "cuántos pedidos de delivery hice este mes? porque siento que fueron hartos", "lo_que_quiere_ver": "el número de pedidos y si de verdad fueron hartos", "fuente": "mis pedidos en la app de delivery", "juego": true, "sensible": true},
+    {"id": "cart-05", "pregunta": "cuántos cafés me tomé este año, más o menos, tiro un número", "lo_que_quiere_ver": "un número redondo, no tiene que ser exacto", "fuente": "lo que me acuerdo y la app de la tarjeta", "juego": true, "sensible": false},
+    {"id": "cart-06", "pregunta": "cuánto llevo gastado en el gato este año", "lo_que_quiere_ver": "el total, nada más", "fuente": "cartola del banco", "juego": true, "sensible": false},
+    {"id": "cart-07", "pregunta": "me alcanza la plata para lo que queda de mes o me quedo en cero antes del 25?", "lo_que_quiere_ver": "si llego o no, y cuánto me sobra o me falta", "fuente": "cartola del banco y lo que me acuerdo de los vencimientos", "juego": false, "sensible": true},
+    {"id": "cart-08", "pregunta": "cuánto me cobraron de luz este año comparado con el otro?", "lo_que_quiere_ver": "comparado con el año pasado, en pesos y en porcentaje", "fuente": "mis boletas de la luz en fotos", "juego": false, "sensible": false},
+    {"id": "cart-09", "pregunta": "y el agua? me llegó una boleta que no entendí, ¿por qué subió tanto?", "lo_que_quiere_ver": "que me lo explique en palabras normales, no en números", "fuente": "foto de la boleta del agua", "juego": true, "sensible": false},
+    {"id": "cart-10", "pregunta": "cuánto gasto en bencina al mes más o menos, porque no me cuadra", "lo_que_quiere_ver": null, "fuente": "cartola del banco", "juego": false, "sensible": false},
+    {"id": "cart-11", "pregunta": "cuánto le mandé a mi mamá este año, sumando todas las transferencias", "lo_que_quiere_ver": "un total, sin opinión", "fuente": "transferencias de la cartola", "juego": false, "sensible": true},
+    {"id": "cart-12", "pregunta": "cuántas suscripciones tengo activas que ni uso", "lo_que_quiere_ver": "la lista y cuánto me cobran por cada una al mes", "fuente": "cartola del banco y app de la tarjeta", "juego": false, "sensible": false},
+    {"id": "cart-13", "pregunta": "en qué mes me gasté más plata este año y qué pasó ese mes", "lo_que_quiere_ver": "el mes, y qué se disparó ese mes", "fuente": "cartola del banco", "juego": true, "sensible": false},
+    {"id": "cart-14", "pregunta": "cuánto de mi sueldo se me va en el arriendo, en porcentaje", "lo_que_quiere_ver": "el porcentaje de mi sueldo, en un número", "fuente": "cartola del banco", "juego": true, "sensible": true},
+    {"id": "cart-15", "pregunta": "lo que me gasto en compras por internet, no quiero ver el número pero dime igual", "lo_que_quiere_ver": "un número, aunque me duela", "fuente": "app de la tarjeta y cartola del banco", "juego": true, "sensible": true},
+    {"id": "cart-16", "pregunta": "si sigo gastando así, ¿cuándo me quedo sin plata en la tarjeta?", "lo_que_quiere_ver": "una fecha, aunque sea aproximada", "fuente": "app de la tarjeta y cartola del banco", "juego": false, "sensible": true},
+    {"id": "cart-17", "pregunta": "cuánto gasté de verdad en la salida del cumple de mi hermana, sumando todo lo que fue", "lo_que_quiere_ver": "el total con todo incluido, el regalo también", "fuente": "cartola del banco y mis boletas en fotos", "juego": true, "sensible": false},
+    {"id": "cart-18", "pregunta": "cuánto estoy pagando de intereses por las cuotas este año", "lo_que_quiere_ver": "cuánto son los intereses, en pesos", "fuente": "app de la tarjeta", "juego": false, "sensible": true},
+    {"id": "cart-19", "pregunta": "cuántas cuotas me quedan pagando y hasta cuándo, en una lista corta", "lo_que_quiere_ver": "una lista corta: qué compré, cuánto me queda y cuándo se termina", "fuente": "app de la tarjeta", "juego": false, "sensible": true},
+    {"id": "cart-20", "pregunta": "me da vergüenza preguntar esto, pero cuánto me gasto al mes en cosas de streaming y de apps", "lo_que_quiere_ver": "un número, sin sermón", "fuente": "cartola del banco", "juego": true, "sensible": true}
+  ]
+}

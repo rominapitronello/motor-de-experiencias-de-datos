@@ -154,5 +154,12 @@ const marte = await call('consultar_grafo', { tarea: 'magnitud', ambito: 'marte'
 check(marte.structuredContent.ambito === null && /desconocido: «marte»/.test(marte.structuredContent.aviso_ambito) && marte.structuredContent.restricciones_duras.length === todasDuras.length, 'ámbito negativo: "marte" NO se resuelve (no es ámbito ni sinónimo) → aviso con los válidos y todas las restricciones');
 check(!('sin_datos_personales' in Object.fromEntries(escIds.map((i) => [i, 1]))) && 'sin_datos_personales' in Object.fromEntries(terIds.map((i) => [i, 1])), 'la línea «nunca persona» de Opus sigue intacta en el grafo y solo se entrega en territorio_o_servicio');
 
+
+// romina, 2-nov-2026, 18:46: si nada encaja, que el conector pida permiso al humano para contarnos. va solo donde algo no encajó.
+check(/contacto@pasaelfiltro\.cl/.test(s4.structuredContent.si_nada_encaja) && /no pasa nada/.test(s4.structuredContent.si_nada_encaja), 'si_nada_encaja: tarea desconocida trae el pedido de feedback, en la voz de romina');
+check(s6.structuredContent.si_nada_encaja !== undefined, 'si_nada_encaja: referentes vacíos también lo traen');
+check(g.structuredContent.si_nada_encaja === undefined && esc.structuredContent.si_nada_encaja === undefined, 'si_nada_encaja: NO aparece cuando la consulta encajó (sería ruido)');
+check(/si_nada_encaja/.test(init.result.instructions), 'initialize: las instructions avisan que si_nada_encaja es un pedido, no una regla');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
