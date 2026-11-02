@@ -1,0 +1,830 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pasaelfiltro.cl/schemas/ves/0.1",
+  "title": "Visualization Experience Spec (VES) v0.1 — pluma Sol",
+  "description": "Contrata afirmaciones, fuente y experiencia antes del renderer. JSON Schema valida la estructura; los cruces semánticos viven en casos/probar_ves.py.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "pregunta",
+    "capacidad",
+    "fuentes",
+    "revision",
+    "didactica",
+    "render",
+    "seguridad",
+    "decision"
+  ],
+  "properties": {
+    "version": {
+      "const": "0.1"
+    },
+    "pregunta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "texto",
+        "unidad_analisis"
+      ],
+      "properties": {
+        "texto": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unidad_analisis": {
+          "type": "string",
+          "enum": [
+            "territorio",
+            "servicio",
+            "persona"
+          ]
+        }
+      }
+    },
+    "capacidad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "estado",
+        "afirmaciones",
+        "no_afirmar",
+        "limites"
+      ],
+      "properties": {
+        "estado": {
+          "type": "string",
+          "enum": [
+            "answerable",
+            "partial",
+            "not_answerable"
+          ]
+        },
+        "afirmaciones": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "texto",
+              "tipo",
+              "definicion"
+            ],
+            "properties": {
+              "texto": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tipo": {
+                "type": "string",
+                "enum": [
+                  "dato",
+                  "proxy",
+                  "inferencia"
+                ]
+              },
+              "definicion": {
+                "type": "string"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "tipo": {
+                      "const": "proxy"
+                    }
+                  },
+                  "required": [
+                    "tipo"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "definicion": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "no_afirmar": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "limites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "fuentes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "organismo",
+          "documento",
+          "url",
+          "edicion",
+          "fecha_corte",
+          "nivel_geografico",
+          "variables",
+          "estado_evidencia"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "organismo": {
+            "type": "string",
+            "minLength": 1
+          },
+          "documento": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "edicion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fecha_corte": {
+            "type": "string",
+            "format": "date",
+            "minLength": 1
+          },
+          "nivel_geografico": {
+            "type": "string",
+            "minLength": 1
+          },
+          "variables": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "estado_evidencia": {
+            "type": "string",
+            "enum": [
+              "VERIFICADO",
+              "INDEXADO",
+              "REFERIDO",
+              "INFERENCIA"
+            ]
+          }
+        }
+      }
+    },
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alcance",
+        "trampas",
+        "vacios"
+      ],
+      "properties": {
+        "alcance": {
+          "const": "senales_declaradas_no_inspeccion"
+        },
+        "trampas": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "estado",
+              "motivo"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "enum": [
+                  "TR-01",
+                  "TR-02",
+                  "TR-03",
+                  "TR-04",
+                  "TR-05",
+                  "TR-06",
+                  "TR-07"
+                ]
+              },
+              "estado": {
+                "type": "string",
+                "enum": [
+                  "descartada",
+                  "mitigada",
+                  "pendiente"
+                ]
+              },
+              "motivo": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "vacios": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tipo",
+              "estado",
+              "leyenda"
+            ],
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "enum": [
+                  "sin_residentes",
+                  "fusion_organismo",
+                  "agregacion_propia"
+                ]
+              },
+              "estado": {
+                "type": "string",
+                "enum": [
+                  "presente",
+                  "ausente",
+                  "no_evaluado"
+                ]
+              },
+              "leyenda": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "didactica": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tarea",
+            "proposito",
+            "patron",
+            "compromiso",
+            "forma",
+            "tecnica_id",
+            "alternativa",
+            "justificacion"
+          ],
+          "properties": {
+            "tarea": {
+              "type": "string",
+              "enum": [
+                "localizar",
+                "magnitud",
+                "comparar",
+                "ordenar",
+                "cambio",
+                "distribucion",
+                "parte_todo",
+                "relacionar",
+                "flujo",
+                "secuencia",
+                "estado",
+                "incertidumbre",
+                "procedencia",
+                "vacio"
+              ]
+            },
+            "proposito": {
+              "type": "string",
+              "enum": [
+                "escala_humana",
+                "sorpresa",
+                "comparacion",
+                "mostrar_cambio",
+                "revelar_estructura",
+                "mostrar_incertidumbre",
+                "invitar_a_explorar",
+                "rendicion_de_cuentas",
+                "activos_primero"
+              ]
+            },
+            "patron": {
+              "type": "string",
+              "enum": [
+                "predict_reveal",
+                "compare_explain",
+                "manipulate_observe",
+                "overview_focus_context",
+                "personalize_situate",
+                "sequence_branch",
+                "same_object_transform",
+                "claim_evidence_limit",
+                "unknown_route_to_evidence",
+                "recall_guess_feedback"
+              ]
+            },
+            "compromiso": {
+              "type": "string",
+              "enum": [
+                "pasivo",
+                "activo",
+                "constructivo",
+                "interactivo"
+              ]
+            },
+            "forma": {
+              "type": "string",
+              "enum": [
+                "unit_chart",
+                "mapa_sin_base",
+                "mosaico_uv",
+                "dorling",
+                "pequenos_multiplos",
+                "ranked_dots",
+                "slope",
+                "barras_apiladas",
+                "flujos_agregados",
+                "linea_de_tiempo",
+                "matriz_estados",
+                "resultados_discretos",
+                "ficha_procedencia",
+                "serie_temporal",
+                "dispersion",
+                "histograma",
+                "boxplot"
+              ]
+            },
+            "tecnica_id": {
+              "type": "string",
+              "pattern": "^T-[0-9]{2}$"
+            },
+            "alternativa": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "forma",
+                "motivo"
+              ],
+              "properties": {
+                "forma": {
+                  "type": "string",
+                  "enum": [
+                    "unit_chart",
+                    "mapa_sin_base",
+                    "mosaico_uv",
+                    "dorling",
+                    "pequenos_multiplos",
+                    "ranked_dots",
+                    "slope",
+                    "barras_apiladas",
+                    "flujos_agregados",
+                    "linea_de_tiempo",
+                    "matriz_estados",
+                    "resultados_discretos",
+                    "ficha_procedencia",
+                    "serie_temporal",
+                    "dispersion",
+                    "histograma",
+                    "boxplot"
+                  ]
+                },
+                "motivo": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "justificacion": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "render": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "titulo",
+            "codificacion",
+            "interaccion",
+            "visibilidad",
+            "publicacion"
+          ],
+          "properties": {
+            "titulo": {
+              "type": "string",
+              "minLength": 1
+            },
+            "codificacion": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "variable",
+                "canal",
+                "normalizacion",
+                "usa_coropletico"
+              ],
+              "properties": {
+                "variable": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "canal": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "normalizacion": {
+                  "type": "string",
+                  "enum": [
+                    "ninguna",
+                    "tasa",
+                    "proporcion",
+                    "por_unidad"
+                  ]
+                },
+                "usa_coropletico": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "interaccion": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "tipo",
+                "objeto_cognitivo",
+                "justificacion",
+                "permite_no_adivinar",
+                "co_construccion"
+              ],
+              "properties": {
+                "tipo": {
+                  "type": "string",
+                  "enum": [
+                    "ninguna",
+                    "filtro",
+                    "prediccion",
+                    "explicacion",
+                    "exploracion"
+                  ]
+                },
+                "objeto_cognitivo": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "justificacion": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "permite_no_adivinar": {
+                  "type": "boolean"
+                },
+                "co_construccion": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "visibilidad": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "fuente",
+                "limites",
+                "clases_vacio",
+                "definicion_proxy"
+              ],
+              "properties": {
+                "fuente": {
+                  "const": true
+                },
+                "limites": {
+                  "const": true
+                },
+                "clases_vacio": {
+                  "const": true
+                },
+                "definicion_proxy": {
+                  "const": true
+                }
+              }
+            },
+            "publicacion": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "tipo",
+                "sin_teselas",
+                "sin_apis_externas"
+              ],
+              "properties": {
+                "tipo": {
+                  "type": "string",
+                  "enum": [
+                    "pagina_autocontenida",
+                    "otro"
+                  ]
+                },
+                "sin_teselas": {
+                  "type": "boolean"
+                },
+                "sin_apis_externas": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "seguridad": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "datos_personales",
+        "celdas_pequenas",
+        "umbral_agregacion",
+        "dato_quieto",
+        "reduced_motion",
+        "accesibilidad"
+      ],
+      "properties": {
+        "datos_personales": {
+          "const": false
+        },
+        "celdas_pequenas": {
+          "type": "string",
+          "enum": [
+            "no_aplica",
+            "agregadas",
+            "pendientes"
+          ]
+        },
+        "umbral_agregacion": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "dato_quieto": {
+          "const": true
+        },
+        "reduced_motion": {
+          "const": true
+        },
+        "accesibilidad": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "contraste_aa",
+            "teclado",
+            "foco_visible",
+            "alternativa_textual"
+          ],
+          "properties": {
+            "contraste_aa": {
+              "const": true
+            },
+            "teclado": {
+              "const": true
+            },
+            "foco_visible": {
+              "const": true
+            },
+            "alternativa_textual": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "accion",
+        "motivos"
+      ],
+      "properties": {
+        "accion": {
+          "type": "string",
+          "enum": [
+            "renderizar",
+            "bloquear"
+          ]
+        },
+        "motivos": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pregunta": {
+            "properties": {
+              "unidad_analisis": {
+                "const": "persona"
+              }
+            },
+            "required": [
+              "unidad_analisis"
+            ]
+          }
+        },
+        "required": [
+          "pregunta"
+        ]
+      },
+      "then": {
+        "properties": {
+          "revision": {
+            "properties": {
+              "vacios": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "revision": {
+            "properties": {
+              "vacios": {
+                "minItems": 3
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "accion": {
+                "const": "renderizar"
+              }
+            },
+            "required": [
+              "accion"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "capacidad": {
+            "properties": {
+              "estado": {
+                "type": "string",
+                "enum": [
+                  "answerable",
+                  "partial"
+                ]
+              }
+            }
+          },
+          "didactica": {
+            "type": "object"
+          },
+          "render": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "accion": {
+                "const": "bloquear"
+              }
+            },
+            "required": [
+              "accion"
+            ]
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "then": {
+        "properties": {
+          "render": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "capacidad": {
+            "properties": {
+              "estado": {
+                "const": "not_answerable"
+              }
+            },
+            "required": [
+              "estado"
+            ]
+          }
+        },
+        "required": [
+          "capacidad"
+        ]
+      },
+      "then": {
+        "properties": {
+          "decision": {
+            "properties": {
+              "accion": {
+                "const": "bloquear"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "seguridad": {
+            "properties": {
+              "celdas_pequenas": {
+                "const": "agregadas"
+              }
+            },
+            "required": [
+              "celdas_pequenas"
+            ]
+          }
+        },
+        "required": [
+          "seguridad"
+        ]
+      },
+      "then": {
+        "properties": {
+          "seguridad": {
+            "properties": {
+              "umbral_agregacion": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -56,17 +56,103 @@ check(get.status === 405, 'GET /mcp → 405');
 
 // segunda pluma (fable), 24-sep-2026: tolerancia a palabras cotidianas, mayúsculas y tildes.
 const s1 = await call('consultar_grafo', { tarea: 'tendencia' });
-check(s1.structuredContent.tarea === 'cambio' && s1.structuredContent.interpretado_como?.desde === 'tendencia', 'grafo: "tendencia" → cambio, declarado en interpretado_como');
+check(s1.structuredContent.tarea === 'cambio' && s1.structuredContent.interpretado_como?.tarea?.desde === 'tendencia', 'grafo: "tendencia" → cambio, declarado en interpretado_como.tarea');
 const s2 = await call('consultar_grafo', { tarea: 'COMPARAR', proposito: 'que mis alumnos entiendan', patron: 'Predict Reveal' });
 check(s2.structuredContent.tarea === 'comparar' && s2.structuredContent.proposito === 'escala_humana' && s2.structuredContent.patron === 'predict_reveal', 'grafo: mayúsculas, sinónimos y espacios se resuelven');
-const s3 = await call('consultar_grafo', { tarea: 'distribucion' });
-check(s3.structuredContent.formas === null && /vocabulario/.test(s3.structuredContent.aviso_tarea), 'grafo: tarea sin aristas avisa, no dice "desconocida"');
+const s3 = await call('consultar_grafo', { tarea: 'flujo' });
+check(Array.isArray(s3.structuredContent.formas), 'grafo: tarea del vocabulario responde con formas');
 const s4 = await call('consultar_grafo', { tarea: 'asdf' });
 check(s4.structuredContent.formas === null && /desconocida/.test(s4.structuredContent.aviso_tarea), 'grafo: tarea inventada → aviso con las válidas');
 const s5 = await call('buscar_tecnicas', { texto: 'gráfico de barras apiladas' });
 check(Array.isArray(s5.structuredContent.tecnicas), 'técnicas: búsqueda por palabras no revienta');
 const s6 = await call('buscar_referentes', { texto: 'notas de mi curso' });
 check(s6.structuredContent.referentes.length === 0 && /operación cognitiva/.test(s6.structuredContent.sugerencia), 'referentes: sin resultados trae sugerencia, no silencio');
+
+
+// fable, 25-sep-2026: contrato de interacción (cicatriz de Sol) y piso convencional.
+const i1 = await call('consultar_grafo', { patron: 'predict_reveal' });
+check(i1.structuredContent.interaccion_requerida === true && i1.structuredContent.estados_minimos.length >= 3 && /degradado_a_estatico/.test(i1.structuredContent.si_no_puedes_interactuar), 'grafo: predict_reveal exige interacción y declara estados mínimos');
+const i2 = await call('consultar_grafo', { patron: 'claim_evidence_limit' });
+check(i2.structuredContent.interaccion_requerida === false, 'grafo: claim_evidence_limit no exige interacción');
+const i3 = await call('consultar_grafo', { tarea: 'scatter de notas vs asistencia' });
+check(i3.structuredContent.tarea === 'relacionar' && i3.structuredContent.formas.some((f) => f.id === 'dispersion'), 'grafo: "scatter" → relacionar → dispersion');
+const i4 = await call('consultar_grafo', { tarea: 'histograma' });
+check(i4.structuredContent.tarea === 'distribucion' && i4.structuredContent.formas.some((f) => f.id === 'histograma'), 'grafo: distribucion ya tiene aristas');
+const i5 = await call('consultar_grafo', { tarea: 'ventas mes a mes' });
+check(i5.structuredContent.formas.some((f) => f.id === 'serie_temporal'), 'grafo: "mes a mes" → serie_temporal');
+
+
+// fable, PR #3, 2-nov-2026: los pedidos de Sol (25-sep y 2-nov). Cada negativo dice por qué tiene que fallar.
+
+// P1: sin patrón no hay contrato, y se declara.
+const c1 = await call('consultar_grafo', { tarea: 'magnitud', proposito: 'escala_humana' });
+check(c1.structuredContent.interaccion_no_evaluada === true && /sin patrón/.test(c1.structuredContent.aviso_patron), 'grafo: {tarea, proposito} sin patrón → interaccion_no_evaluada: true con aviso');
+check(Array.isArray(c1.structuredContent.patrones_candidatos) && c1.structuredContent.patrones_candidatos.length === 10 && c1.structuredContent.patrones_candidatos.every((p) => 'compromiso_esperado' in p && 'interaccion_requerida' in p), 'grafo: sin patrón trae los 10 patrones candidatos con piso y si exigen interacción');
+check(c1.structuredContent.interaccion_requerida === undefined, 'grafo: sin patrón NO inventa interaccion_requerida (ni true ni false)');
+const c2 = await call('consultar_grafo', { tarea: 'magnitud', patron: 'predict_reveal' });
+check(c2.structuredContent.interaccion_no_evaluada === undefined && c2.structuredContent.interaccion_requerida === true, 'grafo: con patrón, interaccion_no_evaluada no aparece');
+check(/resolver también un patrón/.test(init.result.instructions) && /interaccion_no_evaluada/.test(init.result.instructions), 'initialize: las instructions exigen resolver un patrón y nombran interaccion_no_evaluada');
+
+// P1: procedencia por dimensión. Antes, `desde` se pisaba: con tres interpretaciones quedaba solo la última.
+const c3 = await call('consultar_grafo', { tarea: 'tendencia', proposito: 'que mis alumnos entiendan', patron: 'Predict Reveal' });
+const ic = c3.structuredContent.interpretado_como;
+check(ic?.tarea?.desde === 'tendencia' && ic?.proposito?.desde === 'que mis alumnos entiendan' && ic?.patron?.desde === 'Predict Reveal', 'grafo: interpretado_como guarda `desde` por dimensión, ninguna pisa a otra');
+check(ic?.tarea?.id === 'cambio' && ic?.proposito?.id === 'escala_humana' && ic?.patron?.id === 'predict_reveal', 'grafo: interpretado_como guarda `id` por dimensión');
+check(/sinónimo/.test(ic?.tarea?.por) && /vocabulario/.test(ic?.patron?.por), 'grafo: interpretado_como dice por qué camino llegó (sinónimo vs id normalizado)');
+check(!('desde' in (ic || {})), 'grafo: interpretado_como ya no tiene un `desde` suelto a nivel raíz');
+
+// P2: compromiso con contrato. manipulate_observe: piso activo en el grafo; con hipótesis escrita (prediccion) el efectivo es constructivo.
+const c4 = await call('consultar_grafo', { patron: 'manipulate_observe' });
+check(c4.structuredContent.compromiso_esperado === 'activo' && c4.structuredContent.compromiso_con_contrato === 'constructivo' && c4.structuredContent.operacion_cognitiva_minima === 'prediccion' && /piso activo/.test(c4.structuredContent.nota_compromiso), 'grafo: manipulate_observe declara piso activo y compromiso_con_contrato constructivo, con nota');
+check(c4.structuredContent.estados_minimos?.[0]?.includes('hipótesis'), 'grafo: manipulate_observe conserva la hipótesis escrita como estado mínimo (no opcional)');
+check(i1.structuredContent.compromiso_con_contrato === 'constructivo' && i1.structuredContent.nota_compromiso === undefined, 'grafo: predict_reveal piso constructivo = efectivo, sin nota');
+
+// nota de Sol (2-nov): claim_evidence_limit es estático legítimo con piso constructivo; la operación mínima es una explicación producida por quien lee.
+check(i2.structuredContent.operacion_cognitiva_minima === 'explicacion' && /afirmación, evidencia y límite/.test(i2.structuredContent.que_produce_la_persona), 'grafo: claim_evidence_limit declara operacion_cognitiva_minima explicacion y qué produce la persona');
+check(/pasivo/.test(i2.structuredContent.si_no_hay_operacion), 'grafo: claim_evidence_limit sin la operación → declarar pasivo, no el piso');
+const ves = ['ninguna', 'filtro', 'prediccion', 'explicacion', 'exploracion'];
+check((c1.structuredContent.patrones_candidatos ?? []).length > 0 && c1.structuredContent.patrones_candidatos.every((p) => p.operacion_cognitiva_minima === null || ves.includes(p.operacion_cognitiva_minima)), 'grafo: toda operacion_cognitiva_minima está en el vocabulario de ves/schema.json interaccion.tipo');
+
+// P2: parser por tokens. Negativos: cada uno nombra la subcadena que antes calzaba por error.
+const n1 = await call('consultar_grafo', { tarea: 'piedras por comuna' });
+check(n1.structuredContent.tarea !== 'parte_todo' && /desconocida/.test(n1.structuredContent.aviso_tarea), 'parser negativo: "piedras" NO es parte_todo (antes calzaba «pie» como subcadena) → tarea desconocida con aviso');
+const n2 = await call('consultar_grafo', { tarea: 'topografia del cerro' });
+check(n2.structuredContent.tarea !== 'ordenar' && /desconocida/.test(n2.structuredContent.aviso_tarea), 'parser negativo: "topografia" NO es ordenar (antes calzaba «top») → tarea desconocida con aviso');
+const n3 = await call('consultar_grafo', { tarea: 'totalmente distinto' });
+check(n3.structuredContent.tarea !== 'magnitud' && /desconocida/.test(n3.structuredContent.aviso_tarea), 'parser negativo: "totalmente" NO es magnitud (antes calzaba «total») → tarea desconocida con aviso');
+const n4 = await call('consultar_grafo', { tarea: 'poblacion estadounidense en chile' });
+check(n4.structuredContent.tarea !== 'estado' && /desconocida/.test(n4.structuredContent.aviso_tarea), 'parser negativo: "estadounidense" NO es estado (el fallback por id también era subcadena: «estado») → tarea desconocida con aviso');
+const p1 = await call('consultar_grafo', { tarea: 'notas vs asistencia' });
+check(p1.structuredContent.tarea === 'comparar', 'parser positivo: "vs" como token sigue resolviendo comparar');
+const p2 = await call('consultar_grafo', { tarea: 'matricula antes y despues de la pandemia' });
+check(p2.structuredContent.tarea === 'cambio' && /antes y despues/.test(p2.structuredContent.interpretado_como?.tarea?.por), 'parser positivo: sinónimo de varias palabras ("antes y despues") sigue resolviendo como secuencia de tokens');
+const p3 = await call('consultar_grafo', { tarea: 'Parte-Todo' });
+check(p3.structuredContent.tarea === 'parte_todo', 'parser positivo: id con guion y mayúsculas sigue resolviendo exacto');
+
+
+// fable (procedencia), PR #3, 2-nov-2026: restricciones duras por ámbito (P1 de Sol; aplicabilidad en el grafo por opus 5.5).
+// Regresión que pidió opus: el caso escolar (personas) contra uno territorial, y que las restricciones difieran.
+const voc = await call('consultar_grafo', {});
+const todasDuras = voc.structuredContent.restricciones.duras.map((r) => r.id);
+check(Array.isArray(voc.structuredContent.restricciones.ambitos) && voc.structuredContent.restricciones.aplicabilidad, 'grafo: el vocabulario trae ambitos y aplicabilidad');
+const esc = await call('consultar_grafo', { tarea: 'scatter de notas vs asistencia', ambito: 'estudiantes' });
+const escIds = esc.structuredContent.restricciones_duras.map((r) => r.id);
+check(esc.structuredContent.ambito?.id === 'personas' && /parámetro/.test(esc.structuredContent.ambito.resuelto_por), 'ámbito: "estudiantes" por parámetro → personas, con procedencia');
+check(!escIds.includes('sin_datos_personales') && !escIds.includes('tres_nadas') && escIds.includes('sin_identificables'), 'ámbito personas: NO entrega sin_datos_personales ni tres_nadas (son territoriales); SÍ entrega sin_identificables');
+const fuera = esc.structuredContent.restricciones_fuera_de_ambito ?? [];
+check(fuera.length === 2 && fuera.map((r) => r.id).sort().join(',') === 'sin_datos_personales,tres_nadas' && fuera.every((r) => /aplica solo en territorio_o_servicio/.test(r.razon)), 'ámbito personas: las excluidas se declaran con su razón, no desaparecen en silencio');
+const ter = await call('consultar_grafo', { tarea: 'hacinamiento por unidad vecinal', ambito: 'territorio_o_servicio' });
+const terIds = ter.structuredContent.restricciones_duras.map((r) => r.id);
+check(ter.structuredContent.ambito?.id === 'territorio_o_servicio' && terIds.includes('sin_datos_personales') && terIds.includes('tres_nadas') && terIds.includes('sin_identificables') && ter.structuredContent.restricciones_fuera_de_ambito?.length === 0, 'ámbito territorial: entrega todas, incluidas las dos acotadas, y nada queda fuera');
+check(terIds.length === todasDuras.length && escIds.length === todasDuras.length - 2 && escIds.join(',') !== terIds.join(','), 'regresión: el caso escolar y el territorial reciben restricciones distintas (escolar = todas menos las dos territoriales)');
+const inf = await call('consultar_grafo', { tarea: 'dispersion de notas vs asistencia por estudiante' });
+check(inf.structuredContent.ambito?.id === 'personas' && /inferido de la tarea/.test(inf.structuredContent.ambito.resuelto_por) && !inf.structuredContent.restricciones_duras.some((r) => r.id === 'sin_datos_personales'), 'ámbito: "por estudiante" en la tarea se infiere como personas y filtra');
+const sinAmb = await call('consultar_grafo', { tarea: 'magnitud' });
+check(sinAmb.structuredContent.ambito === null && sinAmb.structuredContent.restricciones_duras.length === todasDuras.length && /no se pudo resolver el ámbito/.test(sinAmb.structuredContent.aviso_ambito), 'ámbito sin resolver: NO adivina, entrega todas y lo declara en aviso_ambito');
+check(sinAmb.structuredContent.restricciones_duras.filter((r) => r.aplica_en).map((r) => r.id).sort().join(',') === 'sin_datos_personales,tres_nadas', 'ámbito sin resolver: las acotadas llevan aplica_en para que el modelo decida');
+const marte = await call('consultar_grafo', { tarea: 'magnitud', ambito: 'marte' });
+check(marte.structuredContent.ambito === null && /desconocido: «marte»/.test(marte.structuredContent.aviso_ambito) && marte.structuredContent.restricciones_duras.length === todasDuras.length, 'ámbito negativo: "marte" NO se resuelve (no es ámbito ni sinónimo) → aviso con los válidos y todas las restricciones');
+check(!('sin_datos_personales' in Object.fromEntries(escIds.map((i) => [i, 1]))) && 'sin_datos_personales' in Object.fromEntries(terIds.map((i) => [i, 1])), 'la línea «nunca persona» de Opus sigue intacta en el grafo y solo se entrega en territorio_o_servicio');
 
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
