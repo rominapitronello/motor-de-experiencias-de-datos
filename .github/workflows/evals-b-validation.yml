@@ -1,0 +1,24 @@
+name: Evals B structural validation
+on:
+  pull_request:
+    paths:
+      - 'evals/trampas-sembradas/casos_b.json'
+      - 'evals/trampas-sembradas/validar_b.py'
+      - '.github/workflows/evals-b-validation.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'evals/trampas-sembradas/casos_b.json'
+      - 'evals/trampas-sembradas/validar_b.py'
+      - '.github/workflows/evals-b-validation.yml'
+jobs:
+  verify-evals-b:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 evals/trampas-sembradas/validar_b.py
