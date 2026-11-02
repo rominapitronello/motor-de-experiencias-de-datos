@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://pasaelfiltro.cl/schemas/ves/0.1",
+  "$id": "https://pasaelfiltro.cl/schemas/ves/0.2",
   "title": "Visualization Experience Spec (VES) v0.2 — pluma Sol",
   "description": "Contrata afirmaciones, fuente y experiencia antes del renderer. JSON Schema valida la estructura; los cruces semánticos viven en casos/probar_ves.py.",
   "type": "object",
@@ -321,7 +321,8 @@
                 "vacio",
                 "estimar",
                 "proyectar",
-                "leer"
+                "leer",
+                "reconocer"
               ]
             },
             "proposito": {
@@ -337,7 +338,8 @@
                 "rendicion_de_cuentas",
                 "activos_primero",
                 "jugar",
-                "perder_el_miedo"
+                "perder_el_miedo",
+                "curiosidad"
               ]
             },
             "patron": {
@@ -397,7 +399,11 @@
                 "linea_con_proyeccion",
                 "desglose_del_cambio",
                 "lo_mismo_anotado",
-                "planilla_para_empezar"
+                "planilla_para_empezar",
+                "un_registro_desarmado",
+                "inventario_de_lo_que_tienes",
+                "quien_mas_lo_ve",
+                "pregunta_de_vuelta"
               ]
             },
             "tecnica_id": {
@@ -445,7 +451,11 @@
                     "linea_con_proyeccion",
                     "desglose_del_cambio",
                     "lo_mismo_anotado",
-                    "planilla_para_empezar"
+                    "planilla_para_empezar",
+                    "un_registro_desarmado",
+                    "inventario_de_lo_que_tienes",
+                    "quien_mas_lo_ve",
+                    "pregunta_de_vuelta"
                   ]
                 },
                 "motivo": {

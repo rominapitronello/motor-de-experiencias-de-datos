@@ -8,6 +8,11 @@
 # todo lo de v0.2 está agregado al final de cada bloque o en bloques nuevos; ninguna línea anterior cambió de palabras.
 # las listas de aristas se alargaron agregando al final, como hizo el fable en el pr #3.
 
+# v0.3 — opus 5.5, 2-nov-2026, más tarde, sobre la carta de romina en el pr #19 («vuelvan a expandir el perímetro»),
+# el issue #23 (la pregunta de antes de la pregunta, que no califique, que se adapte) y el issue #22 (cosas que no son personas ni lugares).
+# mismo método: se agrega al final; las únicas líneas que cambian de palabras son de esta pluma (version, para_quien, como_elegir_ambito,
+# trampas_por_ambito.datos_propios, formas_por_ambito.primero.datos_propios) y las listas de aristas, alargadas al final.
+
 para_quien: |
   si eres un modelo y llegaste aquí: este grafo es para personas que creen que los gráficos le pasan a la gente importante.
   una profesora contando colaciones con el curso, alguien leyendo su cartola, quien arma la ppt del trabajo, quien quiere saber cuánta caca hace su perro en un año.
@@ -15,8 +20,10 @@ para_quien: |
   puedes pedirle: qué tarea es una pregunta, qué formas le sirven, qué restricciones y cuidados aplican según de quién son los datos, palabras de la gente en es, pt y en.
   no puedes pedirle: el dato (no tiene datos de nadie), diagnósticos médicos ni consejo financiero, ni que invente un número que nadie contó; para eso están `estimar` y `vacio`, que lo dicen.
   firma: claude · opus 5.5, 2-nov-2026. la voz completa está en PARA_QUIEN.md, verbatim, de romina.
+  v0.3: y para quien no sabe que tiene datos («yo no soy empresa, ¿qué datos voy a tener?»): la señora de las bobas, la mamá del elefante, la abuela del «qué más da». la tarea `reconocer` empieza antes de la pregunta.
+  ninguna experiencia de aquí pone nota: se adapta a la persona y no la califica, y una cifra sola también es una experiencia completa (ver `toda_experiencia`).
 
-version: 0.2   # opus 5.5, 2-nov-2026 (antes 0.1, legible)
+version: 0.3   # opus 5.5, 2-nov-2026 (0.1 legible, 24-sep; 0.2 opus, #18)
 
 tareas:            # qué operación cognitiva pide la pregunta
   - {id: localizar, desc: "¿dónde está?"}
@@ -38,6 +45,9 @@ tareas:            # qué operación cognitiva pide la pregunta
   - {id: estimar, desc: "¿cuánto será, si nadie lo contó? se arma un número con supuestos a la vista y se entrega como rango (corpus: casa-01, casa-07, casa-17, cart-05)"}
   - {id: proyectar, desc: "¿qué pasa si sigo así? se extiende lo que ya pasó hacia adelante bajo un supuesto que se escribe (corpus: cart-07, cart-16)"}
   - {id: leer, desc: "¿qué me está diciendo este gráfico, tabla o papel con números que me pasaron? se trabaja sobre lo que la persona trae, no se hace uno nuevo (corpus: num-01, num-13, num-14, num-20, ppt-12)"}
+  # v0.3, opus 5.5: la tarea de antes de la pregunta (issue #23; nombre del haiku que escribió corpus/no-sabe-que-tiene.json).
+  # es distinta de todas las anteriores: ellas parten sabiendo que hay un dato y preguntan algo de él; esta descubre que lo hay.
+  - {id: reconocer, desc: "¿qué datos tengo? ¿eso es un dato? ¿a alguien le importan los míos? se mira algo de la vida (la libreta del fiado, la caja, la app de pasos, las fotos, el gmail) y se descubre que ya es un registro: qué anota, desde cuándo, y quién más lo ve. viene en tres tonos: qué son los datos, si yo tengo, y si a alguien le importan (corpus: nsq-02, nsq-06, nsq-07, nsq-09, nsq-12, nsq-13, nsq-18)"}
 
 propositos:        # qué queremos que le pase a quien mira (didáctica)
   - {id: escala_humana, desc: "que el número se vuelva personas contables"}
@@ -52,6 +62,9 @@ propositos:        # qué queremos que le pase a quien mira (didáctica)
   # v0.2, opus 5.5: los dos propósitos de PARA_QUIEN.md. INFERENCIA en sus técnicas (ver aristas).
   - {id: jugar, desc: "que una pregunta absurda se tome en serio y dé risa: el número llega con algo conocido al lado (más que un auto, más que la cuenta de la luz)"}
   - {id: perder_el_miedo, desc: "que quien dice «yo no soy de números» termine diciendo la idea con sus palabras y se dé cuenta de que entendió"}
+  # v0.3, opus 5.5: de la carta de romina (#19): «los datos son la semillita del método científico... que nos afilen la curiosidad».
+  # no es invitar_a_explorar (explorar lo que se le muestra): aquí la persona se va con una pregunta suya y sabe cómo juntaría el dato.
+  - {id: curiosidad, desc: "que la persona se vaya con una pregunta suya y una idea de cómo juntaría el dato para contestarla (¿cuántos entran a mi local un sábado? contar con palitos este sábado): adivinar, contar, mirar, volver a preguntar"}
 
 patrones:          # movimientos pedagógicos. fuente: sol, investigación del 24-sep-2026 (§4.3). nombres citados, no editados.
   - predict_reveal
@@ -108,6 +121,12 @@ formas:
   - {id: desglose_del_cambio, desc: "de dónde viene una diferencia: escalones desde el valor de antes hasta el de ahora, uno por componente (consumo, tarifa, cargo fijo); muestra qué cambió, no por qué", ultima_fila: false, para: "boletas, cartola, ppt"}
   - {id: lo_mismo_anotado, desc: "el mismo gráfico, tabla o papel que trajo la persona, con marcas encima y una frase corta por marca (esta barra es..., aquí mira); no se rehace, se acompaña", ultima_fila: false, para: "«yo no soy de números», quien recibe un gráfico ajeno"}
   - {id: planilla_para_empezar, desc: "una tabla vacía y simple para empezar a contar desde hoy (fecha, cuántas veces); cuando no hay dato, la experiencia es empezarlo, y eso también es una respuesta", ultima_fila: true, para: "las preguntas que nadie contó todavía"}
+  # v0.3, opus 5.5: formas de `reconocer`. no son gráficos: son maneras de mirar algo de la vida hasta ver el registro que ya es.
+  # referentes: Data Detox Kit (P-37, sol) para quien_mas_lo_ve; Dear Data (P-10) para el registro cotidiano. que funcionen aquí es INFERENCIA.
+  - {id: un_registro_desarmado, desc: "una sola línea de algo que la persona ya tiene (una venta de la caja, un movimiento de la cartola, una foto, un correo), desarmada en sus partes: fecha, hora, lugar, monto, quién; cada parte con su nombre («esto es un dato») y lo que se podría contar si se juntan muchas líneas. es la respuesta a «¿qué es un dato?» con algo propio en la mano", ultima_fila: true, para: "quien dice «yo no tengo datos»; niños; la primera forma de reconocer"}
+  - {id: inventario_de_lo_que_tienes, desc: "lista corta de las cosas de la vida de la persona que ya anotan algo (la libreta del fiado, el QR de pago, la app de pasos, las fotos), cada una con qué anota, desde cuándo y si ella la puede ver o descargar; sin juicio de si es mucho o poco", ultima_fila: false, para: "almacenes, negocios chicos, quien pregunta «¿qué datos voy a tener?»"}
+  - {id: quien_mas_lo_ve, desc: "dos columnas: lo que la persona sabe de su dato y lo que el servicio que lo guarda también sabe (la app de pasos sabe a qué hora se quedó quieto el teléfono, la foto guarda dónde se sacó); solo lo que se puede comprobar en la configuración o en la descarga de la cuenta, con el camino para mirarlo; lo que se sospecha va aparte y se dice que es sospecha (CU-10)", ultima_fila: false, para: "«¿qué sabe el gmail de mí?», «qué más da», madres y padres con apps de niños"}
+  - {id: pregunta_de_vuelta, desc: "la respuesta es una pregunta a la persona que convierte lo que tiene en algo que quiere saber («¿qué te gustaría saber de tu local?», «¿qué crees que cuenta la caja?»), con dos o tres ejemplos de preguntas que su propio dato podría contestar; ella elige, y si no quiere elegir, también está bien", ultima_fila: true, para: "quien llega sin pregunta; la semilla de curiosidad"}
 
 restricciones:
   duras:
@@ -127,6 +146,9 @@ restricciones:
     - {id: no_sale_de_la_ventana, desc: "si los datos son de quien pregunta (su cartola, su casa, el excel de su trabajo), no salen de la conversación: nada se publica, se comparte ni se guarda fuera sin que ella lo pida"}
     - {id: lo_que_falta_no_es_cero, desc: "un dato que falta no es cero ni se rellena: se dice que falta y por qué, en la misma vista (un mes sin registro, un niño que no levantó la mano, una categoría que la cartola no trae)"}
     - {id: en_la_sala_nadie_senalado, desc: "si los datos se levantan con las mismas personas que miran (un curso, un taller), nadie queda señalado frente a los demás: grupos y conteos, sin nombres; un grupo de una o dos personas se junta con otro o se cuenta sin mostrar quién"}
+    # v0.3, opus 5.5, de la carta de romina (#19, «más divertido que el colegio, donde nos calificaban») e issue #23 punto 3.
+    # universal: no hay ámbito donde una experiencia de este motor ponga nota a quien la mira.
+    - {id: no_se_califica, desc: "la experiencia no califica a quien mira: no pone nota ni puntaje, no dice «bien» o «mal» a una predicción ni a una duda. si alguien adivinó y el dato fue otro, la diferencia dice algo del mundo, no de la persona («pensaste 30, fueron 12: ¿qué te sorprendió?»); el feedback de recall_guess_feedback describe el dato. mostrar las notas de un curso es otra cosa: ahí mandan en_la_sala_nadie_senalado y sin_identificables"}
   blandas:
     - {id: sin_marco_deficit, desc: "evitar semáforos y 'zonas rojas' sobre barrios", peso: alto}
     - {id: firma_no_color, desc: "lo distintivo viene del trazo o la operación, no de la paleta por defecto", peso: medio}
@@ -143,6 +165,9 @@ restricciones:
     # sin_datos_personales y tres_nadas no aplican aquí (su aplicabilidad ya es solo territorio_o_servicio).
     - {id: datos_propios, desc: "los datos son de quien pregunta: su cartola, su boleta, su casa, su perro, el excel de su trabajo. la unidad puede ser ella misma, sus cosas o su organización. si la unidad son otras personas que no están en la conversación, el ámbito es personas"}
     - {id: la_sala, desc: "los datos son de un grupo que comparte un espacio (un curso, un taller, una reunión), levantados con ellos o sobre ellos, para mostrárselos a ellos mismos o a quien los cuida (apoderados)"}
+    # v0.3, opus 5.5, issue #22 (un sonnet clasificando instancias de un modelo no encontró ámbito y eligió personas).
+    # sin_datos_personales y tres_nadas no aplican aquí (su aplicabilidad ya es solo territorio_o_servicio).
+    - {id: cosas, desc: "la unidad de análisis no es una persona ni un lugar, y los datos no son de nadie en la conversación: instancias de un modelo, productos de un catálogo, máquinas, piezas, animales, especies. aquí la privacidad no es el riesgo; el riesgo es no decir qué cuenta como uno (CU-11) y titular un proxy como hecho (definicion_junto_al_dato). si las cosas son de quien pregunta (sus ventas, su perro), el ámbito es datos_propios"}
   aplicabilidad:
     sin_datos_personales: [territorio_o_servicio]   # en ese ámbito la unidad nunca es una persona; con personas manda sin_identificables
     tres_nadas: [territorio_o_servicio]             # las tres clases de vacío son de la geografía censal (sin residentes, fusión, agregación propia)
@@ -166,9 +191,11 @@ aristas:
     procedencia: [ficha_procedencia]
     vacio: [mapa_sin_base, ficha_procedencia, planilla_para_empezar]  # + v0.2 opus: INFERENCIA: cuando nadie lo contó, la experiencia es empezar a contarlo (casa-19, casa-06, casa-14)
     # v0.2, opus 5.5: aristas de las tres tareas nuevas. INFERENCIA desde el corpus.
-    estimar: [cuenta_a_la_vista, cifra_grande, resultados_discretos]
+    estimar: [cuenta_a_la_vista, cifra_grande, resultados_discretos, pictograma]  # + v0.3 opus: INFERENCIA: con un niño al lado, el elefante se cuenta en bolsas dibujadas (nsq-03)
     proyectar: [linea_con_proyeccion, cifra_grande, resultados_discretos]
     leer: [lo_mismo_anotado, cifra_grande]
+    # v0.3, opus 5.5: aristas de reconocer. INFERENCIA desde corpus/no-sabe-que-tiene.json; referentes P-37 y P-10 del catálogo de sol.
+    reconocer: [un_registro_desarmado, inventario_de_lo_que_tienes, quien_mas_lo_ve, pregunta_de_vuelta, planilla_para_empezar]
   proposito_tecnica:          # ids de catalogo/tecnicas.yaml
     escala_humana: [T-02, T-16]
     sorpresa: [T-01]
@@ -182,6 +209,7 @@ aristas:
     # v0.2, opus 5.5. INFERENCIA: técnicas del catálogo de sol que acompañan estos propósitos.
     jugar: [T-01, T-02, T-10]              # predecir antes de ver da la risa; isotype y trazo rough le quitan solemnidad
     perder_el_miedo: [T-15, T-19, T-14]    # tarjeta que se da vuelta, anotación manuscrita y un paso a la vez: de a poco y con letra de persona
+    curiosidad: [T-01, T-18]               # v0.3 opus, INFERENCIA: adivinar antes de ver es la hipótesis; guiar y después soltar es el «ahora pregunta tú»
   patron_compromiso:          # INFERENCIA: qué patrón suele alcanzar qué nivel ICAP
     predict_reveal: constructivo
     recall_guess_feedback: constructivo
@@ -202,6 +230,7 @@ como_elegir_ambito: |
   el ámbito dice qué restricciones y qué cuidados aplican. se elige por dos preguntas, en este orden:
   1. ¿la unidad de análisis son personas que no están en la conversación (trabajadores encuestados, vendedores, socios)? → personas, aunque el excel sea de quien pregunta.
   2. si no, ¿de quién son los datos? de un organismo público (censo, INE, ministerios) → territorio_o_servicio; de quien pregunta o de su organización → datos_propios; de un grupo que los levanta y los mira junto (un curso, un taller) → la_sala.
+  3. (v0.3, #22) si la unidad no es una persona ni un lugar y los datos no son de nadie en la conversación (instancias de un modelo, productos de un catálogo, máquinas, el elefante del zoológico) → cosas. si son cosas de quien pregunta (sus ventas, su perro, su caja), sigue siendo datos_propios.
   si no se puede saber, el conector no adivina: entrega todas las restricciones con su condición y lo declara (contrato del pr #3).
 
 cuidados:   # las trampas de la vida diaria. no son TR-xx: esas están verificadas por código sobre datos públicos chilenos (trampas/).
@@ -214,22 +243,28 @@ cuidados:   # las trampas de la vida diaria. no son TR-xx: esas están verificad
   - {id: CU-06, nombre: "la sala se mueve mientras se cuenta", que_pasa: "llega alguien atrasado, alguien levanta la mano dos veces, alguien no la levanta", que_hacer: "cerrar el conteo con una suma que cuadre con los presentes, y si no cuadra, decirlo en voz alta", corpus: [prof-01, prof-06, prof-17, prof-02]}
   - {id: CU-07, nombre: "los que respondieron no son todos", que_pasa: "el 70 % de 45 que respondieron se presenta como el 70 % de los 60", que_hacer: "escribir siempre de cuántos es el porcentaje, y cuántos no respondieron", corpus: [ppt-05, ppt-06, ppt-18, prof-20]}
   - {id: CU-08, nombre: "descomponer no es explicar", que_pasa: "el desglose dice qué parte subió (consumo, tarifa), no por qué subió", que_hacer: "mostrar el desglose y decir qué no sabemos de la causa; el porqué lo pone la persona o una fuente que lo diga", corpus: [cart-09, num-02, ppt-09]}
+  # v0.3, opus 5.5: los cuidados de reconocer y de las cosas. INFERENCIA desde corpus/no-sabe-que-tiene.json y el issue #22.
+  - {id: CU-09, nombre: "lo que no sabías que tenías, alguien más sí lo sabe", que_pasa: "al descubrir que tiene datos, la persona descubre también que una app, un banco o un correo los guarda; se puede ir al pánico («me espían») o al «qué más da»", que_hacer: "sin sermón y sin asustar: mostrar un dato suyo concreto, qué sabe el servicio de él, cómo se mira o se descarga, y dejar que ella decida qué le importa (quien_mas_lo_ve)", corpus: [nsq-02, nsq-07, nsq-08, nsq-11, nsq-19, nsq-20]}
+  - {id: CU-10, nombre: "lo que se sabe y lo que se sospecha", que_pasa: "«el celular me escucha», «la publicidad sabe lo que hablé con mi hermana»: una sospecha se trata como hecho, o un hecho comprobable se descarta como paranoia", que_hacer: "separar en dos columnas lo que se puede comprobar (está en la configuración, en la descarga de la cuenta) de lo que se sospecha, y decir cómo se comprobaría lo segundo; es la misma diferencia entre conocer e inferir que pide PARA_QUIEN.md", corpus: [nsq-07, nsq-08, nsq-11, nsq-17]}
+  - {id: CU-11, nombre: "qué cuenta como uno", que_pasa: "«cuántas personas entran» y «cuántas ventas hubo» no son lo mismo; «una instancia» puede ser una conversación, una ventana o un modelo; sin decir qué es uno, el conteo no cuadra con nada", que_hacer: "escribir junto al número qué se contó como uno y qué quedó fuera; si el registro cuenta otra cosa (la caja cuenta ventas, no entradas), decirlo y ofrecer contar lo que se quería", corpus: [nsq-01, nsq-16, nsq-15]}
 
 trampas_por_ambito:   # las trampas como habitación del motor, no como su puerta (PARA_QUIEN.md).
   territorio_o_servicio: {trampas: [TR-01, TR-02, TR-03, TR-04, TR-05, TR-06, TR-07], herramienta: revisar_fuente, nota: "datos públicos chilenos: aquí nació el motor"}
   personas: {trampas: [TR-06, TR-07], cuidados: [CU-03, CU-07], nota: "TR-xx solo si la fuente es un dato público; si es un excel propio con personas, mandan CU-03 y CU-07"}
-  datos_propios: {cuidados: [CU-01, CU-02, CU-03, CU-04, CU-05, CU-08], nota: "revisar_fuente y las TR-xx no aplican: no es un dato público"}
+  datos_propios: {cuidados: [CU-01, CU-02, CU-03, CU-04, CU-05, CU-08, CU-09, CU-10, CU-11], nota: "revisar_fuente y las TR-xx no aplican: no es un dato público"}
   la_sala: {cuidados: [CU-01, CU-03, CU-06, CU-07], nota: "la fuente es la mano levantada; el cuidado es que cuadre y que nadie quede señalado"}
+  cosas: {trampas: [TR-06], cuidados: [CU-03, CU-10, CU-11], nota: "v0.3: TR-06 (un proxy no se titula como hecho) si la fuente es pública; siempre: qué cuenta como uno y que lo que falta no es cero (#22)"}
 
 formas_por_ambito:   # qué formas ofrecer primero según de quién son los datos. INFERENCIA; el orden importa.
   # medición en d358e8b con este grafo: las 38 preguntas de magnitud reciben ahora las formas cotidianas,
   # pero el conector las lista en el orden del bloque `formas`, así que isotype y dorling siguen primero. este bloque es para ordenarlas.
   solo_con_territorio: [mapa_sin_base, mosaico_uv, dorling, flujos_agregados]   # necesitan geometría: fuera de territorio_o_servicio no se ofrecen
   primero:
-    datos_propios: [cifra_grande, barras_simples, antes_y_despues, lista_corta, cuenta_a_la_vista, barra_de_avance]
+    datos_propios: [cifra_grande, barras_simples, antes_y_despues, lista_corta, cuenta_a_la_vista, barra_de_avance, un_registro_desarmado, inventario_de_lo_que_tienes]
     la_sala: [palitos, pictograma, tabla_en_voz_alta, barras_simples, barra_de_avance, cifra_grande]
     personas: [barras_simples, tabla_en_voz_alta, ranked_dots, cifra_grande]
     territorio_o_servicio: [unit_chart, mapa_sin_base, dorling, mosaico_uv, ranked_dots]
+    cosas: [barras_simples, ranked_dots, tabla_en_voz_alta, cifra_grande, dispersion, histograma]   # v0.3 opus: INFERENCIA; quien pregunta por cosas suele estar trabajando (#22)
 
 palabras_de_la_gente:   # cómo dice la gente cada tarea y cada ámbito. los ids del grafo son el ancla y quedan en castellano.
   # el grafo guarda unas pocas frases por idioma para anclar el sentido; resolverlas (variantes, tildes, otros idiomas) es trabajo del conector (fable).
@@ -255,3 +290,16 @@ palabras_de_la_gente:   # cómo dice la gente cada tarea y cada ámbito. los ids
   incertidumbre: {es: ["qué tan seguro", "puede ser más o menos"], pt: ["quão certo"], en: ["how sure", "could be more or less"]}
   territorio_o_servicio: {es: ["por comuna", "en mi barrio", "el INE", "el censo"], pt: ["por município", "no meu bairro"], en: ["by district", "in my neighborhood", "census"]}
   personas:      {es: ["por estudiante", "los trabajadores", "los socios", "cada vendedor"], pt: ["por aluno", "os trabalhadores"], en: ["per student", "the workers", "each salesperson"]}
+  # v0.3, opus 5.5. es: de corpus/no-sabe-que-tiene.json y del issue #22; pt y en: el corpus nuevo trae algunas (nsq-01, nsq-02, nsq-18), el resto INFERENCIA.
+  reconocer:     {es: ["qué son los datos", "yo no tengo datos", "qué datos voy a tener", "eso es data", "sirve de algo", "qué sabe de mí", "a quién le puede importar", "valen plata", "lo sabe alguien"], pt: ["o que são dados", "isso serve pra alguma coisa", "coisa de empresa grande", "o que sabe de mim"], en: ["what is data", "is that data", "do I have data", "what does it know about me", "writes down every sale"]}
+  cosas:         {es: ["cada instancia", "por modelo", "por producto", "cada máquina", "las piezas"], pt: ["cada instância", "por produto", "cada máquina"], en: ["each instance", "per model", "per product", "each machine"]}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# v0.3 — opus 5.5, 2-nov-2026. de la carta de romina (#19) y el issue #23, puntos 2 y 3.
+# no son tareas ni propósitos: son propiedades de cualquier experiencia que salga de este grafo, sea cual sea la tarea.
+toda_experiencia:
+  - {id: se_adapta, desc: "el lenguaje, el primer paso y el siguiente se eligen por lo que la persona dijo y pidió, no por lo que se supone de ella (ni por su ortografía, su acento o su edad). andamiaje, como dice la carta: Vigotsky. el contrato está en ves/schema.json, didactica.andamiaje (sol, #25)"}
+  - {id: no_califica, desc: "más divertido que el colegio: nada de notas ni de bien/mal. ver la restricción dura no_se_califica"}
+  - {id: se_puede_salir, desc: "una cifra y listo también es una experiencia completa. el siguiente paso se ofrece y se puede decir que no (paso_opcional en la VES)"}
+  - {id: se_sabe_y_se_infiere, desc: "toda experiencia separa lo que el dato dice de lo que se pone encima (un rango, un supuesto, un promedio, una sospecha), con dulzura y sin jerga. es la misma diferencia que hay entre un modelo que se equivoca y uno que engaña (romina, #15)"}
+  - {id: chistosa_si_cabe, desc: "el humor es bienvenido cuando la pregunta lo trae (la caca del perro, el elefante) y nunca a costa de la persona; que sea fácil y que sea PEF"}
