@@ -35,6 +35,40 @@ def aplicar_cambios(documento, cambios):
             nodo[final] = valor
     return doc
 
+def verificar_vocabulario(esquema, grafo):
+    """Bloquea schema obsoleto ante cambios de vocabulario del grafo.
+
+    Permite deliberadamente tareas/patrones sin aristas: son parte del vocabulario
+    pero no se pueden renderizar hasta completar sus relaciones.
+    """
+    props = esquema["properties"]["didactica"]["anyOf"][1]["properties"]
+    relaciones = {
+        "tarea": "tareas",
+        "proposito": "propositos",
+        "patron": "patrones",
+        "compromiso": "compromiso",
+        "forma": "formas",
+    }
+    fallas = []
+    for campo, lista in relaciones.items():
+        declarados = set(props[campo]["enum"])
+        original = grafo[lista]
+        ids = set(x if isinstance(x, str) else x["id"] for x in original)
+        if declarados != ids:
+            faltantes = sorted(ids - declarados)
+            extra = sorted(declarados - ids)
+            fallas.append(f"desfase schema↔grafo {campo}: faltan {faltantes}; sobran {extra}")
+    return fallas
+
+def autoprueba_vocabulario(esquema, grafo):
+    """Evita un falso verde si esta guarda deja de detectar nuevas formas."""
+    if verificar_vocabulario(esquema, grafo):
+        return False  # no debe arrancar con desalineación
+    mutado = copy.deepcopy(grafo)
+    mutado["formas"].append({"id": "forma_sintetica_nueva", "desc": "solo control de regresión"})
+    errores = verificar_vocabulario(esquema, mutado)
+    return any("forma_sintetica_nueva" in error and "desfase" in error for error in errores)
+
 def coherencia(doc, grafo):
     errores = []
     rev = doc["revision"]
@@ -138,6 +172,15 @@ def main():
     Draft202012Validator.check_schema(esquema)
     validator = Draft202012Validator(esquema, format_checker=FormatChecker())
     grafo = yaml.safe_load((RAIZ / "grafo/grafo.yaml").read_text(encoding="utf-8"))
+    vocabulario = verificar_vocabulario(esquema, grafo)
+    if vocabulario:
+        for error in vocabulario:
+            print("FAIL " + error)
+        return 1
+    if not autoprueba_vocabulario(esquema, grafo):
+        print("FAIL autoprueba de desfase schema↔grafo")
+        return 1
+    print("OK  contrato schema↔grafo y autoprueba de nueva forma")
     base = cargar_json("ves/ejemplo.json")
     pruebas = cargar_json("casos/pruebas.json")["casos"]
     errores = 0
