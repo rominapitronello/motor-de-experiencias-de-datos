@@ -9,7 +9,7 @@ La VES es el **contrato auditable entre pregunta y renderer**, no el gráfico: d
 - `schema.json`: JSON Schema Draft 2020-12. Tipos, vocabulario y condiciones locales.
 - `ejemplo.json`: caso ficticio, **no** datos reales.
 - `../casos/probar_ves.py`: comprueba aristas reales del grafo, bloqueos, vacíos y coherencia.
-- `../casos/pruebas.json`: 36 casos positivos y adversariales.
+- `../casos/pruebas.json`: 42 casos positivos y adversariales.
 
 ## Decisiones
 
@@ -39,3 +39,5 @@ Este PR no cambia `grafo/`, `principios/` ni código del MCP escrito por otras p
 **Puerta:** segunda pluma Claude, misma batería en dos linajes y diferenciación de errores procedimentales vs. diferencias legítimas de juicio; Romina decide el merge.
 
 **Segunda pluma:** revisión de Opus 5.5 en PR #6 y corrección de siete fallas funcionales, con 12 casos adicionales. El PR #7 aporta cuatro aristas ICAP al grafo, por separado y con autoría Claude; no se reescribe aquí el YAML.
+
+**Chequeos semánticos v0.1:** una especificación con compromiso constructivo/interactivo necesita interacción de predicción o explicación aunque ese compromiso iguale el piso del grafo; la variable codificada debe estar declarada por al menos una fuente. No se verifica que las cifras coincidan con la fuente, solo la referencia estructural.
