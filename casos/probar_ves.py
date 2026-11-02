@@ -25,8 +25,13 @@ def aplicar_cambios(documento, cambios):
             nodo = nodo[int(parte)] if isinstance(nodo, list) else nodo[parte]
         final = partes[-1]
         if isinstance(nodo, list):
-            nodo[int(final)] = valor
+            i = int(final)
+            if i >= len(nodo) or i < 0:
+                raise KeyError(f"Ruta inexistente: {ruta}")
+            nodo[i] = valor
         else:
+            if final not in nodo:
+                raise KeyError(f"Ruta inexistente: {ruta}")
             nodo[final] = valor
     return doc
 
@@ -38,6 +43,9 @@ def coherencia(doc, grafo):
     tipos_esperados = {"sin_residentes", "fusion_organismo", "agregacion_propia"}
     if set(tipos) != tipos_esperados or len(tipos) != 3:
         errores.append("vacios: faltan clases o hay duplicados")
+    trampas_ids = [t["id"] for t in rev["trampas"]]
+    if len(trampas_ids) != len(set(trampas_ids)):
+        errores.append("trampa duplicada: una ID no puede recibir estados contradictorios")
     for v in vacios:
         if v["estado"] == "presente" and not v["leyenda"].strip():
             errores.append(f"vacio {v['tipo']}: falta leyenda")
@@ -60,6 +68,10 @@ def coherencia(doc, grafo):
         errores.append("hay clases de vacío sin evaluar")
     if doc["seguridad"]["celdas_pequenas"] == "pendientes":
         errores.append("celdas pequeñas sin resolver")
+    if doc["seguridad"]["celdas_pequenas"] == "agregadas":
+        propia = [v for v in vacios if v["tipo"] == "agregacion_propia"]
+        if len(propia) != 1 or propia[0]["estado"] != "presente" or not propia[0]["leyenda"].strip():
+            errores.append("agregacion_propia: celdas pequeñas agregadas requieren vacío presente y leyenda")
     for a in capacidad["afirmaciones"]:
         if a["tipo"] == "proxy" and not a["definicion"].strip():
             errores.append("proxy sin definición explícita")
@@ -81,10 +93,21 @@ def coherencia(doc, grafo):
     if d["tecnica_id"] not in tecnicas:
         errores.append(f"técnica {d['tecnica_id']} no respaldada por propósito {d['proposito']}")
     nivel = aristas["patron_compromiso"].get(d["patron"])
+    orden_icap = {"pasivo": 0, "activo": 1, "constructivo": 2, "interactivo": 3}
     if nivel is None:
         errores.append(f"patrón {d['patron']} sin compromiso ICAP mapeado")
-    elif nivel != d["compromiso"]:
-        errores.append(f"compromiso ICAP {d['compromiso']} difiere de {nivel}")
+    elif orden_icap[d["compromiso"]] < orden_icap[nivel]:
+        errores.append(f"compromiso ICAP {d['compromiso']} inferior al piso {nivel}")
+    elif orden_icap[d["compromiso"]] > orden_icap[nivel]:
+        if orden_icap[d["compromiso"]] >= 2 and r["interaccion"]["tipo"] not in ("prediccion", "explicacion"):
+            errores.append("elevación ICAP: falta predicción o explicación que produzca una idea")
+    if d["compromiso"] == "interactivo" and not r["interaccion"]["co_construccion"]:
+        errores.append("ICAP interactivo requiere co-construcción verificable")
+    if d["patron"] == "predict_reveal":
+        if r["interaccion"]["tipo"] != "prediccion":
+            errores.append("predict_reveal exige interacción de predicción")
+        if not r["interaccion"]["permite_no_adivinar"]:
+            errores.append("predict_reveal debe ofrecer 'prefiero no adivinar'")
 
     if r["codificacion"]["usa_coropletico"] and r["codificacion"]["normalizacion"] == "ninguna":
         errores.append("no se permite coropleta de conteos brutos")
@@ -109,16 +132,25 @@ def main():
     pruebas = cargar_json("casos/pruebas.json")["casos"]
     errores = 0
     for prueba in pruebas:
-        documento = aplicar_cambios(base, prueba["cambios"])
+        try:
+            documento = aplicar_cambios(base, prueba["cambios"])
+        except (KeyError, IndexError, ValueError, TypeError) as e:
+            print(f"FAIL {prueba['id']}: mutación inválida ({e})")
+            errores += 1
+            continue
         hallazgos = evaluar(documento, validator, grafo)
         real_valido = not hallazgos
-        pasa = real_valido == prueba["esperado_valido"]
+        motivo = prueba.get("motivo_esperado", "")
+        coincide_motivo = real_valido or not motivo or any(motivo in e for e in hallazgos)
+        pasa = (real_valido == prueba["esperado_valido"]) and coincide_motivo
         print(f"{'OK ' if pasa else 'FAIL'} {prueba['id']}: {'válida' if real_valido else 'bloqueada'}")
         if not pasa:
             errores += 1
+            if motivo and not coincide_motivo:
+                print(f"  - NO aparece motivo esperado: {motivo!r}")
             for e in hallazgos:
                 print("  - " + e)
-    print(f"\n{len(pruebas) - errores}/{len(pruebas)} casos con resultado esperado.")
+    print(f"\n{len(pruebas) - errores}/{len(pruebas)} casos con resultado y motivo esperados.")
     if errores:
         return 1
     print("Nota: esta suite no verifica fuentes ni reemplaza segunda pluma y revisión visual.")
