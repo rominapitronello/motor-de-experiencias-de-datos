@@ -1,0 +1,41 @@
+# Del dato propio al juego: investigación para el motor v0.2
+
+**Pluma:** Sol desde OpenAI · GPT-6 · 2 de noviembre de 2026. **Alcance:** referentes P-23 a P-38; no se modificó el grafo ni el conector. **Estado:** investigación y propuestas, no evidencia de que el motor ya las implemente.
+
+## La persona no llega pidiendo un gráfico
+
+Llega con una experiencia: levantó la mano, vio una boleta extraña, contó bolsas del perro, siente vergüenza por una compra. El motor debe conservar **el objeto cotidiano de su pregunta**; no traducir cada «cuánto» a una visualización territorial. Hay una operación anterior a *magnitud*: reconocer **qué se puede contar**, con qué fuente y con qué incertidumbre. DataBasic muestra que se puede entrar por el juego y los objetos; Census at School muestra a niños trabajando con información de su propio curso. No es «hacer la estadística más bonita», sino dejar que la persona produzca conocimiento con ayuda.
+
+*Dear Data* ya está en P-10: no lo dupliqué. La fuente original dice «Over the fifty-two weeks» y describe el registro como ritual; sus autoras distinguen expresamente el documental personal de la búsqueda de eficiencia. En su página invitan a docentes y a personas sin experiencia técnica a dibujar datos, con la exigencia de ocultar domicilios y nombres completos en materiales de escolares. Dear Data Poland (P-31) importa porque el formato fue reapropiado por otras personas, en otra lengua, no por una interfaz traducida. Fuentes: https://www.dear-data.com/theproject y https://dear-data-poland.com/en/the-project/.
+
+## Cuatro puertas y lo que espanta
+
+**Sala.** Pregunta -> manos o marcas -> conteo compartido -> tabla o columna -> «¿qué notamos?» -> «¿qué falta saber?». Para una sala desde la última fila, primero cifra grande, etiquetas cortas, contraste, una marca constante por unidad, N y denominador visibles. La representación sigue siendo legible sin depender de colores. No prometer que pictogramas históricamente usados (Isotype) se leerán igual en toda aula: probarlo con estudiantes reales y ofrecer texto/tablas. El IBGE propone explícitamente tapitas y otros materiales concretos; el índice devuelve sus actividades, pero la apertura directa de dos páginas dio 403: por eso P-24 y P-25 quedan INDEXADO, no VERIFICADO. Census at School ofrece otro cuidado: dice que participa alumnado «in grades 4–12» y que sus respuestas no son estadísticas nacionales representativas. Fuentes: https://ww2.amstat.org/censusatschool/about.cfm y https://educa.ibge.gov.br/professores/educa-atividades/23050-praticando-estatistica-na-sala-de-aula.html.
+
+**Cartola.** Mostrar **la cifra solicitada** antes de sugerir análisis. Si alguien pide «cuánta plata», no necesita monitos territoriales ni una evaluación moral de su café. La pregunta siguiente es opcional: desglosar por concepto, comparar meses, revisar suscripciones o examinar movimientos sin clasificar. CFPB propone conversar sin juzgar; YNAB enuncia una filosofía de gasto alineado a prioridades; MoneyHelper suma entradas y salidas y enseña qué queda. Son referentes de interacción, no estudios que prueben una UX. «Delivery» y «comida al paso» pueden requerir reglas confirmadas por el humano; la cartola por sí sola no permite saber qué se comió. Evitar cargar cartolas reales al repo, almacenar datos identificables o inventar datos bancarios. Fuentes: https://www.consumerfinance.gov/consumer-tools/educator-tool/your-money-your-goals/ ; https://www.ynab.com/guide/what-is-spendfulness ; https://www.moneyhelper.org.uk/en/everyday-money/budgeting/budget-planner.
+
+**Absurdo.** Una pregunta graciosa es una pregunta legítima. xkcd What If? muestra cómo responder hipótesis extrañas con supuestos, escalas y límites. Para «cuánta caca hace mi perro en un año» se puede proponer anotar durante una semana y extrapolar, etiquetando el resultado **estimación**, no «dato real». La persona elige si quiere un número, un dibujo o comparar con otra cosa. Quantified Self aporta la estructura «mi pregunta -> cómo observé -> qué aprendí -> qué NO concluyo». El juego no obliga a rastrear todo; «cuántas veces me reí sola» puede devolver *no hay registro, si quieres podemos empezar hoy*. Fuentes: https://what-if.xkcd.com/ ; https://www.quantifiedself.com/show-and-tell/.
+
+**PPT o comunidad.** Data Storybook y Data Murals muestran dos pasos distintos: producir varias interpretaciones posibles y elegir una para compartir. Una presentación para reunión precisa frase legible desde lejos, dato/fuente al pie y límite sencillo; el diseño precioso no debe ocultar la leyenda. El mural no da licencia para publicar experiencias individuales. Fuentes: https://datatherapy.org/activities/activity-write-a-data-storybook/ ; https://datatherapy.org/data-mural-gallery/how-to-make-a-data-mural/.
+
+## Propuestas precisas para Opus (NO cambios aplicados al grafo)
+
+| Caso del corpus | Operación que falta o hay que desambiguar | Respuesta/forma propuesta | Prueba adversarial |
+|---|---|---|---|
+| prof: «cuántos trajeron fruta» | conteo vivo + parte/todo | tarjetas, cifra y barras 1:1, sin mapa | lectura desde última fila; n de respuestas visible |
+| cart-01: «cuánta plata...» | sumar importe con alcance temporal y clasificación | **número grande con fuente y período** | no confundir CLP con personas ni asumir categorías |
+| cart-07 / cart-16: «me alcanza» | saldo futuro condicional | saldo y escenarios explícitos | no dar fecha sin pagos futuros y supuestos |
+| cart-09: «por qué subió» | diferencia observada vs causa | comparación + «esto no explica la causa» | separar alza tarifaria, consumo y cargo extra si están documentados |
+| casa-01: perro | estimación por extrapolación | rango y operación visible | sin dato inicial -> pedir muestra, no inventar kilo/día |
+| casa-19: reír sola | no observable / ausencia de registro | NULL amable + posibilidad de contar desde hoy | no simular que el celular registra risas |
+| ppt: mostrar trabajo | afirmación + evidencia + límite | titular legible, marca y fuente | sin anotaciones pequeñas ni mapa por defecto |
+
+**Multilingüe no es un diccionario de sinónimos.** El ID estable puede ser `magnitud`, pero la entrada puede ser «cuánta plata», «quanto gastei», «hayk'a» (ejemplo de expresión *que debe verificar un hablante*, no equivalencia validada). Separar intención, entidad, fuente, unidad, período y forma de respuesta. Responder en la lengua de entrada y localizar moneda, formato de fecha, plural y etiquetas. La guía CLDR demuestra por qué los plurales varían; Data Detox Kit muestra que hay trabajo real de adaptación multilingüe. La cobertura de quechua **NO está verificada**: no prometer «cualquier idioma» sin pruebas en corpus y revisión humana. Fuentes: https://cldr.unicode.org/index/cldr-spec/plural-rules y https://tacticaltech.org/projects/data-detox-kit/.
+
+**Legible para LLM no equivale a `llms.txt` y listo.** Tres referentes de ingeniería, **no fichas de usuario**: (1) https://llmstxt.org/ propone índice con contexto, enlaces a archivos Markdown y versión amplia; no es una garantía de lectura por todos los modelos; (2) https://github.com/sveltejs/svelte/blob/main/AGENTS.md enseña entrada operativa breve que remite a contribución, pruebas y PR; (3) https://github.com/modelcontextprotocol/python-sdk/blob/main/docs/index.md documenta un índice `llms.txt` más un `llms-full.txt`, separados por tamaño. Propuesta para otra pluma: README empieza por la profesora; un índice corta hacia `PARA_QUIEN.md`, `CONECTAR.md`, contrato, catálogo, casos y límites; fuente compilada generada para evitar versiones obsoletas. **No edité esos archivos.**
+
+**Lo que no encontré probado:** no hay evidencia aquí de una aplicación que traduzca sin error todo idioma natural a tarea/forma; tampoco de una visualización que explique por sí sola el *porqué* causal de una boleta. Un NULL correcto y una pregunta respetuosa son mejores que una visualización convincente y equivocada.
+
+**Próximo gate:** Opus puede marcar cada caso como tarea existente, tarea nueva o rechazo justificado. Fable puede rerun el corpus de 100 preguntas y comparar contra el baseline declarado de 54/100 tareas y 2/100 ámbitos de 0.1.3. El resultado de esa medición no está inferido de los referentes.
+
+— **Pluma: Sol desde OpenAI · GPT-6**
