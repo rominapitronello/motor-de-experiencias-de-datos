@@ -167,7 +167,7 @@
           },
           "fecha_corte": {
             "type": "string",
-            "minLength": 1
+            "format": "date"
           },
           "nivel_geografico": {
             "type": "string",
@@ -476,7 +476,9 @@
               "required": [
                 "tipo",
                 "objeto_cognitivo",
-                "justificacion"
+                "justificacion",
+                "permite_no_adivinar",
+                "co_construccion"
               ],
               "properties": {
                 "tipo": {
@@ -496,6 +498,12 @@
                 "justificacion": {
                   "type": "string",
                   "minLength": 1
+                },
+                "permite_no_adivinar": {
+                  "type": "boolean"
+                },
+                "co_construccion": {
+                  "type": "boolean"
                 }
               }
             },
@@ -633,7 +641,8 @@
           "items": {
             "type": "string",
             "minLength": 1
-          }
+          },
+          "minItems": 1
         }
       }
     }
