@@ -42,7 +42,8 @@
       "esperado_valido": false,
       "cambios": {
         "capacidad.estado": "not_answerable"
-      }
+      },
+      "motivo_esperado": "bloquear"
     },
     {
       "id": "trampa_pendiente",
@@ -55,63 +56,72 @@
             "motivo": "Falta comprobar el contenedor."
           }
         ]
-      }
+      },
+      "motivo_esperado": "trampas pendientes"
     },
     {
       "id": "vacio_no_evaluado",
       "esperado_valido": false,
       "cambios": {
         "revision.vacios.1.estado": "no_evaluado"
-      }
+      },
+      "motivo_esperado": "clases de vacío sin evaluar"
     },
     {
       "id": "vacio_duplicado",
       "esperado_valido": false,
       "cambios": {
         "revision.vacios.2.tipo": "fusion_organismo"
-      }
+      },
+      "motivo_esperado": "faltan clases"
     },
     {
       "id": "celda_sin_agregar",
       "esperado_valido": false,
       "cambios": {
         "seguridad.celdas_pequenas": "pendientes"
-      }
+      },
+      "motivo_esperado": "celdas pequeñas sin resolver"
     },
     {
       "id": "celda_agregada_sin_umbral",
       "esperado_valido": false,
       "cambios": {
         "seguridad.celdas_pequenas": "agregadas"
-      }
+      },
+      "motivo_esperado": "integer"
     },
     {
       "id": "coropletico_conteos_brutos",
       "esperado_valido": false,
       "cambios": {
         "render.codificacion.usa_coropletico": true
-      }
+      },
+      "motivo_esperado": "no se permite coropleta"
     },
     {
       "id": "forma_fuera_del_grafo",
       "esperado_valido": false,
       "cambios": {
         "didactica.forma": "slope"
-      }
+      },
+      "motivo_esperado": "forma slope"
     },
     {
       "id": "patron_icap_incompatible",
       "esperado_valido": false,
       "cambios": {
         "didactica.compromiso": "pasivo"
-      }
+      },
+      "motivo_esperado": "compromiso ICAP"
     },
     {
       "id": "tecnica_fuera_del_grafo",
       "esperado_valido": false,
       "cambios": {
         "didactica.tecnica_id": "T-01"
-      }
+      },
+      "motivo_esperado": "técnica T-01"
     },
     {
       "id": "proxy_sin_definicion",
@@ -119,49 +129,56 @@
       "cambios": {
         "capacidad.afirmaciones.0.tipo": "proxy",
         "capacidad.afirmaciones.0.definicion": ""
-      }
+      },
+      "motivo_esperado": "non-empty"
     },
     {
       "id": "datos_personales",
       "esperado_valido": false,
       "cambios": {
         "seguridad.datos_personales": true
-      }
+      },
+      "motivo_esperado": "False was expected"
     },
     {
       "id": "sin_fecha",
       "esperado_valido": false,
       "cambios": {
         "fuentes.0.fecha_corte": ""
-      }
+      },
+      "motivo_esperado": "non-empty"
     },
     {
       "id": "dato_tiembla",
       "esperado_valido": false,
       "cambios": {
         "seguridad.dato_quieto": false
-      }
+      },
+      "motivo_esperado": "True was expected"
     },
     {
       "id": "reduced_motion_no",
       "esperado_valido": false,
       "cambios": {
         "seguridad.reduced_motion": false
-      }
+      },
+      "motivo_esperado": "True was expected"
     },
     {
       "id": "pagina_con_teselas",
       "esperado_valido": false,
       "cambios": {
         "render.publicacion.sin_teselas": false
-      }
+      },
+      "motivo_esperado": "página autocontenida"
     },
     {
       "id": "distribucion_sin_arista",
       "esperado_valido": false,
       "cambios": {
         "didactica.tarea": "distribucion"
-      }
+      },
+      "motivo_esperado": "grafo sin arista"
     },
     {
       "id": "partial_sin_limites",
@@ -169,21 +186,24 @@
       "cambios": {
         "capacidad.estado": "partial",
         "capacidad.limites": []
-      }
+      },
+      "motivo_esperado": "partial: debe declarar"
     },
     {
       "id": "render_sin_didactica",
       "esperado_valido": false,
       "cambios": {
         "didactica": null
-      }
+      },
+      "motivo_esperado": "object"
     },
     {
       "id": "bloquear_pero_render",
       "esperado_valido": false,
       "cambios": {
         "decision.accion": "bloquear"
-      }
+      },
+      "motivo_esperado": "null"
     },
     {
       "id": "vacio_presente_sin_leyenda",
@@ -191,6 +211,127 @@
       "cambios": {
         "revision.vacios.0.estado": "presente",
         "revision.vacios.0.leyenda": ""
+      },
+      "motivo_esperado": "falta leyenda"
+    },
+    {
+      "id": "uri_invalida",
+      "esperado_valido": false,
+      "cambios": {
+        "fuentes.0.url": "no es una url"
+      },
+      "motivo_esperado": "url"
+    },
+    {
+      "id": "fecha_ayer",
+      "esperado_valido": false,
+      "cambios": {
+        "fuentes.0.fecha_corte": "ayer"
+      },
+      "motivo_esperado": "fecha_corte"
+    },
+    {
+      "id": "agregadas_sin_vacio_correspondiente",
+      "esperado_valido": false,
+      "cambios": {
+        "seguridad.celdas_pequenas": "agregadas",
+        "seguridad.umbral_agregacion": 5,
+        "revision.vacios.2.estado": "ausente"
+      },
+      "motivo_esperado": "agregacion_propia"
+    },
+    {
+      "id": "trampa_duplicada",
+      "esperado_valido": false,
+      "cambios": {
+        "revision.trampas": [
+          {
+            "id": "TR-01",
+            "estado": "mitigada",
+            "motivo": "A"
+          },
+          {
+            "id": "TR-01",
+            "estado": "descartada",
+            "motivo": "B"
+          }
+        ]
+      },
+      "motivo_esperado": "trampa duplicada"
+    },
+    {
+      "id": "predict_reveal_sin_interaccion",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.patron": "predict_reveal",
+        "render.interaccion.tipo": "ninguna"
+      },
+      "motivo_esperado": "predict_reveal"
+    },
+    {
+      "id": "predict_reveal_sin_no_adivinar",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.patron": "predict_reveal",
+        "render.interaccion.tipo": "prediccion",
+        "render.interaccion.permite_no_adivinar": false
+      },
+      "motivo_esperado": "prefiero no adivinar"
+    },
+    {
+      "id": "predict_reveal_correcto",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.patron": "predict_reveal",
+        "render.interaccion.tipo": "prediccion",
+        "render.interaccion.permite_no_adivinar": true
+      }
+    },
+    {
+      "id": "bloqueo_sin_motivo",
+      "esperado_valido": false,
+      "cambios": {
+        "decision.accion": "bloquear",
+        "decision.motivos": [],
+        "render": null
+      },
+      "motivo_esperado": "non-empty"
+    },
+    {
+      "id": "icap_elevado_con_prediccion",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.patron": "manipulate_observe",
+        "didactica.compromiso": "constructivo",
+        "render.interaccion.tipo": "prediccion",
+        "render.interaccion.permite_no_adivinar": true
+      }
+    },
+    {
+      "id": "icap_elevado_sin_accion",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.patron": "manipulate_observe",
+        "didactica.compromiso": "constructivo",
+        "render.interaccion.tipo": "filtro"
+      },
+      "motivo_esperado": "elevación ICAP"
+    },
+    {
+      "id": "icap_interactivo_sin_co_construccion",
+      "esperado_valido": false,
+      "cambios": {
+        "didactica.compromiso": "interactivo",
+        "render.interaccion.co_construccion": false
+      },
+      "motivo_esperado": "co-construcción"
+    },
+    {
+      "id": "icap_interactivo_con_co_construccion",
+      "esperado_valido": true,
+      "cambios": {
+        "didactica.compromiso": "interactivo",
+        "render.interaccion.co_construccion": true
       }
     }
   ]
