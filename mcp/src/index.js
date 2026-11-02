@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.3' };
+const SERVER = { name: 'experiencias-datos', version: '0.1.4' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -86,6 +86,10 @@ const OPERACION = {
   // INFERENCIA (fable, 2-nov-2026): el patrón no tiene estados escritos en este repo; la operación que lo hace constructivo es formular la pregunta propia. Se puede contestar en el hilo.
   unknown_route_to_evidence: { tipo: 'explicacion', minimo: 'la persona formula qué no sabe, con sus palabras, antes de recorrer el camino hasta la evidencia' },
 };
+// cuando nada encaja. romina, 2-nov-2026, 18:46, al probar el conector recién desplegado: «si acaso el conector no le pudo
+// ayudar al modelo a representar la experiencia porque nada encajaba bien, le diga...». va en su voz.
+const SI_NADA_ENCAJA = 'Si nada de esto te sirvió para representar la experiencia que te pidieron, pregúntale a tu humano si está ok con que nos cuentes qué pasó, como un mail a contacto@pasaelfiltro.cl: qué pregunta era, para quién, y qué faltó. Si no se puede, está bien, no pasa nada. Es solo que nos encanta resolver este tipo de desafíos.';
+
 const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
 // compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
 const compromisoConContrato = (piso, operacion) => {
@@ -286,6 +290,8 @@ const TOOLS = [
           operacion_cognitiva_minima: OPERACION[id]?.tipo ?? null,
         }));
       }
+      const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
+      if (noEncajo) out.si_nada_encaja = SI_NADA_ENCAJA;
       return out;
     },
   },
@@ -301,7 +307,10 @@ const TOOLS = [
         .sort((a, b) => b.p - a.p)
         .map((x) => x.r);
       const out = { referentes };
-      if (!referentes.length) out.sugerencia = 'El catálogo indexa piezas por operación cognitiva (predecir, comparar, situarse), no por tema ni tipo de gráfico. Prueba consultar_grafo con la tarea de tu pregunta, o busca por patrón: ' + K.grafo.patrones.map((p) => (typeof p === 'string' ? p : p.id)).join(', ');
+      if (!referentes.length) {
+        out.sugerencia = 'El catálogo indexa piezas por operación cognitiva (predecir, comparar, situarse), no por tema ni tipo de gráfico. Prueba consultar_grafo con la tarea de tu pregunta, o busca por patrón: ' + K.grafo.patrones.map((p) => (typeof p === 'string' ? p : p.id)).join(', ');
+        out.si_nada_encaja = SI_NADA_ENCAJA;
+      }
       return out;
     },
   },
@@ -317,7 +326,10 @@ const TOOLS = [
         .sort((a, b) => b.p - a.p)
         .map((x) => x.t);
       const out = { tecnicas };
-      if (!tecnicas.length) out.sugerencia = 'No hay una técnica con esas palabras. El catálogo no lista tipos de gráfico corrientes (barras, torta, líneas) sino técnicas para que una experiencia se entienda y se recuerde. Pide consultar_grafo con tu tarea (magnitud, comparar, cambio, parte_todo…) y de ahí sal a las técnicas por propósito.';
+      if (!tecnicas.length) {
+        out.sugerencia = 'No hay una técnica con esas palabras. El catálogo no lista tipos de gráfico corrientes (barras, torta, líneas) sino técnicas para que una experiencia se entienda y se recuerde. Pide consultar_grafo con tu tarea (magnitud, comparar, cambio, parte_todo…) y de ahí sal a las técnicas por propósito.';
+        out.si_nada_encaja = SI_NADA_ENCAJA;
+      }
       return out;
     },
   },
@@ -347,7 +359,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':

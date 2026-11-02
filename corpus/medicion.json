@@ -1,0 +1,1107 @@
+{
+  "resumen": {
+    "commit": "749f39c",
+    "medido": "2026-11-02T21:47:10.798Z",
+    "preguntas": 100,
+    "con_tarea": 54,
+    "sin_tarea": 46,
+    "con_ambito": 2,
+    "por_tarea": {
+      "magnitud": 38,
+      "cambio": 6,
+      "parte_todo": 4,
+      "localizar": 2,
+      "distribucion": 1,
+      "estado": 1,
+      "ordenar": 1,
+      "comparar": 1
+    },
+    "por_persona": {
+      "cartola": {
+        "total": 20,
+        "entendidas": 12
+      },
+      "casa": {
+        "total": 20,
+        "entendidas": 8
+      },
+      "no-soy-de-numeros": {
+        "total": 20,
+        "entendidas": 11
+      },
+      "ppt": {
+        "total": 20,
+        "entendidas": 8
+      },
+      "profesora": {
+        "total": 20,
+        "entendidas": 15
+      }
+    }
+  },
+  "filas": [
+    {
+      "id": "cart-01",
+      "persona": "cartola",
+      "pregunta": "cuánta plata se me fue en comida al paso el mes pasado, de verdad",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-02",
+      "persona": "cartola",
+      "pregunta": "y comparado con el mes antes, ¿subí o bajé?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-03",
+      "persona": "cartola",
+      "pregunta": "en qué se me va la plata así en pedazos, o sea, cuánto en delivery, cuánto en el café, cuánto en el super",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-04",
+      "persona": "cartola",
+      "pregunta": "cuántos pedidos de delivery hice este mes? porque siento que fueron hartos",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-05",
+      "persona": "cartola",
+      "pregunta": "cuántos cafés me tomé este año, más o menos, tiro un número",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-06",
+      "persona": "cartola",
+      "pregunta": "cuánto llevo gastado en el gato este año",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-07",
+      "persona": "cartola",
+      "pregunta": "me alcanza la plata para lo que queda de mes o me quedo en cero antes del 25?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-08",
+      "persona": "cartola",
+      "pregunta": "cuánto me cobraron de luz este año comparado con el otro?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-09",
+      "persona": "cartola",
+      "pregunta": "y el agua? me llegó una boleta que no entendí, ¿por qué subió tanto?",
+      "tarea": "cambio",
+      "por": "sinónimo «subio»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-10",
+      "persona": "cartola",
+      "pregunta": "cuánto gasto en bencina al mes más o menos, porque no me cuadra",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-11",
+      "persona": "cartola",
+      "pregunta": "cuánto le mandé a mi mamá este año, sumando todas las transferencias",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-12",
+      "persona": "cartola",
+      "pregunta": "cuántas suscripciones tengo activas que ni uso",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-13",
+      "persona": "cartola",
+      "pregunta": "en qué mes me gasté más plata este año y qué pasó ese mes",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-14",
+      "persona": "cartola",
+      "pregunta": "cuánto de mi sueldo se me va en el arriendo, en porcentaje",
+      "tarea": "parte_todo",
+      "por": "sinónimo «porcentaje»",
+      "formas": [
+        "barras_apiladas"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-15",
+      "persona": "cartola",
+      "pregunta": "lo que me gasto en compras por internet, no quiero ver el número pero dime igual",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-16",
+      "persona": "cartola",
+      "pregunta": "si sigo gastando así, ¿cuándo me quedo sin plata en la tarjeta?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-17",
+      "persona": "cartola",
+      "pregunta": "cuánto gasté de verdad en la salida del cumple de mi hermana, sumando todo lo que fue",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-18",
+      "persona": "cartola",
+      "pregunta": "cuánto estoy pagando de intereses por las cuotas este año",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "cart-19",
+      "persona": "cartola",
+      "pregunta": "cuántas cuotas me quedan pagando y hasta cuándo, en una lista corta",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "cart-20",
+      "persona": "cartola",
+      "pregunta": "me da vergüenza preguntar esto, pero cuánto me gasto al mes en cosas de streaming y de apps",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-01",
+      "persona": "casa",
+      "pregunta": "oye cuánta caca hace mi perro en un año, pa saber cuánta recojo",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-02",
+      "persona": "casa",
+      "pregunta": "oye cuántas veces me pidió comida mi gato en un día, po, con esa cara de pena",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-03",
+      "persona": "casa",
+      "pregunta": "cuántas hojas se me cayeron a la planta del living esta semana, la está matando o es normal",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-04",
+      "persona": "casa",
+      "pregunta": "cuántos mates me tomo al día, sin contar el de la oficina",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-05",
+      "persona": "casa",
+      "pregunta": "cuántos pasos hice hoy si solo fui al baño y a la cocina, cachái",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-06",
+      "persona": "casa",
+      "pregunta": "cuántas veces dije ya en el día, pa saber si soy muy de ya",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-07",
+      "persona": "casa",
+      "pregunta": "cuánto papel higiénico gasto en un mes, ni idea po, pero siento que se va rápido",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-08",
+      "persona": "casa",
+      "pregunta": "cuántos tés me tomo en una semana, porque ya no sé si son cinco o veinte",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-09",
+      "persona": "casa",
+      "pregunta": "cuántas horas de teleserie me tragué este año, con capítulos repetidos y todo",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-10",
+      "persona": "casa",
+      "pregunta": "cuántas veces me escribió mi mamá este mes, y cuántas eran solo estás bien?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-11",
+      "persona": "casa",
+      "pregunta": "cuánto se demora la micro de mi casa al trabajo, en serio, con lluvia y sin lluvia",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-12",
+      "persona": "casa",
+      "pregunta": "cuántas veces se me cayó el celular esta semana, pa saber si ya es de adorno",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-13",
+      "persona": "casa",
+      "pregunta": "cuánta plata me gasto en café en un mes, sin contar el que me invitan",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-14",
+      "persona": "casa",
+      "pregunta": "cuántas veces abrí el refri hoy sin saber qué quería",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-15",
+      "persona": "casa",
+      "pregunta": "cuántos paraguas he perdido en la vida, así más o menos",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-16",
+      "persona": "casa",
+      "pregunta": "cuántas veces me golpeé el dedo chico del pie con la cama en un año",
+      "tarea": "parte_todo",
+      "por": "sinónimo «pie»",
+      "formas": [
+        "barras_apiladas"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-17",
+      "persona": "casa",
+      "pregunta": "cuántos kilos de pan me como en un año, más o menos",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "casa-18",
+      "persona": "casa",
+      "pregunta": "cuántas horas al día miro el celular, sin mentir po",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-19",
+      "persona": "casa",
+      "pregunta": "cuántas veces me reí sola en el día con el celular, sin que nadie me viera",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "casa-20",
+      "persona": "casa",
+      "pregunta": "cuántas canciones escuché hoy sin darme cuenta, las de la micro y las del supermercado",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-01",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "hola, perdona la pregunta tan básica pero yo no soy de matemáticas, nunca lo fui. me mandaron del banco un gráfico con barras de colores y no entiendo qué es lo que me quieren decir con la barra más alta. ¿me lo explicas? me da vergüenza preguntarle al ejecutivo, ya me siento medio tonta de solo mirarlo",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-02",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "me llegó la cuenta de la luz y subió harto, como 20 mil más que el mes pasado. en la boleta sale kWh por todos lados y cargo fijo y no sé ni qué mirar. ¿eso es mucho? no entiendo nada de esta cuenta",
+      "tarea": "cambio",
+      "por": "sinónimo «subio»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-03",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "mi nieta me dice que con la pensión nueva me toca más plata, pero en el papel salen un montón de números y no entiendo cuánto me van a pagar al mes. explícame como si fuera una niña, porfa, que yo nunca estudié mucho",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-04",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "en la tienda dice 20% de descuento en un sillón que sale 389 lucas. ¿cuánto queda pagando? es que nunca sé sacar el porcentaje en la cabeza y me da vergüenza pedirle al vendedor que me lo haga. ¿es buen precio o me están vendiendo humo?",
+      "tarea": "parte_todo",
+      "por": "sinónimo «porcentaje»",
+      "formas": [
+        "barras_apiladas"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-05",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "ya, tengo un ramo de estadística en la u y la profe no para de decir 'desviación estándar' y yo no tengo idea qué es. no sé ni por dónde partir. explícamelo con algo de mi vida, no con fórmulas, que si no me voy a quedar dormida jajaja",
+      "tarea": "localizar",
+      "por": "sinónimo «donde»",
+      "formas": [
+        "mapa_sin_base",
+        "mosaico_uv"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-06",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "estoy viendo un crédito hipotecario a 30 años y el banco me habla de la tasa, del CAE, de no sé qué más, y yo ya me perdí. no entiendo nada de esto. ¿me dices cuánto voy a pagar al final? tengo miedo de firmar algo que no entiendo",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-07",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "tengo que elegir entre dos planes del celular. uno cuesta 12.990 al mes con 60 GB y otro 9.990 con 30 GB. yo uso como 25 gigas, pero no sé si me cobran más si me paso. perdona si es tonto pero no quiero que me pase lo de la otra vez",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-08",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "la doctora me dio un papel con dos números, uno arriba y otro abajo, y me dijo que los controlara. no sé si eso es mucho o poco ni qué tengo que hacer con eso. no quiero volver a preguntarle lo mismo porque ya se nota que no entiendo nada",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-09",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "me hice un examen de azúcar en ayunas y me sale un número, y al lado hay un rango que dice 'referencia'. no sé leer eso. ¿estoy en la zona buena o no? no me expliqué nada en el laboratorio",
+      "tarea": "distribucion",
+      "por": "sinónimo «rango»",
+      "formas": [
+        "histograma",
+        "boxplot"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-10",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "gano 650 lucas líquidos y pago arriendo, luz, agua, la tarjeta y una cuota del crédito de consumo. hago cuentas y nunca me cuadran. ¿cuánto me queda realmente al final del mes? no sé si tengo que cortar algo o si ya estoy en el límite",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-11",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "en el noticiero mostraron un gráfico de la inflación con una línea que sube y baja y el señor habló de 'el IPC acumulado'. yo cambié de canal porque no entiendo esas cosas. ¿me explicas en dos palabras si eso me afecta a mí o no?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-12",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "oye, creo que entendí algo! el banco me mostró cuánto pago de intereses en el crédito de consumo y saqué con una regla de tres cuánto me ahorraría si lo pago antes. ¿está bien lo que hice? me da cosa que sea algo obvio y te esté preguntando por nada, pero quiero seguir aprendiendo y no sé por dónde",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-13",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "mi jefa me mandó un excel con números y en el correo dice que 'la tendencia va a la baja'. no sé si eso es malo o es normal. no le quiero preguntar porque me va a mirar raro, como si uno tuviera que saber todo",
+      "tarea": "cambio",
+      "por": "sinónimo «tendencia»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-14",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "me mandaron una presentación de la empresa con un gráfico de torta donde las partes no suman lo que dice el título. ¿me estoy volviendo loca o está mal? no entiendo nada de esto y no quiero decir una tontera en la reunión",
+      "tarea": "parte_todo",
+      "por": "sinónimo «torta»",
+      "formas": [
+        "barras_apiladas"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-15",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "si pido el crédito en cuotas, el de la tienda dice 2,5% mensual. ¿qué significa eso al año? ¿es mucho? me gustaría entender la idea, no solo que me digan un número, para no volver a quedar a ciegas la próxima vez",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-16",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "ando buscando depa y el corredor me dice que la rentabilidad es de un 4%. ¿eso es buena plata? no sé si me conviene arrendar o comprar, siempre me confundo con los porcentajes. perdona si es tonto pero no quiero que me tomen el pelo",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-17",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "me llegó una carta del municipio que dice que me puedo postular a un bono y tiene una tabla con 'tramos' y letras y números. yo tengo una pensión de 480 mil. no sé en qué tramo estoy ni qué significa estar en uno u otro. ¿me ayudas a leerla?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-18",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "la marca de zapatillas tiene 2x1 o 30% en la segunda unidad. ¿cuál me conviene? las dos suenan igual pero no sé ni cómo compararlas. no quiero que sea mentira la oferta y me esté cobrando de más",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "num-19",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "siempre se me pierde la plata a fin de mes y quiero ver en un gráfico cuánto gasto en cada cosa. ¿hay alguna forma de mirarlo sin que sea un excel? me da lata el excel, siempre me enredo. no sé si quiero ver el delivery, me da como vergüenza",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "num-20",
+      "persona": "no-soy-de-numeros",
+      "pregunta": "mi mamá dice que ya no le alcanza con lo que gana y yo quería entender por qué, hay un gráfico del INE en un trabajo del cole que no pillo ni la mitad. ¿cómo se lee? no quiero que la profe piense que soy floja por no saber esto",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-01",
+      "persona": "ppt",
+      "pregunta": "tengo las ventas por mes del año en un excel, cómo lo muestro pa que se vea que subió en septiembre y no parezca que lo estoy inflando",
+      "tarea": "cambio",
+      "por": "sinónimo «subio»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-02",
+      "persona": "ppt",
+      "pregunta": "mi jefa me pidió un gráfico de las ventas, no sé si barras o líneas. son de los últimos 2 años, qué le pongo",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-03",
+      "persona": "ppt",
+      "pregunta": "me mandaron un excel con la asistencia a los talleres, como 40 personas y 4 talleres. cuántas personas fueron en total y cuántas repitieron? es pa mañana",
+      "tarea": "magnitud",
+      "por": "sinónimo «total»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": "personas"
+    },
+    {
+      "id": "ppt-04",
+      "persona": "ppt",
+      "pregunta": "tenemos 3 sucursales y la jefa quiere saber cuál vende más. cómo las comparo sin que parezca que una es mejor por cualquier cosa",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-05",
+      "persona": "ppt",
+      "pregunta": "hice una encuesta en google forms a 60 trabajadores sobre el casino, respondieron 45. son como 8 preguntas, cómo muestro las respuestas",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": "personas"
+    },
+    {
+      "id": "ppt-06",
+      "persona": "ppt",
+      "pregunta": "la encuesta me dio que el 70% está contento con el casino. lo puedo poner como 'la mayoría'? eso es correcto o es mentira?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-07",
+      "persona": "ppt",
+      "pregunta": "tengo los gastos de la oficina de los últimos 6 meses (luz, agua, internet, arriendo) y quiero mostrar que bajaron. cómo lo hago",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-08",
+      "persona": "ppt",
+      "pregunta": "la meta del trimestre era vender 50 millones y llevamos 41. cómo lo muestro pa que no parezca que fracasamos pero tampoco que mentí",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-09",
+      "persona": "ppt",
+      "pregunta": "quiero mostrar que los tickets de soporte bajaron después de cambiar el sistema, pero no sé si fue por el sistema o porque en esos meses hubo menos gente. eso cómo se muestra?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-10",
+      "persona": "ppt",
+      "pregunta": "me pidieron mostrar que la capacitación no sirvió. la verdad no subió nada. cómo lo muestro sin que parezca que yo hice mal el curso",
+      "tarea": "cambio",
+      "por": "sinónimo «subio»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-11",
+      "persona": "ppt",
+      "pregunta": "tengo un hueco: no sé cuántos clientes nuevos llegaron en agosto porque el sistema no lo guardaba. cómo digo eso en la ppt sin que suene a que no hice la pega",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-12",
+      "persona": "ppt",
+      "pregunta": "me mandaron un pdf de indicadores de otra área y no entiendo nada, hay porcentajes y cosas como 'índice de rotación ajustado'. qué significa eso y qué le digo a mi jefe que es lo importante",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-13",
+      "persona": "ppt",
+      "pregunta": "tengo el conteo de visitas por hora de la semana pasada, a qué hora llega más gente? la planilla tiene una fila por hora y una columna por día",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-14",
+      "persona": "ppt",
+      "pregunta": "mi jefa dice que las ventas de los vendedores están muy desparejas, uno vende el triple que otro. es verdad o se nota igual? tengo los números de 8 vendedores",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-15",
+      "persona": "ppt",
+      "pregunta": "tengo el porcentaje de cumplimiento de 12 indicadores de 4 áreas y quiero que la jefa vea cuáles están bien. son muchos, cómo lo pongo en una lámina?",
+      "tarea": "estado",
+      "por": "sinónimo «cumplimiento»",
+      "formas": [
+        "matriz_estados"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-16",
+      "persona": "ppt",
+      "pregunta": "tengo un ranking de las 5 áreas por horas extra del mes. cómo lo muestro sin que la gente de la primera se sienta retada",
+      "tarea": "ordenar",
+      "por": "sinónimo «ranking»",
+      "formas": [
+        "ranked_dots"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-17",
+      "persona": "ppt",
+      "pregunta": "tenemos 3 cuentas de redes sociales y me pidieron ver si crecieron. tengo los seguidores de cada mes desde enero, pero en mayo cambié la contraseña y no sé si perdí algunos",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-18",
+      "persona": "ppt",
+      "pregunta": "la presidenta de la junta dice que el 30% de los socios no paga la cuota. yo tengo una lista de 200 socios con un sí o no. eso es el 30%? cómo lo muestro bien",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "ppt-19",
+      "persona": "ppt",
+      "pregunta": "para la fiesta de fin de año tengo la lista de cumpleaños de los 80 de la oficina con fecha. cuántos cumplen en cada mes, y qué mes tiene más? quiero ponerlo en la ppt con algo gracioso",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "ppt-20",
+      "persona": "ppt",
+      "pregunta": "por curiosidad: cuántos cafés me tomé este año según el registro de la máquina de la oficina? sale una planilla enorme",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-01",
+      "persona": "profesora",
+      "pregunta": "chiquillos, levanten la mano los que trajeron fruta de colación. ahora los que trajeron pan. cuántos son cada uno? cómo lo anoto pa que lo vean todos?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-02",
+      "persona": "profesora",
+      "pregunta": "cuántos estamos hoy? y cuántos faltaron? pa ponerlo en el papelógrafo de la entrada",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-03",
+      "persona": "profesora",
+      "pregunta": "la plantita que sembramos hace tres semanas, cuánto creció cada una? las medimos con la regla y las anotamos",
+      "tarea": "cambio",
+      "por": "sinónimo «crecio»",
+      "formas": [
+        "pequenos_multiplos",
+        "slope",
+        "serie_temporal"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-04",
+      "persona": "profesora",
+      "pregunta": "tengo las notas de la prueba de mate sin nombre, cuántos sacaron 4 o más y cuántos quedaron abajo? pa ver si repaso mañana o sigo",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-05",
+      "persona": "profesora",
+      "pregunta": "cuánta plata llevamos pa el paseo a la laguna y cuánto nos falta? somos 28 cabros",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-06",
+      "persona": "profesora",
+      "pregunta": "pa el paseo, a dónde quiere ir la mayoría? zoológico, museo o laguna? levanten la mano, de a una opción",
+      "tarea": "localizar",
+      "por": "sinónimo «donde»",
+      "formas": [
+        "mapa_sin_base",
+        "mosaico_uv"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-07",
+      "persona": "profesora",
+      "pregunta": "tía, cuántas veces tose el curso en una clase? yo llevo tres",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "prof-08",
+      "persona": "profesora",
+      "pregunta": "cuántos tienen mascota y cuántos no? de los que tienen, cuántos son perros, gatos u otros?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-09",
+      "persona": "profesora",
+      "pregunta": "los del 7°B hicieron el mismo test de ciencias que el 7°A, a ver cuál curso le fue mejor y en qué pregunta se equivocaron más",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "prof-10",
+      "persona": "profesora",
+      "pregunta": "a los apoderados quiero mostrarles cuántas veces faltaron los niños este trimestre, sin nombres, cómo lo muestro?",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "prof-11",
+      "persona": "profesora",
+      "pregunta": "cuánto falta pa el recreo? y el recreo ya empezó hace cuánto?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-12",
+      "persona": "profesora",
+      "pregunta": "hoy hace frío, cuántos llegaron con chaqueta y cuántos sin? y ayer cuántos?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-13",
+      "persona": "profesora",
+      "pregunta": "el experimento del agua con sal, cada grupo midió cuánto subió el agua en el vaso. cuál subió más y cuál menos? cuánta fue la diferencia?",
+      "tarea": "comparar",
+      "por": "sinónimo «diferencia»",
+      "formas": [
+        "dorling",
+        "pequenos_multiplos",
+        "ranked_dots"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-14",
+      "persona": "profesora",
+      "pregunta": "en los trabajos en grupo, cuántas veces le toca hablar a cada uno? pa darle la oportunidad al que no habla",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "prof-15",
+      "persona": "profesora",
+      "pregunta": "cuántos somos hoy? y cuántas niñas y cuántos niños? pa el dibujo de la familia",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-16",
+      "persona": "profesora",
+      "pregunta": "de los 32 de la lista, cuántos vienen en micro, cuántos en auto y cuántos caminando? pa ver cuántas micros pedimos pal paseo",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-17",
+      "persona": "profesora",
+      "pregunta": "los que se comieron toda la colación, los que comieron la mitad y los que no comieron nada, levanten la mano",
+      "tarea": null,
+      "por": null,
+      "formas": [],
+      "ambito": null
+    },
+    {
+      "id": "prof-18",
+      "persona": "profesora",
+      "pregunta": "cada grupo armó el circuito con la pila y la ampolleta, cuánto tardó cada uno? el reloj del celular corre",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuanto»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-19",
+      "persona": "profesora",
+      "pregunta": "los cumpleaños del curso este semestre, cuántos caen en cada mes? pa armar el calendario de la sala",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    },
+    {
+      "id": "prof-20",
+      "persona": "profesora",
+      "pregunta": "en la encuesta que mandamos a los papás, qué quieren que se refuerce más: lectura, mate, inglés? cuántos eligieron cada uno?",
+      "tarea": "magnitud",
+      "por": "sinónimo «cuantos»",
+      "formas": [
+        "unit_chart",
+        "dorling"
+      ],
+      "ambito": null
+    }
+  ]
+}
