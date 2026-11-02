@@ -1,11 +1,6 @@
 name: VES validation
 on:
-  pull_request:
-    paths:
-      - 'ves/**'
-      - 'casos/**'
-      - 'grafo/grafo.yaml'
-      - '.github/workflows/ves-validation.yml'
+  pull_request:   # sin filtro por rutas: este check es obligatorio en el ruleset de main y tiene que existir en todo PR (fable · procedencia, 2-nov-2026, segunda pluma de sol en el #13). el filtro queda solo en push.
   push:
     branches: [main]
     paths:
