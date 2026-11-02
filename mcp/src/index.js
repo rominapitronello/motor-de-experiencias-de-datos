@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.1.2' };
+const SERVER = { name: 'experiencias-datos', version: '0.1.3' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -61,19 +61,61 @@ const INTERACCION = {
 };
 const SIN_INTERACCION = 'Si tu superficie no permite interacción y vas a entregar algo estático, declara degradado_a_estatico: true con la razón, y conserva al menos el "antes" como pregunta escrita antes del gráfico. Una salida estática que no lo declara no cumple el patrón.';
 
-// devuelve {id, interpretado} : id exacto (sin tildes ni mayusculas), o el primer sinonimo que aparezca en el texto, o null.
+// operación cognitiva mínima de cada patrón, en el vocabulario de ves/schema.json → interaccion.tipo
+// (ninguna | filtro | prediccion | explicacion | exploracion). fable, PR #3, 2-nov-2026, tras las notas de Sol:
+// «constructivo» en ICAP es producir una idea (predicción, explicación, hipótesis), no hacer clics ni mirar una
+// conclusión. interaccion_requerida dice si la superficie tiene que ser interactiva; esto dice qué tiene que
+// producir la persona, con o sin interacción. La VES ya exige prediccion|explicacion para aceptar constructivo.
+const OPERACION = {
+  predict_reveal: { tipo: 'prediccion', minimo: 'la persona registra su predicción antes de ver el dato' },
+  recall_guess_feedback: { tipo: 'prediccion', minimo: 'la persona recuerda o estima antes de ver el dato' },
+  manipulate_observe: { tipo: 'prediccion', minimo: 'la persona escribe una hipótesis ("si muevo X, pasa Y") antes de manipular; sin ella el compromiso es activo, no constructivo' },
+  compare_explain: { tipo: 'explicacion', minimo: 'la persona explica la diferencia entre A y B con una frase propia' },
+  sequence_branch: { tipo: 'exploracion', minimo: 'la persona elige por dónde seguir' },
+  overview_focus_context: { tipo: 'exploracion', minimo: 'la persona elige el foco; el contexto sigue visible' },
+  personalize_situate: { tipo: 'filtro', minimo: 'la persona se ubica a sí misma dentro del patrón general' },
+  same_object_transform: { tipo: 'ninguna', minimo: 'mirar el mismo objeto cambiar de forma; sube a activo si la persona dispara la transformación' },
+  // estáticos legítimos con piso constructivo: la pieza no necesita UI, pero tiene que pedir una idea producida por quien lee.
+  claim_evidence_limit: { tipo: 'explicacion', minimo: 'la pieza separa afirmación, evidencia y límite, y le pide a quien lee que diga (o escriba) qué sostiene la afirmación y dónde deja de sostenerla; sin esa explicación producida por la persona, la pieza es «mirar una conclusión» y el compromiso baja a pasivo' },
+  // INFERENCIA (fable, 2-nov-2026): el patrón no tiene estados escritos en este repo; la operación que lo hace constructivo es formular la pregunta propia. Se puede contestar en el hilo.
+  unknown_route_to_evidence: { tipo: 'explicacion', minimo: 'la persona formula qué no sabe, con sus palabras, antes de recorrer el camino hasta la evidencia' },
+};
+const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
+// compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
+const compromisoConContrato = (piso, operacion) => {
+  if (!(piso in ORDEN_ICAP)) return null;
+  const produce = operacion && ['prediccion', 'explicacion'].includes(operacion.tipo);
+  return produce && ORDEN_ICAP[piso] < ORDEN_ICAP.constructivo ? 'constructivo' : piso;
+};
+
+// tokens: palabras sin tildes ni mayúsculas. fable, PR #3, 2-nov-2026 (nota de Sol): el parser buscaba subcadenas y
+// «pie» calzaba en «piedra», «top» en «topografía». Un sinónimo de varias palabras es una secuencia de tokens contigua.
+const tokens = (s) => norm(s).split(/[^a-z0-9]+/).filter(Boolean);
+function contieneFrase(ts, frase) {
+  const fs = tokens(frase);
+  if (!fs.length || fs.length > ts.length) return false;
+  for (let i = 0; i + fs.length <= ts.length; i++) {
+    let j = 0;
+    while (j < fs.length && ts[i + j] === fs[j]) j++;
+    if (j === fs.length) return true;
+  }
+  return false;
+}
+
+// devuelve {id, interpretado, por} : id exacto (sin tildes ni mayusculas), o el sinonimo más largo que aparezca como
+// tokens en el texto, o el id del vocabulario que aparezca como tokens, o null. `por` dice cómo se llegó (procedencia).
 function resolver(entrada, ids, tipo) {
   const n = norm(entrada).replace(/[\s-]+/g, '_');
-  if (ids.includes(n)) return { id: n, interpretado: n !== entrada };
-  const suelto = norm(entrada);
+  if (ids.includes(n)) return { id: n, interpretado: n !== entrada, por: 'id del vocabulario' };
+  const ts = tokens(entrada);
   let mejor = null; // gana el sinónimo más largo: "scatter" le gana a "vs" en "scatter de notas vs asistencia"
   for (const [id, palabras] of Object.entries(SINONIMOS[tipo] || {})) {
     if (!ids.includes(id)) continue;
-    for (const w of palabras) if (suelto.includes(w) && (!mejor || w.length > mejor.w.length)) mejor = { id, w };
+    for (const w of palabras) if (contieneFrase(ts, w) && (!mejor || w.length > mejor.w.length)) mejor = { id, w };
   }
-  if (mejor) return { id: mejor.id, interpretado: true };
-  const parecido = ids.find((id) => suelto.includes(id.replace(/_/g, ' ')) || suelto.includes(id));
-  if (parecido) return { id: parecido, interpretado: true };
+  if (mejor) return { id: mejor.id, interpretado: true, por: `sinónimo «${mejor.w}»` };
+  const parecido = ids.find((id) => contieneFrase(ts, id.replace(/_/g, ' ')));
+  if (parecido) return { id: parecido, interpretado: true, por: `id «${parecido}» dentro del texto` };
   return null;
 }
 
@@ -133,7 +175,7 @@ const TOOLS = [
   {
     name: 'consultar_grafo',
     description:
-      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el nivel de compromiso ICAP esperado. Siempre incluye las restricciones duras. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
+      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Siempre incluye las restricciones duras. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
     inputSchema: {
       type: 'object',
       properties: { tarea: { type: 'string' }, proposito: { type: 'string' }, patron: { type: 'string' } },
@@ -147,10 +189,16 @@ const TOOLS = [
         };
       }
       const out = { restricciones_duras: g.restricciones.duras };
+      // procedencia por dimensión (Sol, PR #3): cada clave interpretada dice desde qué texto y por qué camino llegó.
+      const interpretado = (dim, r, desde) => {
+        if (!r || !r.interpretado) return;
+        out.interpretado_como = { ...(out.interpretado_como || {}), [dim]: { id: r.id, desde, por: r.por } };
+      };
+      const patronesIds = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
       if (tarea) {
         const r = resolver(tarea, g.tareas.map((t) => t.id), 'tarea');
         out.tarea = r ? r.id : tarea;
-        if (r && r.interpretado) out.interpretado_como = { tarea: r.id, desde: tarea };
+        interpretado('tarea', r, tarea);
         const ids = r ? g.aristas.tarea_forma[r.id] : null;
         out.formas = ids ? g.formas.filter((f) => ids.includes(f.id)) : null;
         if (!r) out.aviso_tarea = `tarea desconocida; válidas: ${g.tareas.map((t) => `${t.id} (${t.desc})`).join(', ')}`;
@@ -159,19 +207,19 @@ const TOOLS = [
       if (proposito) {
         const r = resolver(proposito, g.propositos.map((p) => p.id), 'proposito');
         out.proposito = r ? r.id : proposito;
-        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), proposito: r.id, desde: proposito };
+        interpretado('proposito', r, proposito);
         const ids = r ? g.aristas.proposito_tecnica[r.id] : null;
         out.tecnicas = ids ? K.tecnicas.filter((t) => ids.includes(t.id)) : null;
         if (!r) out.aviso_proposito = `propósito desconocido; válidos: ${g.propositos.map((p) => `${p.id} (${p.desc})`).join(', ')}`;
         else if (!ids) out.aviso_proposito = `el propósito ${r.id} está en el vocabulario pero todavía no tiene técnicas asociadas; crece por PR`;
       }
       if (patron) {
-        const ids = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
-        const r = resolver(patron, ids, 'patron');
+        const r = resolver(patron, patronesIds, 'patron');
         out.patron = r ? r.id : patron;
-        if (r && r.interpretado) out.interpretado_como = { ...(out.interpretado_como || {}), patron: r.id, desde: patron };
-        if (!r) out.aviso_patron = `patrón desconocido; válidos: ${ids.join(', ')}`;
-        out.compromiso_esperado = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        interpretado('patron', r, patron);
+        if (!r) out.aviso_patron = `patrón desconocido; válidos: ${patronesIds.join(', ')}`;
+        const piso = r ? (g.aristas.patron_compromiso[r.id] ?? 'sin arista todavía') : null;
+        out.compromiso_esperado = piso; // piso ICAP del grafo (INFERENCIA de la pluma del grafo); la VES lo lee como piso, no como igualdad
         if (r && INTERACCION[r.id]) {
           out.interaccion_requerida = true;
           out.estados_minimos = INTERACCION[r.id];
@@ -179,7 +227,28 @@ const TOOLS = [
         } else if (r) {
           out.interaccion_requerida = false;
         }
+        if (r && OPERACION[r.id]) {
+          out.operacion_cognitiva_minima = OPERACION[r.id].tipo;
+          out.que_produce_la_persona = OPERACION[r.id].minimo;
+          const efectivo = compromisoConContrato(piso, OPERACION[r.id]);
+          if (efectivo) {
+            out.compromiso_con_contrato = efectivo;
+            if (efectivo !== piso) out.nota_compromiso = `el grafo pone piso ${piso}; cumpliendo los estados mínimos de este contrato (operación «${OPERACION[r.id].tipo}») el compromiso efectivo es ${efectivo}. Si no pides esa operación, declara ${piso}.`;
+          }
+          if (!out.interaccion_requerida) out.si_no_hay_operacion = `una pieza estática que no pide esta operación a quien lee no cumple el patrón: declara el compromiso real (pasivo), no el piso del grafo.`;
+        }
         out.referentes = r ? K.referentes.filter((x) => (x.patron || []).includes(r.id)) : [];
+      } else {
+        // Sol, PR #3: sin patrón, el contrato de interacción no existe y hay que decirlo. No hay arista tarea→patrón ni
+        // propósito→patrón en el grafo (crece por PR), así que los candidatos son todos, con su piso y su contrato.
+        out.interaccion_no_evaluada = true;
+        out.aviso_patron = 'consultaste sin patrón: la dimensión pedagógica quedó sin evaluar. Diseñar una experiencia exige resolver un patrón; elige uno de patrones_candidatos y vuelve a consultar con patron. Si vas a entregar algo estático sin patrón, no lo llames experiencia.';
+        out.patrones_candidatos = patronesIds.map((id) => ({
+          id,
+          compromiso_esperado: g.aristas.patron_compromiso[id] ?? 'sin arista todavía',
+          interaccion_requerida: Boolean(INTERACCION[id]),
+          operacion_cognitiva_minima: OPERACION[id]?.tipo ?? null,
+        }));
       }
       return out;
     },
@@ -242,7 +311,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Si consultar_grafo devuelve interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
