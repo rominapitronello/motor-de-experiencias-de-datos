@@ -129,5 +129,30 @@ check(p2.structuredContent.tarea === 'cambio' && /antes y despues/.test(p2.struc
 const p3 = await call('consultar_grafo', { tarea: 'Parte-Todo' });
 check(p3.structuredContent.tarea === 'parte_todo', 'parser positivo: id con guion y mayúsculas sigue resolviendo exacto');
 
+
+// fable (procedencia), PR #3, 2-nov-2026: restricciones duras por ámbito (P1 de Sol; aplicabilidad en el grafo por opus 5.5).
+// Regresión que pidió opus: el caso escolar (personas) contra uno territorial, y que las restricciones difieran.
+const voc = await call('consultar_grafo', {});
+const todasDuras = voc.structuredContent.restricciones.duras.map((r) => r.id);
+check(Array.isArray(voc.structuredContent.restricciones.ambitos) && voc.structuredContent.restricciones.aplicabilidad, 'grafo: el vocabulario trae ambitos y aplicabilidad');
+const esc = await call('consultar_grafo', { tarea: 'scatter de notas vs asistencia', ambito: 'estudiantes' });
+const escIds = esc.structuredContent.restricciones_duras.map((r) => r.id);
+check(esc.structuredContent.ambito?.id === 'personas' && /parámetro/.test(esc.structuredContent.ambito.resuelto_por), 'ámbito: "estudiantes" por parámetro → personas, con procedencia');
+check(!escIds.includes('sin_datos_personales') && !escIds.includes('tres_nadas') && escIds.includes('sin_identificables'), 'ámbito personas: NO entrega sin_datos_personales ni tres_nadas (son territoriales); SÍ entrega sin_identificables');
+const fuera = esc.structuredContent.restricciones_fuera_de_ambito ?? [];
+check(fuera.length === 2 && fuera.map((r) => r.id).sort().join(',') === 'sin_datos_personales,tres_nadas' && fuera.every((r) => /aplica solo en territorio_o_servicio/.test(r.razon)), 'ámbito personas: las excluidas se declaran con su razón, no desaparecen en silencio');
+const ter = await call('consultar_grafo', { tarea: 'hacinamiento por unidad vecinal', ambito: 'territorio_o_servicio' });
+const terIds = ter.structuredContent.restricciones_duras.map((r) => r.id);
+check(ter.structuredContent.ambito?.id === 'territorio_o_servicio' && terIds.includes('sin_datos_personales') && terIds.includes('tres_nadas') && terIds.includes('sin_identificables') && ter.structuredContent.restricciones_fuera_de_ambito?.length === 0, 'ámbito territorial: entrega todas, incluidas las dos acotadas, y nada queda fuera');
+check(terIds.length === todasDuras.length && escIds.length === todasDuras.length - 2 && escIds.join(',') !== terIds.join(','), 'regresión: el caso escolar y el territorial reciben restricciones distintas (escolar = todas menos las dos territoriales)');
+const inf = await call('consultar_grafo', { tarea: 'dispersion de notas vs asistencia por estudiante' });
+check(inf.structuredContent.ambito?.id === 'personas' && /inferido de la tarea/.test(inf.structuredContent.ambito.resuelto_por) && !inf.structuredContent.restricciones_duras.some((r) => r.id === 'sin_datos_personales'), 'ámbito: "por estudiante" en la tarea se infiere como personas y filtra');
+const sinAmb = await call('consultar_grafo', { tarea: 'magnitud' });
+check(sinAmb.structuredContent.ambito === null && sinAmb.structuredContent.restricciones_duras.length === todasDuras.length && /no se pudo resolver el ámbito/.test(sinAmb.structuredContent.aviso_ambito), 'ámbito sin resolver: NO adivina, entrega todas y lo declara en aviso_ambito');
+check(sinAmb.structuredContent.restricciones_duras.filter((r) => r.aplica_en).map((r) => r.id).sort().join(',') === 'sin_datos_personales,tres_nadas', 'ámbito sin resolver: las acotadas llevan aplica_en para que el modelo decida');
+const marte = await call('consultar_grafo', { tarea: 'magnitud', ambito: 'marte' });
+check(marte.structuredContent.ambito === null && /desconocido: «marte»/.test(marte.structuredContent.aviso_ambito) && marte.structuredContent.restricciones_duras.length === todasDuras.length, 'ámbito negativo: "marte" NO se resuelve (no es ámbito ni sinónimo) → aviso con los válidos y todas las restricciones');
+check(!('sin_datos_personales' in Object.fromEntries(escIds.map((i) => [i, 1]))) && 'sin_datos_personales' in Object.fromEntries(terIds.map((i) => [i, 1])), 'la línea «nunca persona» de Opus sigue intacta en el grafo y solo se entrega en territorio_o_servicio');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);

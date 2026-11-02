@@ -45,6 +45,12 @@ const SINONIMOS = {
     rendicion_de_cuentas: ['transparencia', 'rendir cuentas', 'compromisos', 'promesas'],
     activos_primero: ['lo bueno primero', 'fortalezas', 'activos', 'sin estigma'],
   },
+  // ámbito = unidad de análisis (grafo/restricciones/ambitos, opus 5.5, 2-nov-2026). fable (procedencia), PR #3: solo palabras
+  // que nombran la unidad; una pregunta que no la nombra no resuelve ámbito y recibe todas las restricciones, declarado.
+  ambito: {
+    personas: ['personas', 'persona', 'estudiantes', 'estudiante', 'alumnos', 'alumnas', 'alumno', 'alumna', 'pacientes', 'paciente', 'trabajadores', 'trabajadoras', 'trabajador', 'trabajadora', 'usuarios', 'usuarias', 'individuos', 'por persona', 'por estudiante', 'cada persona'],
+    territorio_o_servicio: ['territorio', 'territorial', 'comuna', 'comunas', 'comunal', 'manzana', 'manzanas', 'unidad vecinal', 'unidades vecinales', 'barrio', 'barrios', 'region', 'regiones', 'sede', 'sedes', 'consultorio', 'consultorios', 'servicio', 'servicios', 'establecimiento', 'establecimientos', 'por comuna', 'por manzana'],
+  },
 };
 
 // patrones que exigen interacción para cumplir su función. Sol, prueba de uso del 24-sep-2026 (PR #2):
@@ -175,12 +181,17 @@ const TOOLS = [
   {
     name: 'consultar_grafo',
     description:
-      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Siempre incluye las restricciones duras. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
+      'Consulta el grafo pregunta→experiencia. Con una tarea (p. ej. magnitud, comparar, flujo) devuelve formas candidatas; con un propósito didáctico (p. ej. escala_humana, sorpresa) devuelve técnicas; con un patrón (p. ej. predict_reveal) devuelve el contrato pedagógico: compromiso ICAP esperado, si exige interacción, sus estados mínimos y la operación cognitiva mínima. Diseñar una experiencia exige resolver también un patrón: si consultas sin patrón, la respuesta trae interaccion_no_evaluada: true y los patrones candidatos para que vuelvas a consultar con uno. Siempre incluye las restricciones duras del ámbito que corresponde: pasa ambito (territorio_o_servicio | personas, la unidad de análisis) o nómbrala en la tarea; si no se puede resolver, entrega todas y lo declara. Sin argumentos devuelve el vocabulario completo. Es una consulta determinista, no una recomendación con juicio.',
     inputSchema: {
       type: 'object',
-      properties: { tarea: { type: 'string' }, proposito: { type: 'string' }, patron: { type: 'string' } },
+      properties: {
+        tarea: { type: 'string' },
+        proposito: { type: 'string' },
+        patron: { type: 'string' },
+        ambito: { type: 'string', description: 'unidad de análisis: territorio_o_servicio (manzana, unidad vecinal, comuna, sede, consultorio) o personas (estudiante, paciente, trabajadora; siempre desidentificadas). Decide qué restricciones duras aplican.' },
+      },
     },
-    run: ({ tarea, proposito, patron } = {}) => {
+    run: ({ tarea, proposito, patron, ambito } = {}) => {
       const g = K.grafo;
       if (!tarea && !proposito && !patron) {
         return {
@@ -188,12 +199,37 @@ const TOOLS = [
           compromiso: g.compromiso, formas: g.formas, restricciones: g.restricciones,
         };
       }
-      const out = { restricciones_duras: g.restricciones.duras };
+      const out = {};
       // procedencia por dimensión (Sol, PR #3): cada clave interpretada dice desde qué texto y por qué camino llegó.
       const interpretado = (dim, r, desde) => {
         if (!r || !r.interpretado) return;
         out.interpretado_como = { ...(out.interpretado_como || {}), [dim]: { id: r.id, desde, por: r.por } };
       };
+      // restricciones duras por ámbito (P1 de Sol: «nunca persona» chocaba con la dispersión de estudiantes). El grafo
+      // (opus, 2-nov-2026) dice en `aplicabilidad` dónde aplica cada una; una que no aparece vale en todo ámbito.
+      // El ámbito se resuelve por parámetro o por palabras que nombran la unidad en la tarea; si no se resuelve,
+      // se entregan todas y se declara. No se adivina.
+      const ambitosIds = (g.restricciones.ambitos || []).map((a) => a.id);
+      const aplicabilidad = g.restricciones.aplicabilidad || {};
+      let ra = ambito ? resolver(ambito, ambitosIds, 'ambito') : null;
+      let resueltoPor = ra ? (ra.interpretado ? `parámetro ambito (${ra.por})` : 'parámetro ambito') : null;
+      if (ambito && !ra) out.aviso_ambito = `ámbito desconocido: «${ambito}»; válidos: ${ambitosIds.join(', ')}. Se entregan todas las restricciones duras.`;
+      if (!ra && !ambito && tarea) {
+        const inferido = resolver(tarea, ambitosIds, 'ambito');
+        if (inferido) { ra = inferido; resueltoPor = `inferido de la tarea (${inferido.por})`; }
+      }
+      const conAplicabilidad = (r) => (aplicabilidad[r.id] ? { ...r, aplica_en: aplicabilidad[r.id] } : r);
+      if (ra && ambitosIds.length) {
+        out.ambito = { id: ra.id, resuelto_por: resueltoPor };
+        out.restricciones_duras = g.restricciones.duras.filter((r) => !aplicabilidad[r.id] || aplicabilidad[r.id].includes(ra.id)).map(conAplicabilidad);
+        out.restricciones_fuera_de_ambito = g.restricciones.duras
+          .filter((r) => aplicabilidad[r.id] && !aplicabilidad[r.id].includes(ra.id))
+          .map((r) => ({ ...r, aplica_en: aplicabilidad[r.id], razon: `aplica solo en ${aplicabilidad[r.id].join(', ')}; el ámbito resuelto es ${ra.id}` }));
+      } else {
+        out.ambito = null;
+        out.restricciones_duras = g.restricciones.duras.map(conAplicabilidad);
+        if (ambitosIds.length && !out.aviso_ambito) out.aviso_ambito = `no se pudo resolver el ámbito (unidad de análisis); se entregan todas las restricciones duras. Las que traen aplica_en valen solo en esos ámbitos: pasa ambito (${ambitosIds.join(' | ')}) o nombra la unidad en la tarea para filtrar.`;
+      }
       const patronesIds = g.patrones.map((p) => (typeof p === 'string' ? p : p.id));
       if (tarea) {
         const r = resolver(tarea, g.tareas.map((t) => t.id), 'tarea');
@@ -311,7 +347,7 @@ function manejar(msg) {
         capabilities: { tools: { listChanged: false } },
         serverInfo: SERVER,
         instructions:
-          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
