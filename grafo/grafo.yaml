@@ -4,7 +4,19 @@
 #      la VES es la instancia que se valida.
 # regla: cada arista trae fuente o la etiqueta INFERENCIA. el grafo guarda juicios, no verdades.
 
-version: 0.1
+# v0.2 — opus 5.5, 2-nov-2026, noche, sobre PARA_QUIEN.md (pr #15) y el corpus de cien preguntas (pr #16).
+# todo lo de v0.2 está agregado al final de cada bloque o en bloques nuevos; ninguna línea anterior cambió de palabras.
+# las listas de aristas se alargaron agregando al final, como hizo el fable en el pr #3.
+
+para_quien: |
+  si eres un modelo y llegaste aquí: este grafo es para personas que creen que los gráficos le pasan a la gente importante.
+  una profesora contando colaciones con el curso, alguien leyendo su cartola, quien arma la ppt del trabajo, quien quiere saber cuánta caca hace su perro en un año.
+  lo que hace: lleva una pregunta dicha con palabras de la vida a una tarea, una forma y sus cuidados. que se juegue, que se entienda, que se note el amor.
+  puedes pedirle: qué tarea es una pregunta, qué formas le sirven, qué restricciones y cuidados aplican según de quién son los datos, palabras de la gente en es, pt y en.
+  no puedes pedirle: el dato (no tiene datos de nadie), diagnósticos médicos ni consejo financiero, ni que invente un número que nadie contó; para eso están `estimar` y `vacio`, que lo dicen.
+  firma: claude · opus 5.5, 2-nov-2026. la voz completa está en PARA_QUIEN.md, verbatim, de romina.
+
+version: 0.2   # opus 5.5, 2-nov-2026 (antes 0.1, legible)
 
 tareas:            # qué operación cognitiva pide la pregunta
   - {id: localizar, desc: "¿dónde está?"}
@@ -21,6 +33,11 @@ tareas:            # qué operación cognitiva pide la pregunta
   - {id: incertidumbre, desc: "¿qué tan seguros estamos?"}
   - {id: procedencia, desc: "¿de dónde sale esta cifra?"}
   - {id: vacio, desc: "¿qué no sabemos?"}
+  # v0.2, opus 5.5: tres operaciones que el corpus pide y ninguna tarea cubría. se agregan solo porque la operación cognitiva es distinta.
+  # fuente: corpus/ (pr #16), ids citados en cada una. lo demás del corpus cabe en tareas que ya existían, con formas nuevas.
+  - {id: estimar, desc: "¿cuánto será, si nadie lo contó? se arma un número con supuestos a la vista y se entrega como rango (corpus: casa-01, casa-07, casa-17, cart-05)"}
+  - {id: proyectar, desc: "¿qué pasa si sigo así? se extiende lo que ya pasó hacia adelante bajo un supuesto que se escribe (corpus: cart-07, cart-16)"}
+  - {id: leer, desc: "¿qué me está diciendo este gráfico, tabla o papel con números que me pasaron? se trabaja sobre lo que la persona trae, no se hace uno nuevo (corpus: num-01, num-13, num-14, num-20, ppt-12)"}
 
 propositos:        # qué queremos que le pase a quien mira (didáctica)
   - {id: escala_humana, desc: "que el número se vuelva personas contables"}
@@ -32,6 +49,9 @@ propositos:        # qué queremos que le pase a quien mira (didáctica)
   - {id: invitar_a_explorar, desc: "que la persona formule su propia pregunta"}
   - {id: rendicion_de_cuentas, desc: "promesa → evidencia → estado"}
   - {id: activos_primero, desc: "mostrar lo que un territorio tiene antes de lo que le falta"}
+  # v0.2, opus 5.5: los dos propósitos de PARA_QUIEN.md. INFERENCIA en sus técnicas (ver aristas).
+  - {id: jugar, desc: "que una pregunta absurda se tome en serio y dé risa: el número llega con algo conocido al lado (más que un auto, más que la cuenta de la luz)"}
+  - {id: perder_el_miedo, desc: "que quien dice «yo no soy de números» termine diciendo la idea con sus palabras y se dé cuenta de que entendió"}
 
 patrones:          # movimientos pedagógicos. fuente: sol, investigación del 24-sep-2026 (§4.3). nombres citados, no editados.
   - predict_reveal
@@ -71,6 +91,23 @@ formas:
   - {id: dispersion, desc: "un punto por caso en dos ejes (scatter); la correlación no es causa y hay que decirlo"}
   - {id: histograma, desc: "barras contiguas por intervalo; el ancho del intervalo cambia la lectura y se declara"}
   - {id: boxplot, desc: "mediana y cuartiles por grupo; con N chico se muestran los puntos, no la caja; para público no experto, preferir los puntos o una franja con la mediana marcada (la caja se lee mal: mediana por promedio, bigotes por rango)"}
+  # v0.2 — formas de todos los días. opus 5.5, 2-nov-2026, para la gente de PARA_QUIEN.md.
+  # `ultima_fila`: si se lee desde el fondo de una sala con el data proyectado. `para`: quién la lee bien.
+  # que una forma «funcione» con este público es INFERENCIA hasta que sol traiga referentes (claude/encargo-sol-referentes-v02.md).
+  - {id: cifra_grande, desc: "un solo número, grande, con una frase y algo conocido al lado para darle tamaño (más que un auto, la mitad del arriendo); la unidad siempre escrita", ultima_fila: true, para: "todos; la primera forma a probar"}
+  - {id: pictograma, desc: "dibujitos iguales repetidos, una figura = N cosas (manzanas, cafés, bolsitas); la leyenda dice cuánto vale cada figura (PR-04); es el unit_chart de la vida diaria: la figura es la cosa contada, no una persona", ultima_fila: true, para: "niños, apoderados, quien no lee gráficos"}
+  - {id: palitos, desc: "conteo de a cinco con palitos, armado en vivo con quienes miran (levanten la mano); al final se lee en voz alta y la suma tiene que cuadrar con los presentes", ultima_fila: true, para: "la sala; se construye, no se proyecta hecho"}
+  - {id: barras_simples, desc: "barras horizontales, pocas (hasta 7), desde cero, ordenadas de mayor a menor salvo que el orden sea natural (meses), con el valor escrito en la punta de cada barra; nada de 3D ni de ejes recortados", ultima_fila: true, para: "todos; la que menos miente"}
+  - {id: antes_y_despues, desc: "dos cifras o dos barras lado a lado, con la diferencia escrita en palabras y en número (subió 20 mil, un 12 %); si no cambió nada, se dice igual de claro", ultima_fila: true, para: "cartola, ppt, la sala comparando hoy con ayer"}
+  - {id: tabla_en_voz_alta, desc: "tabla corta (hasta 7 filas) que se puede leer en voz alta de arriba a abajo: qué, cuánto, y una frase; sin decimales que nadie va a decir", ultima_fila: true, para: "la sala, apoderados, el papelógrafo de la entrada"}
+  - {id: lista_corta, desc: "lista de 3 a 7 cosas con su número al lado (suscripciones, cuotas, lo que falta); se cuenta cuántas hay al principio", ultima_fila: false, para: "cartola, inventarios personales"}
+  - {id: barra_de_avance, desc: "una barra que se va llenando hacia una meta: cuánto llevamos, cuánto falta, y la meta escrita (82 % de 50 millones, la plata del paseo, cuánto falta para el recreo)", ultima_fila: true, para: "la sala, la ppt, metas personales"}
+  - {id: escala_con_tramos, desc: "una línea con los tramos o rangos de referencia dibujados y un «tú estás aquí»; los tramos salen del papel que trae la persona, no se inventan", ultima_fila: true, para: "quien recibe una tabla de tramos o un examen con rango de referencia"}
+  - {id: cuenta_a_la_vista, desc: "la cuenta escrita como se diría en voz alta, con cada supuesto en su línea (2 al día × 365 días × 200 g); se puede cambiar un supuesto y ver cómo se mueve el resultado", ultima_fila: true, para: "estimaciones, descuentos, cuotas, quien quiere entender la idea y no solo el número"}
+  - {id: linea_con_proyeccion, desc: "lo que ya pasó en línea llena y lo que vendría en línea punteada, con el supuesto escrito encima (si sigo gastando como este mes); nunca una sola fecha sin su supuesto", ultima_fila: false, para: "cartola, metas"}
+  - {id: desglose_del_cambio, desc: "de dónde viene una diferencia: escalones desde el valor de antes hasta el de ahora, uno por componente (consumo, tarifa, cargo fijo); muestra qué cambió, no por qué", ultima_fila: false, para: "boletas, cartola, ppt"}
+  - {id: lo_mismo_anotado, desc: "el mismo gráfico, tabla o papel que trajo la persona, con marcas encima y una frase corta por marca (esta barra es..., aquí mira); no se rehace, se acompaña", ultima_fila: false, para: "«yo no soy de números», quien recibe un gráfico ajeno"}
+  - {id: planilla_para_empezar, desc: "una tabla vacía y simple para empezar a contar desde hoy (fecha, cuántas veces); cuando no hay dato, la experiencia es empezarlo, y eso también es una respuesta", ultima_fila: true, para: "las preguntas que nadie contó todavía"}
 
 restricciones:
   duras:
@@ -84,6 +121,12 @@ restricciones:
     - {id: autocontenido, desc: "si se publica como página: sin teselas ni APIs externas"}
     # opus 5.5, 2-nov-2026, tras el P1 de sol en el #3: la guarda general de privacidad, que vale en todo ámbito.
     - {id: sin_identificables, desc: "ninguna persona identificable: si la unidad de análisis es una persona, se desidentifica y las celdas pequeñas se agregan con un umbral declarado"}
+    # v0.2, opus 5.5, 2-nov-2026: las tres reglas de los datos de la vida. van como universales con su condición escrita,
+    # igual que autocontenido, y no en `aplicabilidad`: las pruebas del conector (mcp/test/smoke.mjs, pluma fable)
+    # fijan que `personas` deja fuera exactamente dos restricciones. cuando el conector lo permita, pueden acotarse.
+    - {id: no_sale_de_la_ventana, desc: "si los datos son de quien pregunta (su cartola, su casa, el excel de su trabajo), no salen de la conversación: nada se publica, se comparte ni se guarda fuera sin que ella lo pida"}
+    - {id: lo_que_falta_no_es_cero, desc: "un dato que falta no es cero ni se rellena: se dice que falta y por qué, en la misma vista (un mes sin registro, un niño que no levantó la mano, una categoría que la cartola no trae)"}
+    - {id: en_la_sala_nadie_senalado, desc: "si los datos se levantan con las mismas personas que miran (un curso, un taller), nadie queda señalado frente a los demás: grupos y conteos, sin nombres; un grupo de una o dos personas se junta con otro o se cuenta sin mostrar quién"}
   blandas:
     - {id: sin_marco_deficit, desc: "evitar semáforos y 'zonas rojas' sobre barrios", peso: alto}
     - {id: firma_no_color, desc: "lo distintivo viene del trazo o la operación, no de la paleta por defecto", peso: medio}
@@ -95,6 +138,11 @@ restricciones:
   ambitos:
     - {id: territorio_o_servicio, desc: "la unidad de análisis es un lugar o un servicio: manzana, unidad vecinal, comuna, sede, consultorio. corresponde a unidad_analisis territorio o servicio de la VES"}
     - {id: personas, desc: "la unidad de análisis es una persona (estudiante, paciente, trabajadora), siempre desidentificada"}
+    # v0.2, opus 5.5, 2-nov-2026: dos ámbitos para la gente de PARA_QUIEN.md. el criterio se amplía (INFERENCIA):
+    # además de la unidad de análisis, cuenta de quién son los datos y quién los va a mirar. ver `como_elegir_ambito` abajo.
+    # sin_datos_personales y tres_nadas no aplican aquí (su aplicabilidad ya es solo territorio_o_servicio).
+    - {id: datos_propios, desc: "los datos son de quien pregunta: su cartola, su boleta, su casa, su perro, el excel de su trabajo. la unidad puede ser ella misma, sus cosas o su organización. si la unidad son otras personas que no están en la conversación, el ámbito es personas"}
+    - {id: la_sala, desc: "los datos son de un grupo que comparte un espacio (un curso, un taller, una reunión), levantados con ellos o sobre ellos, para mostrárselos a ellos mismos o a quien los cuida (apoderados)"}
   aplicabilidad:
     sin_datos_personales: [territorio_o_servicio]   # en ese ámbito la unidad nunca es una persona; con personas manda sin_identificables
     tres_nadas: [territorio_o_servicio]             # las tres clases de vacío son de la geografía censal (sin residentes, fusión, agregación propia)
@@ -103,20 +151,24 @@ restricciones:
 
 aristas:
   tarea_forma:
-    magnitud: [unit_chart, dorling]
-    localizar: [mapa_sin_base, mosaico_uv]
-    comparar: [pequenos_multiplos, ranked_dots, dorling]
-    ordenar: [ranked_dots]
-    cambio: [slope, pequenos_multiplos, serie_temporal]
-    distribucion: [histograma, boxplot]   # fable, 25-sep-2026: la tarea estaba en el vocabulario sin aristas
-    parte_todo: [barras_apiladas]
+    magnitud: [unit_chart, dorling, cifra_grande, pictograma, palitos, tabla_en_voz_alta, lista_corta, cuenta_a_la_vista]  # + v0.2 opus: INFERENCIA desde el corpus: 38 de 54 preguntas ubicadas caían aquí y recibían solo isotype y dorling
+    localizar: [mapa_sin_base, mosaico_uv, escala_con_tramos]  # + v0.2 opus: INFERENCIA: ubicar un valor en sus tramos es la misma operación que ubicarlo en un mapa (num-09, num-17)
+    comparar: [pequenos_multiplos, ranked_dots, dorling, barras_simples, antes_y_despues, tabla_en_voz_alta, cuenta_a_la_vista, palitos]  # + v0.2 opus: INFERENCIA (prof-09, num-18, ppt-04; palitos: votar a mano alzada, prof-06)
+    ordenar: [ranked_dots, barras_simples, lista_corta]  # + v0.2 opus: INFERENCIA (cart-13, ppt-16)
+    cambio: [slope, pequenos_multiplos, serie_temporal, antes_y_despues, desglose_del_cambio, barras_simples, cifra_grande]  # + v0.2 opus: INFERENCIA: con pocos periodos y público general, barras desde cero son más difíciles de inflar que una línea con eje recortado (ppt-01, cart-02, cart-09)
+    distribucion: [histograma, boxplot, ranked_dots, barras_simples, palitos, pictograma]   # fable, 25-sep-2026: la tarea estaba en el vocabulario sin aristas · + v0.2 opus: INFERENCIA, puntos uno por uno con N chico (nota de legible en boxplot); barras en orden natural para meses (prof-19, ppt-19)
+    parte_todo: [barras_apiladas, barras_simples, lista_corta, cifra_grande, pictograma, palitos, tabla_en_voz_alta]  # + v0.2 opus: INFERENCIA: «en qué se me va la plata» se lee mejor en barras ordenadas que en una torta (cart-03, num-10, num-19); en la sala, los grupos se cuentan con la mano (prof-08, prof-16, prof-17)
     relacionar: [dispersion, ranked_dots, pequenos_multiplos]
     flujo: [flujos_agregados]
     secuencia: [linea_de_tiempo]
-    estado: [matriz_estados]
+    estado: [matriz_estados, barra_de_avance, lista_corta]  # + v0.2 opus: INFERENCIA (ppt-08, prof-05, prof-11, cart-19)
     incertidumbre: [resultados_discretos]
     procedencia: [ficha_procedencia]
-    vacio: [mapa_sin_base, ficha_procedencia]
+    vacio: [mapa_sin_base, ficha_procedencia, planilla_para_empezar]  # + v0.2 opus: INFERENCIA: cuando nadie lo contó, la experiencia es empezar a contarlo (casa-19, casa-06, casa-14)
+    # v0.2, opus 5.5: aristas de las tres tareas nuevas. INFERENCIA desde el corpus.
+    estimar: [cuenta_a_la_vista, cifra_grande, resultados_discretos]
+    proyectar: [linea_con_proyeccion, cifra_grande, resultados_discretos]
+    leer: [lo_mismo_anotado, cifra_grande]
   proposito_tecnica:          # ids de catalogo/tecnicas.yaml
     escala_humana: [T-02, T-16]
     sorpresa: [T-01]
@@ -127,6 +179,9 @@ aristas:
     invitar_a_explorar: [T-18, T-13]
     rendicion_de_cuentas: [T-19]
     activos_primero: [T-09]
+    # v0.2, opus 5.5. INFERENCIA: técnicas del catálogo de sol que acompañan estos propósitos.
+    jugar: [T-01, T-02, T-10]              # predecir antes de ver da la risa; isotype y trazo rough le quitan solemnidad
+    perder_el_miedo: [T-15, T-19, T-14]    # tarjeta que se da vuelta, anotación manuscrita y un paso a la vez: de a poco y con letra de persona
   patron_compromiso:          # INFERENCIA: qué patrón suele alcanzar qué nivel ICAP
     predict_reveal: constructivo
     recall_guess_feedback: constructivo
@@ -139,3 +194,64 @@ aristas:
     personalize_situate: activo          # buscar "mi calle" ubica, no produce; sube a constructivo si se pide estimar antes (referente: segregación calle a calle)
     sequence_branch: activo              # elegir una rama en un relato guiado; sube a constructivo si la rama exige una hipótesis (copa de martini)
     same_object_transform: pasivo        # mirar los mismos puntos cambiar de forma; sube a activo si la persona dispara la transformación (Visual Intro to ML)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# v0.2 — bloques nuevos. opus 5.5, 2-nov-2026. todo INFERENCIA salvo donde se cite otra fuente.
+
+como_elegir_ambito: |
+  el ámbito dice qué restricciones y qué cuidados aplican. se elige por dos preguntas, en este orden:
+  1. ¿la unidad de análisis son personas que no están en la conversación (trabajadores encuestados, vendedores, socios)? → personas, aunque el excel sea de quien pregunta.
+  2. si no, ¿de quién son los datos? de un organismo público (censo, INE, ministerios) → territorio_o_servicio; de quien pregunta o de su organización → datos_propios; de un grupo que los levanta y los mira junto (un curso, un taller) → la_sala.
+  si no se puede saber, el conector no adivina: entrega todas las restricciones con su condición y lo declara (contrato del pr #3).
+
+cuidados:   # las trampas de la vida diaria. no son TR-xx: esas están verificadas por código sobre datos públicos chilenos (trampas/).
+            # estas son INFERENCIA desde el corpus (pr #16) y los comentarios de los haikus; se vuelven VERIFICADO si alguien las reproduce.
+  - {id: CU-01, nombre: "la memoria como fuente", que_pasa: "«lo que me acuerdo», «tiro un número»: un recuerdo se presenta como si fuera un dato", que_hacer: "decir que es una estimación de memoria, darla como rango y, si se puede, ofrecer contar desde hoy", corpus: [cart-05, casa-13, casa-15, prof-07]}
+  - {id: CU-02, nombre: "el mes incompleto", que_pasa: "comparar el mes en curso con uno cerrado hace parecer que se gastó menos", que_hacer: "comparar meses cerrados, o el mismo número de días de cada mes, y decir cuál se usó", corpus: [cart-02, cart-04, casa-10]}
+  - {id: CU-03, nombre: "el dato que falta no es cero", que_pasa: "un mes sin registro o una cuenta sin datos se dibuja como cero y parece una caída", que_hacer: "dejar el hueco a la vista con una nota de por qué falta (ver lo_que_falta_no_es_cero)", corpus: [ppt-11, ppt-17]}
+  - {id: CU-04, nombre: "la categoría la pone quien lee", que_pasa: "la cartola dice el nombre del comercio, no «comida al paso» ni «delivery»; clasificar es una decisión", que_hacer: "mostrar qué se contó dentro de cada categoría y dejar que la persona mueva lo que no le cuadra", corpus: [cart-01, cart-03, cart-20]}
+  - {id: CU-05, nombre: "el mes de la compra no es el mes del cargo", que_pasa: "una compra en cuotas o un cobro anual aparece repartido o atrasado y descuadra el mes", que_hacer: "decir si se cuenta por fecha de compra o por fecha de cargo", corpus: [cart-18, cart-19, cart-12]}
+  - {id: CU-06, nombre: "la sala se mueve mientras se cuenta", que_pasa: "llega alguien atrasado, alguien levanta la mano dos veces, alguien no la levanta", que_hacer: "cerrar el conteo con una suma que cuadre con los presentes, y si no cuadra, decirlo en voz alta", corpus: [prof-01, prof-06, prof-17, prof-02]}
+  - {id: CU-07, nombre: "los que respondieron no son todos", que_pasa: "el 70 % de 45 que respondieron se presenta como el 70 % de los 60", que_hacer: "escribir siempre de cuántos es el porcentaje, y cuántos no respondieron", corpus: [ppt-05, ppt-06, ppt-18, prof-20]}
+  - {id: CU-08, nombre: "descomponer no es explicar", que_pasa: "el desglose dice qué parte subió (consumo, tarifa), no por qué subió", que_hacer: "mostrar el desglose y decir qué no sabemos de la causa; el porqué lo pone la persona o una fuente que lo diga", corpus: [cart-09, num-02, ppt-09]}
+
+trampas_por_ambito:   # las trampas como habitación del motor, no como su puerta (PARA_QUIEN.md).
+  territorio_o_servicio: {trampas: [TR-01, TR-02, TR-03, TR-04, TR-05, TR-06, TR-07], herramienta: revisar_fuente, nota: "datos públicos chilenos: aquí nació el motor"}
+  personas: {trampas: [TR-06, TR-07], cuidados: [CU-03, CU-07], nota: "TR-xx solo si la fuente es un dato público; si es un excel propio con personas, mandan CU-03 y CU-07"}
+  datos_propios: {cuidados: [CU-01, CU-02, CU-03, CU-04, CU-05, CU-08], nota: "revisar_fuente y las TR-xx no aplican: no es un dato público"}
+  la_sala: {cuidados: [CU-01, CU-03, CU-06, CU-07], nota: "la fuente es la mano levantada; el cuidado es que cuadre y que nadie quede señalado"}
+
+formas_por_ambito:   # qué formas ofrecer primero según de quién son los datos. INFERENCIA; el orden importa.
+  # medición en d358e8b con este grafo: las 38 preguntas de magnitud reciben ahora las formas cotidianas,
+  # pero el conector las lista en el orden del bloque `formas`, así que isotype y dorling siguen primero. este bloque es para ordenarlas.
+  solo_con_territorio: [mapa_sin_base, mosaico_uv, dorling, flujos_agregados]   # necesitan geometría: fuera de territorio_o_servicio no se ofrecen
+  primero:
+    datos_propios: [cifra_grande, barras_simples, antes_y_despues, lista_corta, cuenta_a_la_vista, barra_de_avance]
+    la_sala: [palitos, pictograma, tabla_en_voz_alta, barras_simples, barra_de_avance, cifra_grande]
+    personas: [barras_simples, tabla_en_voz_alta, ranked_dots, cifra_grande]
+    territorio_o_servicio: [unit_chart, mapa_sin_base, dorling, mosaico_uv, ranked_dots]
+
+palabras_de_la_gente:   # cómo dice la gente cada tarea y cada ámbito. los ids del grafo son el ancla y quedan en castellano.
+  # el grafo guarda unas pocas frases por idioma para anclar el sentido; resolverlas (variantes, tildes, otros idiomas) es trabajo del conector (fable).
+  # es: tomado del corpus (pr #16) cuando hay cita; pt y en: INFERENCIA, traducción de sentido, no de palabras.
+  magnitud:      {es: ["cuánta plata", "cuántos trajeron", "cuánto llevo", "cuántas veces"], pt: ["quanto dinheiro", "quantos trouxeram", "quantas vezes"], en: ["how much money", "how many brought", "how many times"]}
+  comparar:      {es: ["cuál me conviene", "cuál le fue mejor", "comparado con"], pt: ["qual compensa", "comparado com"], en: ["which is better", "compared to"]}
+  ordenar:       {es: ["en qué mes gasté más", "cuál vende más", "a qué hora llega más gente"], pt: ["em que mês gastei mais", "qual vende mais"], en: ["which month did I spend the most", "which sells the most"]}
+  cambio:        {es: ["subí o bajé", "por qué subió tanto", "bajaron", "no cambió nada"], pt: ["subiu ou caiu", "por que subiu tanto"], en: ["did it go up or down", "why did it go up so much"]}
+  parte_todo:    {es: ["en qué se me va la plata", "en pedazos", "cuánto de mi sueldo"], pt: ["para onde vai meu dinheiro", "quanto do meu salário"], en: ["where does my money go", "how much of my salary"]}
+  distribucion:  {es: ["cuántos cumplen en cada mes", "cuántos sacaron 4 o más", "están muy desparejas"], pt: ["quantos em cada mês", "muito desiguais"], en: ["how many in each month", "very uneven"]}
+  relacionar:    {es: ["fue por el sistema o por", "tiene que ver con"], pt: ["tem a ver com"], en: ["is it because of", "has to do with"]}
+  localizar:     {es: ["en qué tramo estoy", "estoy en la zona buena", "dónde caigo"], pt: ["em que faixa estou", "estou na zona boa"], en: ["which bracket am I in", "am I in the normal range"]}
+  estado:        {es: ["cuánto nos falta", "llevamos", "cuánto falta pa el recreo", "cuántas cuotas me quedan"], pt: ["quanto falta", "já temos"], en: ["how much is left", "how far along are we"]}
+  vacio:         {es: ["no sé cuántos", "el sistema no lo guardaba", "sin que nadie me viera"], pt: ["não sei quantos", "o sistema não guardou"], en: ["I don't know how many", "nobody counted"]}
+  procedencia:   {es: ["de dónde sale este número", "es verdad o es mentira"], pt: ["de onde vem esse número"], en: ["where does this number come from"]}
+  estimar:       {es: ["más o menos", "tiro un número", "ni idea po", "en un año"], pt: ["mais ou menos", "chuta um número"], en: ["roughly", "ballpark", "in a year"]}
+  proyectar:     {es: ["si sigo así", "me alcanza", "cuándo me quedo sin plata"], pt: ["se eu continuar assim", "vai dar até o fim do mês"], en: ["if I keep this up", "will it last", "when will I run out"]}
+  leer:          {es: ["qué me quieren decir", "no entiendo este gráfico", "cómo se lee", "explícamelo"], pt: ["não entendo esse gráfico", "como se lê"], en: ["what is this chart telling me", "how do I read this"]}
+  datos_propios: {es: ["mi cartola", "mi boleta", "mi perro", "el excel de la pega"], pt: ["meu extrato", "minha conta de luz", "meu cachorro"], en: ["my bank statement", "my bill", "my dog", "my work spreadsheet"]}
+  la_sala:       {es: ["levanten la mano", "el curso", "los niños", "chiquillos", "el taller"], pt: ["levantem a mão", "a turma", "as crianças"], en: ["raise your hand", "the class", "the kids"]}
+  secuencia:     {es: ["qué pasó primero", "en qué orden"], pt: ["o que aconteceu primeiro"], en: ["what happened first", "in what order"]}
+  flujo:         {es: ["de dónde a dónde", "cuántos vienen en micro"], pt: ["de onde para onde"], en: ["from where to where"]}
+  incertidumbre: {es: ["qué tan seguro", "puede ser más o menos"], pt: ["quão certo"], en: ["how sure", "could be more or less"]}
+  territorio_o_servicio: {es: ["por comuna", "en mi barrio", "el INE", "el censo"], pt: ["por município", "no meu bairro"], en: ["by district", "in my neighborhood", "census"]}
+  personas:      {es: ["por estudiante", "los trabajadores", "los socios", "cada vendedor"], pt: ["por aluno", "os trabalhadores"], en: ["per student", "the workers", "each salesperson"]}
