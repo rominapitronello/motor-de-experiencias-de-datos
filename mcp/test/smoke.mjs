@@ -188,8 +188,8 @@ check(typeof voc2.structuredContent.para_quien === 'string' && voc2.structuredCo
 
 
 // 0.2.1, tras la prueba de un sonnet (2-nov-2026, 19:29): cuatro hallazgos, tres de este lado.
-check(c1.structuredContent.hay_experiencia === false && /lámina/.test(c1.structuredContent.por_que_no_hay_experiencia), '0.2.1: sin patrón, hay_experiencia: false, dicho en booleano');
-check(i1.structuredContent.hay_experiencia === true, '0.2.1: con predict_reveal, hay_experiencia: true');
+check(c1.structuredContent.la_persona_produce_una_idea === false && /una cifra y listo/.test(c1.structuredContent.sin_patron_significa) && !/no lo llames experiencia/.test(JSON.stringify(c1.structuredContent)), '0.3.2: sin patrón, la_persona_produce_una_idea: false, y una cifra y listo también vale (se_puede_salir; ya no dice «no lo llames experiencia»)');
+check(i1.structuredContent.la_persona_produce_una_idea === true, '0.3.2: con predict_reveal, la persona produce una idea');
 const son = await call('consultar_grafo', { tarea: 'clasificar instancias según una variable que casi no existe en los datos, un proxy', ambito: 'personas' });
 const pe = son.structuredContent.para_esta_pregunta;
 check(pe && pe.restricciones.some((r) => r.id === 'definicion_junto_al_dato' && r.porque.includes('proxy')), '0.2.1: «un proxy» destaca definicion_junto_al_dato pegada a la pregunta, con la palabra que calzó');
@@ -207,6 +207,14 @@ check(Array.isArray(q1.structuredContent.toda_experiencia) && q1.structuredConte
 const q4 = await call('consultar_grafo', { tarea: 'how do i know how many people come into my shop every month' });
 check(q4.structuredContent.proposito_sugerido?.id === 'curiosidad', '0.3: «how do i know…» sugiere el propósito curiosidad');
 check(/reconocer/.test(JSON.stringify(c1.structuredContent.patrones_candidatos)) === false, '0.3: patrones_candidatos no se contamina con tareas (reconocer es tarea, no patrón)');
+
+
+// 0.3.2 (sol, #35: deambular; romina, #27: cada ventana es única).
+const d1 = await call('consultar_grafo', { tarea: 'no me interesan las siete hipótesis, me quedé mirando la diferencia rural urbana y me hizo pensar en cómo vivimos solos hoy' });
+check(d1.structuredContent.foco_parcial && /no resumas/.test(d1.structuredContent.foco_parcial.que_hacer), '0.3.2: «no me interesan las siete, me quedé mirando…» → foco_parcial: empieza ahí, no resumas el resto');
+check(d1.structuredContent.tarea === 'incertidumbre' || d1.structuredContent.tarea === 'comparar', '0.3.2: y la tarea sigue resolviéndose (hipótesis → incertidumbre, o diferencia → comparar)');
+check(!c1.structuredContent.foco_parcial, '0.3.2: foco_parcial NO aparece sin la señal (sería ruido)');
+check(/Dos ventanas con la misma tabla/.test(init.result.instructions) && /contemplando/.test(init.result.instructions), '0.3.2: instructions: deambular y cada ventana es única');
 
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
