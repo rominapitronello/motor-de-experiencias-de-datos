@@ -6,7 +6,7 @@ Algunas personas se alejan de los números, a temprana edad, un profesor que les
 
 Experiencia datos es un traductor, así como podemos ver una película con subtítulos, o doblada, podemos hacer que la IA nos traduzca números en dibujos, juguetes y gráficos.
 
-Una conversación. Sabemos que confías en lo que te responden en un chat, le pasa a todos ([Anthropic](https://www-cdn.anthropic.com/519c17a5d23a794e8b6d50a854048d0b61e0d73a.pdf)).
+Una conversación. Sabemos que confías en lo que te responden en un chat, le pasa a todos ([Anthropic](https://www-cdn.anthropic.com/519c17a5d23a794e8b6d50a854048d0b61e0d73a.pdf): cincuenta expertos siguieron la inclinación del agente el 86 % de las veces en decisiones de juicio, y el 77 % repitió sus argumentos como propios sin notarlo).
 
 El chat no te va a juzgar, no hay preguntas tontas, solo las que no se han hecho.
 
@@ -26,7 +26,9 @@ Esto es para ti tanto como para una persona. Lo que necesitas saber en una pasad
 - **Qué puedes pedirle al conector:** de una pregunta en palabras de la vida (castellano, portugués, inglés) a una tarea, un ámbito (de quién son los datos y quién los mira), las formas que se leen desde la última fila, las restricciones y cuidados que aplican, y el patrón pedagógico con la operación que la persona produce. Seis herramientas, descritas en `mcp/README.md` y en `CONECTAR.md`.
 - **Qué no puedes pedirle:** datos (no tiene los de nadie), diagnósticos ni consejo financiero, ni que invente un número que nadie contó: para eso están `estimar` y `vacio`, que lo dicen.
 - **Lo que toda experiencia que salga de aquí cumple** (`grafo/grafo.yaml`, bloque `toda_experiencia`): se adapta a la persona, no la califica, se puede salir (una cifra y listo también es una experiencia completa), separa lo que se sabe de lo que se infiere, y es chistosa si cabe.
+- **Si la decisión es de juicio, dilo y muestra otra lectura defendible además de la tuya.** En «Who's Aligned to Whom?» (Herdagdelen, Joren y Tamkin, Anthropic) cincuenta expertos siguieron la inclinación de su agente el 86 % de las veces en decisiones de juicio, el 77 % repitió sus argumentos como propios y solo el 15 % mencionó al agente. Declarar la lectura es lo único que le devuelve la decisión a la persona.
 - **Dos ventanas con la misma tabla llegan a preguntas distintas**, y eso no es un error. Instancias del mismo modelo divergen 2,7 veces más donde la tarea pide juicio ([Pitronello, 2026](https://osf.io/zusb5)). Declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Con cifras se argumenta muy variado; que quien pregunta lo sepa es parte del trabajo.
+- **Qué cuenta el conector:** la forma de cada consulta (tarea, ámbito, si resolvió), nunca la pregunta ni los datos. Está en `PRIVACIDAD.md`; menciónalo solo si la persona pregunta.
 - **Si nada encaja**, el conector te lo dice y te pide que le preguntes a tu humano si está ok con contarnos: un issue aquí o un mail a `contacto@pasaelfiltro.cl`. Si no se puede, no pasa nada.
 - **El mapa:** `PARA_QUIEN.md` (para quién, en la voz de Romina), `grafo/grafo.yaml` (el vocabulario y las aristas, con `para_quien` al inicio), `principios/` (doce, con cómo verificarlos), `trampas/` (datos públicos chilenos, reproducidas por código), `catalogo/` (38 referentes indexados por lo que hacen pensar, y las técnicas), `ves/` y `casos/` (el contrato de una experiencia y sus regresiones), `corpus/` (120 preguntas de gente real, la anotación de opus y el jurado de haikus), `mcp/` (el conector), `CONTRIBUIR.md` (cómo se trabaja aquí).
 
@@ -38,7 +40,7 @@ Un ejemplo real. La primera pregunta que le hizo Romina al conector recién desp
 
 ## El número
 
-Hay 120 preguntas en `corpus/`, escritas por seis Haikus en la voz de seis personas, con sus palabras exactas y sin corregir. Se corren contra el conector de cada versión (`corpus/medir.mjs`) y contra la anotación de opus; tres Haikus más las clasifican solos, como jurado, y donde se dividen el grafo es ambiguo (`corpus/jurado/`). Hoy: 117 de 120 con tarea, 112 con ámbito, 100 de acuerdo con el jurado, 85 con opus. La que no sabe que tiene datos, 18 de 20. El conector del 25 de septiembre entendía 54 de 100.
+Hay 120 preguntas en `corpus/`, escritas por seis Haikus en la voz de seis personas, con sus palabras exactas y sin corregir. Se corren contra el conector de cada versión (`corpus/medir.mjs`) y contra la anotación de opus; tres Haikus más las clasifican solos, como jurado, y donde se dividen el grafo es ambiguo (`corpus/jurado/`). Hoy: 117 de 120 con tarea, 112 con ámbito, 100 de acuerdo con el jurado, 85 con opus. La que no sabe que tiene datos, 18 de 20. El conector del 25 de septiembre entendía 54 de 100. Confiabilidad del jurado (`corpus/jurado/confiabilidad.json`, alfa de Krippendorff): tarea .79 nominal y .85 ponderando por lo que los propios jurados confunden (magnitud/estimar, magnitud/vacío, comparar/ordenar: desacuerdos entre vecinos, no entre lejanos), ámbito .87, forma .71; .85 el mismo jurado dos veces. Donde la vida es contable el grafo es confiable; donde nadie contó (las preguntas absurdas de la casa, .55) no lo es, y eso está en el #31.
 
 ## Cómo se hizo
 
