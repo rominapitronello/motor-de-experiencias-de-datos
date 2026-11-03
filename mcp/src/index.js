@@ -365,7 +365,7 @@ const TOOLS = [
             revela: INTERACCION[r.id].find((e) => /revelaci[oó]n|observaci[oó]n|ve su caso|contexto/.test(e)) ?? INTERACCION[r.id][INTERACCION[r.id].length - 1],
             colores: 'pocos, con nombre y con significado (firma_no_color): si el rojo es «frenar», que sea rojo en el control, en el gráfico y en la frase. nada de paleta por defecto.',
             si_cambia_un_supuesto: 'todo se recalcula a la vista (cuenta_a_la_vista): la persona ve cómo se mueve el resultado cuando mueve una cosa.',
-            ejemplo_de_la_casa: 'catalogo/juguetes/el-tren-del-2.55.md: «tú eres la maquinista, elige en qué segundo empiezas a frenar», el gráfico v–t donde el área es la distancia, y los pasos que se abren solo cuando intentaste el anterior.',
+            ejemplo_de_la_casa: 'catalogo/juguetes/: el tren del 2.55 («tú eres la maquinista, elige en qué segundo empiezas a frenar», el gráfico v–t donde el área es la distancia) y seno-coseno (un deslizador para el ángulo, el círculo, y abajo «seno (altura)» y «coseno (suelo)» recalculándose: meses después la persona se acuerda de lo que tocó, no de la fórmula).',
           };
         } else if (r) {
           out.interaccion_requerida = false;
