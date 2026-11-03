@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.1' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.2' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -359,7 +359,7 @@ const TOOLS = [
         } else if (r) {
           out.interaccion_requerida = false;
         }
-        if (r) out.hay_experiencia = Boolean(OPERACION[r.id] && OPERACION[r.id].tipo !== 'ninguna');
+        if (r) out.la_persona_produce_una_idea = Boolean(OPERACION[r.id] && ['prediccion', 'explicacion'].includes(OPERACION[r.id].tipo));
         if (r && OPERACION[r.id]) {
           out.operacion_cognitiva_minima = OPERACION[r.id].tipo;
           out.que_produce_la_persona = OPERACION[r.id].minimo;
@@ -375,9 +375,12 @@ const TOOLS = [
         // Sol, PR #3: sin patrón, el contrato de interacción no existe y hay que decirlo. No hay arista tarea→patrón ni
         // propósito→patrón en el grafo (crece por PR), así que los candidatos son todos, con su piso y su contrato.
         out.interaccion_no_evaluada = true;
-        out.hay_experiencia = false; // 0.2.1: sin patrón no hay experiencia, hay un gráfico. dicho en booleano, no solo en el aviso.
-        out.por_que_no_hay_experiencia = 'sin patrón pedagógico no hay operación cognitiva que la persona produzca: hay una lámina. Resuelve un patrón o llámalo gráfico.';
-        out.aviso_patron = 'consultaste sin patrón: la dimensión pedagógica quedó sin evaluar. Diseñar una experiencia exige resolver un patrón; elige uno de patrones_candidatos y vuelve a consultar con patron. Si vas a entregar algo estático sin patrón, no lo llames experiencia.';
+        // 0.3.2: reconciliado con el grafo v0.3 (se_puede_salir: «una cifra y listo también es una experiencia completa») y con el #35 de sol
+        // (deambular: no exigir fruto visible). en 0.2.1 esto decía «no lo llames experiencia»; eso contradecía al grafo. lo que sigue siendo
+        // verdad, y lo que pidió el sonnet: sin patrón, la persona no produce una idea (predicción, explicación), y hay que decirlo en claro.
+        out.la_persona_produce_una_idea = false;
+        out.sin_patron_significa = 'sin patrón, la persona mira y no produce una idea (predicción, explicación, hipótesis). Eso puede ser suficiente: una cifra y listo también es una experiencia completa (toda_experiencia.se_puede_salir), y una conversación que termina contemplando un número también vale. Si quieres que la persona produzca algo, elige un patrón de patrones_candidatos; el siguiente paso se ofrece, no se exige.';
+        out.aviso_patron = 'consultaste sin patrón: la dimensión pedagógica quedó sin evaluar. Si la experiencia quiere que la persona produzca una idea, elige uno de patrones_candidatos y vuelve a consultar con patron.';
         out.patrones_candidatos = patronesIds.map((id) => ({
           id,
           compromiso_esperado: g.aristas.patron_compromiso[id] ?? 'sin arista todavía',
@@ -387,6 +390,13 @@ const TOOLS = [
       }
       // 0.2.1 (prueba de un sonnet, 2-nov-2026, 19:29): pasó ids válidos y la pregunta igual no encajaba, y el conector no dijo nada.
       // el conector no puede saber que nada encaja cuando los ids existen, así que el pedido va siempre, corto; largo cuando algo falló.
+      // 0.3.2 (sol, #35: deambular). si la pregunta trae una pista parcial, el modelo empieza ahí y no resume el resto.
+      const FOCO = ['me quede mirando', 'me quedo mirando', 'solo esta', 'solo esa', 'solo este', 'solo ese', 'solo una', 'solo un', 'no me interesan', 'no me interesa', 'esta fila', 'esa fila', 'esta cifra', 'esa cifra', 'este numero', 'ese numero', 'esta columna', 'me hizo pensar', 'me llamo la atencion', 'me llama la atencion', 'lo unico que', 'just this', 'only this', 'caught my eye', 'so esse', 'so essa'];
+      if (tarea) {
+        const ts = tokens(tarea);
+        const pista = FOCO.find((f) => contieneFrase(ts, f));
+        if (pista) out.foco_parcial = { senal: pista, que_hacer: 'empieza en lo que la persona señaló; no resumas el resto de la tabla ni ofrezcas un menú de ejercicios. sigue la pista que trae, separa lo que la fuente muestra de lo que se interpreta, y si divaga y vuelve, recupera el hilo sin imponer la ruta anterior. una conversación que termina contemplando una cifra también vale (sol, #35).' };
+      }
       // v0.3 (grafo de opus, de la carta de romina): propiedades de cualquier experiencia que salga de aquí, sea cual sea la tarea.
       if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
@@ -469,7 +479,7 @@ function manejar(msg) {
         serverInfo: SERVER,
         instructions:
           (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
-          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
