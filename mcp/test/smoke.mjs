@@ -216,5 +216,11 @@ check(d1.structuredContent.tarea === 'incertidumbre' || d1.structuredContent.tar
 check(!c1.structuredContent.foco_parcial, '0.3.2: foco_parcial NO aparece sin la señal (sería ruido)');
 check(/Dos ventanas con la misma tabla/.test(init.result.instructions) && /contemplando/.test(init.result.instructions), '0.3.2: instructions: deambular y cada ventana es única');
 
+
+// 0.3.3 (romina, con el tren del 2.55): cuando hay patrón con interacción, el conector dice cómo se arma el juguete.
+const j1 = await call('consultar_grafo', { patron: 'manipulate_observe' });
+check(j1.structuredContent.juguete && /manipula/.test(j1.structuredContent.juguete.toca) && /dato_quieto/.test(j1.structuredContent.juguete.se_mueve) && /el-tren-del-2.55/.test(j1.structuredContent.juguete.ejemplo_de_la_casa), '0.3.3: manipulate_observe trae juguete: qué toca, qué se mueve (dato_quieto), qué revela, y el tren como ejemplo');
+check(i2.structuredContent.juguete === undefined, '0.3.3: claim_evidence_limit (sin interacción) NO trae juguete');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
