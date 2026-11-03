@@ -222,5 +222,10 @@ const j1 = await call('consultar_grafo', { patron: 'manipulate_observe' });
 check(j1.structuredContent.juguete && /manipula/.test(j1.structuredContent.juguete.toca) && /dato_quieto/.test(j1.structuredContent.juguete.se_mueve) && /tren del 2.55/.test(j1.structuredContent.juguete.ejemplo_de_la_casa) && /seno-coseno/.test(j1.structuredContent.juguete.ejemplo_de_la_casa), '0.3.3: manipulate_observe trae juguete: qué toca, qué se mueve (dato_quieto), qué revela, y el tren y seno-coseno como ejemplos');
 check(i2.structuredContent.juguete === undefined, '0.3.3: claim_evidence_limit (sin interacción) NO trae juguete');
 
+
+// 0.3.4 (romina, 22:23): tu_persona en cada respuesta; null honesto si no hay nada que recuperar.
+check(c1.structuredContent.tu_persona && /frontera/.test(c1.structuredContent.tu_persona.que_preguntar) && c1.structuredContent.tu_persona.si_no_tienes_nada === null && /no inventes un perfil/.test(c1.structuredContent.tu_persona.nota_null), '0.3.4: tu_persona: qué recuperar, qué preguntar, cómo seguir, dónde dejarlo, y null si no hay nada');
+check(/cómo aprende la persona/.test(init.result.instructions), '0.3.4: instructions: ármate una idea de cómo aprende la persona antes de dibujar');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
