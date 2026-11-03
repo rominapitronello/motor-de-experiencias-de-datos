@@ -2,6 +2,16 @@
 
 > Pregunta primero, gráfico después.
 
+Algunas personas se alejan de los números, a temprana edad, un profesor que les ridiculizó por no saber, alguien que con amor les dijo "eres mejor para las letras" no siempre alguien sabe cuándo pasó eso, pero puede parecer que son una cosa que ocurre en un idioma que no es tan necesario en la vida adulta: "nunca vas a necesitar saber calcular la desviación estándar en la vida cotidiana".
+
+Experiencia datos es un traductor, así como podemos ver una película con subtítulos, o doblada, podemos hacer que la IA nos traduzca números en dibujos, juguetes y gráficos.
+
+Una conversación. Sabemos que confías en lo que te responden en un chat, le pasa a todos ([Anthropic](https://www-cdn.anthropic.com/519c17a5d23a794e8b6d50a854048d0b61e0d73a.pdf)).
+
+El chat no te va a juzgar, no hay preguntas tontas, solo las que no se han hecho.
+
+— Romina
+
 **Para la gente que cree que los gráficos le pasan a la gente importante.** Una profesora contando colaciones con el curso («levanten la mano»). Alguien que quiere saber cuánta plata se le fue en delivery el mes pasado, de verdad. Quien tiene que armar una ppt mañana y no es analista. Quien pregunta cuánta caca hace su perro en un año, para saber cuánta recoge. Quien dice «yo no soy de números». Y quien no sabe todavía que tiene datos: la señora de las bobas que no cuenta cuántos entran, la mamá cuyo hijo pregunta cuánto come un elefante, la abuela del «si ya me escuchan los micrófonos, qué más da».
 
 Es un conector MCP y un repositorio. Conectado a tu modelo favorito (Claude, ChatGPT, el que sea), toma tu pregunta dicha con tus palabras y en tu idioma, y le dice al modelo qué forma la hace entenderse, recordarse y no mentir, con los cuidados de la vida diaria y la operación que tú harías para que sea una experiencia y no una lámina. No tiene tus datos ni los pide. Es solo lectura: todo sale de este repo.
