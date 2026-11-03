@@ -48,7 +48,8 @@ async function llamar(system, pregunta) {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: MODELO, max_tokens: 400, temperature: TEMP, system, messages: [{ role: 'user', content: user }] }),
+      // el system prompt (~5.400 tokens) es el mismo en las 120 llamadas: se cachea y cuesta ~10 % desde la segunda
+      body: JSON.stringify({ model: MODELO, max_tokens: 400, temperature: TEMP, system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }], messages: [{ role: 'user', content: user }] }),
     });
     if (!r.ok) throw new Error(`anthropic ${r.status}: ${(await r.text()).slice(0, 300)}`);
     const d = await r.json();
