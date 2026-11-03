@@ -8,11 +8,11 @@ Que el conector lleve una pregunta dicha con palabras de la vida («cuánta plat
 
 ## Con qué
 
-**Corpus** (`corpus/*.json`): 120 preguntas de seis personas (la profesora con la sala, la persona con su cartola, quien arma la ppt, las preguntas absurdas de la casa, quien dice «yo no soy de números», quien no sabe que tiene datos). Las escribieron seis Claude Haiku 5.5, cada uno solo, con el encargo `corpus/encargos/persona.md`, con las palabras exactas de cada persona y sin corregirlas. Es un corpus imaginado: lo dice su procedencia y lo dice esta página.
+**Corpus** (`corpus/*.json`): 120 preguntas de seis personas (la profesora con la sala, la persona con su cartola, quien arma la ppt, las preguntas absurdas de la casa, quien dice «yo no soy de números», quien no sabe que tiene datos). Las escribieron seis Haikus, cada uno solo (lanzados con el alias `haiku` del harness de Claude Code el 2-nov-2026; el id exacto del modelo no se verificó, probablemente `claude-haiku-5-5`; el campo `pluma` de cada archivo dice «5.5» porque el encargo se lo pidió, no porque se comprobara: regla de la casa, los modelos van con id, no con alias), con el encargo `corpus/encargos/persona.md`, con las palabras exactas de cada persona y sin corregirlas. Es un corpus imaginado: lo dice su procedencia y lo dice esta página.
 
 **Criterio de verdad** (`corpus/anotacion-opus.json`): para cada pregunta, la tarea, el ámbito y la primera forma que ofrecería la pluma del grafo (Claude Opus 5.5), anotados con el grafo v0.2 y v0.3 del mismo día, sin ver al conector.
 
-**Jurado** (`corpus/jurado/`): tres Claude Haiku 5.5 clasifican las 120 contra el vocabulario del grafo, cada uno solo, sin ver a los otros, al conector ni a la anotación, con el encargo `corpus/encargos/jurado.md`. Cada voto trae la palabra exacta que lo decidió y, si duda, la alternativa. Un cuarto archivo es el jurado uno corrido dos veces (intra).
+**Jurado** (`corpus/jurado/`): tres Haikus (mismo alias, misma salvedad) clasifican las 120 contra el vocabulario del grafo, cada uno solo, sin ver a los otros, al conector ni a la anotación, con el encargo `corpus/encargos/jurado.md`. Cada voto trae la palabra exacta que lo decidió y, si duda, la alternativa. Un cuarto archivo es el jurado uno corrido dos veces (intra).
 
 **Medición** (`corpus/medir.mjs` → `corpus/medicion.json`): corre las 120 contra el conector del commit y compara con la anotación. `corpus/jurado/cruzar.py` cruza jurado, conector y anotación. `corpus/jurado/confiabilidad.py` calcula los indicadores.
 
@@ -48,6 +48,15 @@ Que el conector lleve una pregunta dicha con palabras de la vida («cuánta plat
 - Donde nadie contó (las preguntas absurdas de la casa: ¿«cuántas veces abrí el refri» es contar, estimar o empezar a contar?), el jurado se divide (.55) y la divergencia no es ruido: marca cinco fronteras del grafo que piden revisión (issue #31). Es el resultado de Pitronello (2026): instancias del mismo modelo divergen 2,7 veces más donde la tarea pide juicio, y esa divergencia señala los bordes del esquema.
 - Con tres jurados y una noche se dice «divergente», no «ambiguo».
 - Todos los raters son de la misma familia (Claude); el corpus es imaginado; no hay humanos en el criterio de verdad. Las tres cosas limitan lo que esto vale como evaluación, y las tres tienen remedio corto: un jurado de Sol (GPT) sobre las mismas 120, cuarenta ítems anotados por dos personas a ciegas, y la medición con consultas reales.
+
+## La eval con usuarios: «la fuckup es la eval»
+
+Romina, en la ventana de las hormigas (31-oct-2026): el registro de errores ya era una eval y nadie lo leía como tal. Aquí, dos fuentes se juntan desde 0.3.5:
+
+- **La tasa:** la forma de cada consulta real (tarea, ámbito, si resolvió; nunca el texto; `PRIVACIDAD.md`) dice cuántas consultas resuelve el conector y cuántas no, por tarea y por ámbito, con gente real y no con 120 imaginadas.
+- **Los fuckups:** cada vez que un modelo, con permiso de su humano, cuenta que el conector no sirvió (`si_nada_encaja`: un issue o un mail), llega la pregunta real que no se entendió, con su contexto. Es el único lugar donde entra texto, y entra consentido. El #22 fue el primero.
+
+La tasa dice cuánto falla; los fuckups dicen cómo. Salvedad: los fuckups que llegan son los que alguien notó y quiso contar, no una muestra; se declara y no se corrige con estadística. Lo que falta para cerrar: el jurado de Sol sobre las mismas 120, y cuarenta ítems anotados por dos personas a ciegas.
 
 ## Cómo reproducirlo
 
