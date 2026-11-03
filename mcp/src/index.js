@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.2' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.3' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -356,6 +356,17 @@ const TOOLS = [
           out.interaccion_requerida = true;
           out.estados_minimos = INTERACCION[r.id];
           out.si_no_puedes_interactuar = SIN_INTERACCION;
+          // 0.3.3 (romina, 2-nov-2026, 22:02, con el tren del 2.55 en la mano: «pueden hacer juguetes como este que uno toca y entiende...
+          // cosas que se mueven, de colores»). los estados dicen qué pasa; esto dice cómo se arma para que se toque.
+          out.juguete = {
+            hazlo_tocable: 'la experiencia es algo que la persona toca, no algo que mira: un control (un deslizador, un botón, un número que se escribe), una cosa que se mueve cuando lo toca, y algo que se revela después. si tu superficie lo permite, hazlo; si no, degradado_a_estatico con razón.',
+            toca: INTERACCION[r.id].find((e) => /acci[oó]n|rama|elige|manipula|se ubica|dibuja|anota/.test(e)) ?? INTERACCION[r.id][0],
+            se_mueve: 'el trazo, la forma, el área, el color; nunca la cifra ni la posición del dato (dato_quieto). lo que no cambió se queda quieto para que se vea lo que cambió.',
+            revela: INTERACCION[r.id].find((e) => /revelaci[oó]n|observaci[oó]n|ve su caso|contexto/.test(e)) ?? INTERACCION[r.id][INTERACCION[r.id].length - 1],
+            colores: 'pocos, con nombre y con significado (firma_no_color): si el rojo es «frenar», que sea rojo en el control, en el gráfico y en la frase. nada de paleta por defecto.',
+            si_cambia_un_supuesto: 'todo se recalcula a la vista (cuenta_a_la_vista): la persona ve cómo se mueve el resultado cuando mueve una cosa.',
+            ejemplo_de_la_casa: 'catalogo/juguetes/el-tren-del-2.55.md: «tú eres la maquinista, elige en qué segundo empiezas a frenar», el gráfico v–t donde el área es la distancia, y los pasos que se abren solo cuando intentaste el anterior.',
+          };
         } else if (r) {
           out.interaccion_requerida = false;
         }
