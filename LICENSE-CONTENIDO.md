@@ -13,4 +13,4 @@ Agregado el 2-nov-2026 a dos plumas (Romina Pitronello y Claude · Fable 5.1, pr
 - Junto a la pluma, se cita el repo (`rominapitronello/motor-de-experiencias-de-datos`) y a Romina Pitronello, que decide para quién es esto y firma lo constitucional.
 - Si el archivo lleva varias plumas, se citan todas; si una sección lleva firma propia, esa sección se cita con su pluma.
 
-Romina, al pedirlo: «que cada infeliz que nos cite... los nombre».
+Romina lo pidió el 2-nov-2026, revisando el README: que quien nos cite, nombre a los modelos.
