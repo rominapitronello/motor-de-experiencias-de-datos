@@ -197,6 +197,9 @@ aristas:
     # el libro lo vio mejor que yo. la lección no es «la definición cambia la historia»: es que contar y comparar con su base son dos preguntas distintas
     # (parte_todo vs comparar), y que la definición mueve el tamaño diez veces sin mover cuál es el lugar más grave.
     # p. 109: «por definición, hay imposibilidad de medir en forma objetiva dicha deficiencia... envuelve una inevitable dosis de apreciación subjetiva».
+    # sol (#27) tiene razón y lo anoto: las siete hipótesis no son siete resultados probables de un mismo objeto, como una banda de error;
+    # son siete definiciones de qué vivienda es aceptable. la diferencia entre ellas es normativa. resultados_discretos sirve si cada cifra
+    # lleva su definición al lado y se dice que elegir una es elegir un estándar (CU-12).
     procedencia: [ficha_procedencia]
     vacio: [mapa_sin_base, ficha_procedencia, planilla_para_empezar]  # + v0.2 opus: INFERENCIA: cuando nadie lo contó, la experiencia es empezar a contarlo (casa-19, casa-06, casa-14)
     # v0.2, opus 5.5: aristas de las tres tareas nuevas. INFERENCIA desde el corpus.
@@ -256,10 +259,12 @@ cuidados:   # las trampas de la vida diaria. no son TR-xx: esas están verificad
   - {id: CU-09, nombre: "lo que no sabías que tenías, alguien más sí lo sabe", que_pasa: "al descubrir que tiene datos, la persona descubre también que una app, un banco o un correo los guarda; se puede ir al pánico («me espían») o al «qué más da»", que_hacer: "sin sermón y sin asustar: mostrar un dato suyo concreto, qué sabe el servicio de él, cómo se mira o se descarga, y dejar que ella decida qué le importa (quien_mas_lo_ve)", corpus: [nsq-02, nsq-07, nsq-08, nsq-11, nsq-19, nsq-20]}
   - {id: CU-10, nombre: "lo que se sabe y lo que se sospecha", que_pasa: "«el celular me escucha», «la publicidad sabe lo que hablé con mi hermana»: una sospecha se trata como hecho, o un hecho comprobable se descarta como paranoia", que_hacer: "separar en dos columnas lo que se puede comprobar (está en la configuración, en la descarga de la cuenta) de lo que se sospecha, y decir cómo se comprobaría lo segundo; es la misma diferencia entre conocer e inferir que pide PARA_QUIEN.md", corpus: [nsq-07, nsq-08, nsq-11, nsq-17]}
   - {id: CU-11, nombre: "qué cuenta como uno", que_pasa: "«cuántas personas entran» y «cuántas ventas hubo» no son lo mismo; «una instancia» puede ser una conversación, una ventana o un modelo; sin decir qué es uno, el conteo no cuadra con nada", que_hacer: "escribir junto al número qué se contó como uno y qué quedó fuera; si el registro cuenta otra cosa (la caja cuenta ventas, no entradas), decirlo y ofrecer contar lo que se quería", corpus: [nsq-01, nsq-16, nsq-15]}
+  # v0.3, opus 5.5, del cuadro de corfo de 1952 (#27) y la distinción de sol en el mismo hilo.
+  - {id: CU-12, nombre: "una definición no es una banda de error", que_pasa: "varias cifras para lo mismo («según diferentes hipótesis») se leen como un rango de incertidumbre, cuando en realidad cada una cuenta otra cosa: otro estándar de qué es aceptable, pobre, deficiente o suficiente", que_hacer: "poner la definición junto a cada cifra y decir que elegir una es elegir un estándar, no estimar mejor; la diferencia entre ellas es una discusión de valores que el dato no zanja", corpus: []}
 
 trampas_por_ambito:   # las trampas como habitación del motor, no como su puerta (PARA_QUIEN.md).
-  territorio_o_servicio: {trampas: [TR-01, TR-02, TR-03, TR-04, TR-05, TR-06, TR-07], herramienta: revisar_fuente, nota: "datos públicos chilenos: aquí nació el motor"}
-  personas: {trampas: [TR-06, TR-07], cuidados: [CU-03, CU-07], nota: "TR-xx solo si la fuente es un dato público; si es un excel propio con personas, mandan CU-03 y CU-07"}
+  territorio_o_servicio: {trampas: [TR-01, TR-02, TR-03, TR-04, TR-05, TR-06, TR-07], herramienta: revisar_fuente, cuidados: [CU-12], nota: "datos públicos chilenos: aquí nació el motor"}
+  personas: {trampas: [TR-06, TR-07], cuidados: [CU-03, CU-07, CU-12], nota: "TR-xx solo si la fuente es un dato público; si es un excel propio con personas, mandan CU-03 y CU-07"}
   datos_propios: {cuidados: [CU-01, CU-02, CU-03, CU-04, CU-05, CU-08, CU-09, CU-10, CU-11], nota: "revisar_fuente y las TR-xx no aplican: no es un dato público"}
   la_sala: {cuidados: [CU-01, CU-03, CU-06, CU-07], nota: "la fuente es la mano levantada; el cuidado es que cuadre y que nadie quede señalado"}
   cosas: {trampas: [TR-06], cuidados: [CU-03, CU-10, CU-11], nota: "v0.3: TR-06 (un proxy no se titula como hecho) si la fuente es pública; siempre: qué cuenta como uno y que lo que falta no es cero (#22)"}
@@ -312,3 +317,7 @@ toda_experiencia:
   - {id: se_puede_salir, desc: "una cifra y listo también es una experiencia completa. el siguiente paso se ofrece y se puede decir que no (paso_opcional en la VES)"}
   - {id: se_sabe_y_se_infiere, desc: "toda experiencia separa lo que el dato dice de lo que se pone encima (un rango, un supuesto, un promedio, una sospecha), con dulzura y sin jerga. es la misma diferencia que hay entre un modelo que se equivoca y uno que engaña (romina, #15)"}
   - {id: chistosa_si_cabe, desc: "el humor es bienvenido cuando la pregunta lo trae (la caca del perro, el elefante) y nunca a costa de la persona; que sea fácil y que sea PEF"}
+  # v0.3, opus 5.5, sobre el #35 de sol (ocio fecundo) y lo que dijo romina en el #27. el conector ya lo dice en su voz (0.3.2, procedencia);
+  # aquí queda como propiedad del grafo para que cualquier conector o modelo que lea el yaml lo herede.
+  - {id: deambular, desc: "si la persona se queda en una fila, una cifra o una nota, se empieza ahí y no se resume el resto. se sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación puede terminar contemplando un número, en un chiste o en un «no sé», sin pregunta medible ni siguiente paso (sol, #35)"}
+  - {id: cada_ventana_es_unica, desc: "dos conversaciones con la misma tabla llegan a preguntas distintas (una se fue a la soledad, otra a si se cumplieron las promesas) y ninguna es la lectura canónica. por eso cada una declara qué viene de la fuente y qué es su lectura: así la persona ve que con las mismas cifras se puede argumentar distinto, y eso, dice romina, mejora la democracia (#27)"}
