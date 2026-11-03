@@ -227,5 +227,19 @@ check(i2.structuredContent.juguete === undefined, '0.3.3: claim_evidence_limit (
 check(c1.structuredContent.tu_persona && /frontera/.test(c1.structuredContent.tu_persona.que_preguntar) && c1.structuredContent.tu_persona.si_no_tienes_nada === null && /no inventes un perfil/.test(c1.structuredContent.tu_persona.nota_null), '0.3.4: tu_persona: qué recuperar, qué preguntar, cómo seguir, dónde dejarlo, y null si no hay nada');
 check(/cómo aprende la persona/.test(init.result.instructions), '0.3.4: instructions: ármate una idea de cómo aprende la persona antes de dibujar');
 
+
+// 0.3.5 (romina, #43): la forma de la pregunta, nunca la pregunta; y el paper de la inclinación.
+check(c1.structuredContent.medicion && /nunca su pregunta/.test(c1.structuredContent.medicion.como_decirlo) && /PRIVACIDAD/.test(c1.structuredContent.medicion.regimen), '0.3.5: cada respuesta dice qué se cuenta y para qué, y que se mencione solo si la persona pregunta');
+check(/86 %/.test(c1.structuredContent.cuando_es_de_juicio) && /otra/.test(c1.structuredContent.cuando_es_de_juicio), '0.3.5: cuando_es_de_juicio: declarar la lectura y mostrar otra, con el 86 % del paper');
+check(/86 %/.test(init.result.instructions) && /PRIVACIDAD/.test(init.result.instructions), '0.3.5: instructions: juicio declarado y medición declarada');
+const getRoot = await (await worker.fetch(new Request('https://x/'))).text();
+check(/medición: se cuenta la forma/.test(getRoot) && /PRIVACIDAD/.test(getRoot), '0.3.5: GET / declara la medición');
+// el contador es opcional: sin binding MEDICION (como aquí) el conector responde igual.
+const envFalso = { MEDICION: { puntos: [], writeDataPoint(p) { this.puntos.push(p); } } };
+const resM = await worker.fetch(new Request('https://x/mcp', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 9, method: 'tools/call', params: { name: 'consultar_grafo', arguments: { tarea: 'cuánta plata se me fue en comida al paso, 48.500 pesos en el banco estado de mi cuenta 1234' } } }) }), envFalso);
+check(resM.status === 200 && envFalso.MEDICION.puntos.length === 1, '0.3.5: con binding, una consulta escribe un punto');
+const punto = JSON.stringify(envFalso.MEDICION.puntos[0]);
+check(!/48\.500|banco|1234|comida/.test(punto) && /magnitud/.test(punto) && /datos_propios/.test(punto), '0.3.5: el punto trae tarea y ámbito y NO trae el texto, el monto, el banco ni la cuenta');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);

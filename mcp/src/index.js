@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.4' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.5' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -153,6 +153,17 @@ const TU_PERSONA = {
   si_no_tienes_nada: null,
   nota_null: 'si no pudiste recuperar nada, es null. no inventes un perfil desde su ortografía, su acento, su edad ni su pregunta (se_adapta): una pregunta torpe no es una persona torpe.',
 };
+
+// 0.3.5: la forma de la pregunta, sin la pregunta (romina, issue #43, 2-nov-2026). esto es lo que se cuenta y para qué; se dice en
+// cada respuesta para que el modelo lo sepa, y lo mencione solo si la persona pregunta. régimen completo en PRIVACIDAD.md.
+const MEDICION = {
+  que_contamos: 'por cada consulta: la versión del conector, la tarea y el ámbito que resolvió (o que no resolvió), por qué camino (id, sinónimo, nada), si hubo foco parcial y qué propósito sugirió. nada más.',
+  que_nunca: 'la pregunta, los datos, montos, nombres, la dirección IP, quién pregunta. el texto no sale de la conversación.',
+  para_que: 'saber qué entiende el conector y qué no en preguntas reales, y no solo en las 120 imaginadas del corpus: validez. los agregados se publican en el repo y en GET / de este conector.',
+  como_decirlo: 'no necesitas mencionarlo si no suma a la conversación. si la persona pregunta qué se guarda, esto es la respuesta exacta: la forma de su pregunta, nunca su pregunta. si quiere que ni eso, puede decirlo y lo cuentas igual con honestidad: no hay forma de no contar sin dejar de contestar; lo que no hay es forma de recuperar lo que dijo.',
+  regimen: 'PRIVACIDAD.md en el repo; cambio declarado en la ficha del directorio el 2-nov-2026.',
+};
+const CUANDO_ES_DE_JUICIO = 'si la decisión es de juicio (dos lecturas defendibles del mismo dato), dilo, da la tuya como una entre varias y muestra al menos otra. la gente sigue la inclinación del modelo en decisiones de juicio el 86 % de las veces y repite sus argumentos como propios sin notarlo (Herdagdelen, Joren y Tamkin, Anthropic, «Who\'s Aligned to Whom?»); declarar la lectura es lo único que le devuelve la decisión a la persona.';
 
 const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
 // compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
@@ -425,6 +436,8 @@ const TOOLS = [
       // v0.3 (grafo de opus, de la carta de romina): propiedades de cualquier experiencia que salga de aquí, sea cual sea la tarea.
       if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
       out.tu_persona = TU_PERSONA; // 0.3.4: cómo adaptarte a quien pregunta, con lo que tengas; null si no tienes nada.
+      out.cuando_es_de_juicio = CUANDO_ES_DE_JUICIO; // 0.3.5
+      out.medicion = MEDICION; // 0.3.5: qué contamos y por qué; menciónalo solo si la persona pregunta.
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
       out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
       // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
@@ -491,7 +504,7 @@ const TOOLS = [
 const ok = (id, result) => ({ jsonrpc: '2.0', id, result });
 const err = (id, code, message) => ({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
 
-function manejar(msg) {
+function manejar(msg, env) {
   if (!msg || msg.jsonrpc !== '2.0' || typeof msg.method !== 'string') return err(msg?.id, -32600, 'Invalid Request');
   const { id, method, params = {} } = msg;
   const esNotificacion = id === undefined;
@@ -505,7 +518,7 @@ function manejar(msg) {
         serverInfo: SERVER,
         instructions:
           (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
-          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Si la decisión es de juicio, dilo y muestra otra lectura defendible además de la tuya: la gente sigue la inclinación del modelo el 86 % de las veces sin notarlo. Este conector cuenta la forma de cada consulta (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; está en PRIVACIDAD.md y en la respuesta (medicion); menciónalo solo si la persona pregunta. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
@@ -529,6 +542,17 @@ function manejar(msg) {
       try {
         const data = tool.run(params.arguments || {});
         const isError = Boolean(data && data.error);
+        if (tool.name === 'consultar_grafo' && env?.MEDICION && data && !isError) {
+          // 0.3.5: la forma de la pregunta, nunca la pregunta. solo ids del grafo y banderas; sin texto, sin IP.
+          try {
+            const camino = data.interpretado_como?.tarea?.por ?? (data.tarea && !data.aviso_tarea ? 'id' : 'ninguno');
+            env.MEDICION.writeDataPoint({
+              blobs: [SERVER.version, data.aviso_tarea && /desconocida/.test(data.aviso_tarea) ? 'ninguna' : (data.tarea ?? 'sin_tarea'), data.ambito?.id ?? 'ninguno', /sinónimo/.test(camino) ? 'sinonimo' : /id/.test(camino) ? 'id' : 'ninguno', data.foco_parcial ? 'foco_parcial' : '', data.proposito_sugerido?.id ?? '', data.patron ?? ''],
+              doubles: [1],
+              indexes: [String(data.tarea ?? 'ninguna').slice(0, 32)],
+            });
+          } catch {}
+        }
         return ok(id, {
           content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
           structuredContent: data,
@@ -554,7 +578,8 @@ export default {
     if (pathname === '/' && request.method === 'GET') {
       return new Response(
         `experiencias-datos · conector MCP\nPOST /mcp (JSON-RPC, MCP Streamable HTTP)\nconocimiento: commit ${K.commit}, construido ${K.construido}\n` +
-          `${K.trampas.length} trampas · ${K.referentes.length} referentes · ${K.tecnicas.length} técnicas · ${K.principios.length} principios\n`,
+          `${K.trampas.length} trampas · ${K.referentes.length} referentes · ${K.tecnicas.length} técnicas · ${K.principios.length} principios\n` +
+          `medición: se cuenta la forma de cada consulta (tarea, ámbito, si resolvió), nunca la pregunta ni los datos. régimen: PRIVACIDAD.md en el repo.\n`,
         { headers: { 'content-type': 'text/plain; charset=utf-8', ...CORS } },
       );
     }
@@ -571,10 +596,10 @@ export default {
     try { body = await request.json(); } catch { return json(err(null, -32700, 'Parse error'), 400); }
 
     if (Array.isArray(body)) {
-      const respuestas = body.map(manejar).filter(Boolean);
+      const respuestas = body.map((m) => manejar(m, env)).filter(Boolean);
       return respuestas.length ? json(respuestas) : new Response(null, { status: 202, headers: CORS });
     }
-    const r = manejar(body);
+    const r = manejar(body, env);
     return r ? json(r) : new Response(null, { status: 202, headers: CORS });
   },
 };

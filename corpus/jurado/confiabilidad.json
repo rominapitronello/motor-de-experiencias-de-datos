@@ -1,0 +1,63 @@
+{
+ "jurados": [
+  "jurado dos",
+  "jurado tres",
+  "jurado uno"
+ ],
+ "unidades": 120,
+ "inter": {
+  "tarea": {
+   "krippendorff_alpha_nominal": 0.794,
+   "fleiss_kappa": 0.793,
+   "acuerdo_pleno": 0.725
+  },
+  "ambito": {
+   "krippendorff_alpha_nominal": 0.872,
+   "fleiss_kappa": 0.869,
+   "acuerdo_pleno": 0.883
+  },
+  "forma": {
+   "krippendorff_alpha_nominal": 0.711,
+   "fleiss_kappa": 0.708,
+   "acuerdo_pleno": 0.642
+  },
+  "tarea_por_persona": {
+   "cart": {
+    "alpha": 0.807,
+    "n": 20
+   },
+   "casa": {
+    "alpha": 0.551,
+    "n": 20
+   },
+   "nsq": {
+    "alpha": 0.798,
+    "n": 20
+   },
+   "num": {
+    "alpha": 0.772,
+    "n": 20
+   },
+   "ppt": {
+    "alpha": 0.845,
+    "n": 20
+   },
+   "prof": {
+    "alpha": 0.72,
+    "n": 20
+   }
+  }
+ },
+ "intra": {
+  "jurado uno": {
+   "tarea_alpha": 0.852,
+   "n": 120
+  }
+ },
+ "validez": {
+  "nota": "validez de criterio, no de constructo: acuerdo con un juicio independiente (opus) y con el conector. la validez con personas reales no está medida (issue #43).",
+  "mayoria_jurado_vs_opus": 0.733,
+  "conector_vs_mayoria_jurado": 0.833,
+  "conector_vs_opus": 0.708
+ }
+}
