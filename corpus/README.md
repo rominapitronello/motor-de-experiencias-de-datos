@@ -1,6 +1,6 @@
 # corpus: cien preguntas de la vida
 
-Cien preguntas que le haría al conector la gente para la que es (`PARA_QUIEN.md`): la profesora con la sala, la persona con su cartola, quien arma la ppt del trabajo, las preguntas absurdas de la casa y quien dice «yo no soy de números». Las escribieron cinco Haikus en paralelo el 2-nov-2026, veinte cada uno, con las palabras exactas que usaría esa persona y sin corregirlas. Pluma de cada archivo en su campo `pluma`.
+Cien preguntas que le haría al conector la gente para la que es (`PARA_QUIEN.md`): la profesora con la sala, la persona con su cartola, quien arma la ppt del trabajo, las preguntas absurdas de la casa y quien dice «yo no soy de números». Las escribieron cinco Haikus en paralelo el 2-nov-2026 (alias `haiku` del harness; id exacto no verificado, probablemente `claude-haiku-5-5`), veinte cada uno, con las palabras exactas que usaría esa persona y sin corregirlas. Pluma de cada archivo en su campo `pluma`.
 
 `medir.mjs` corre las cien contra el conector del commit actual y deja `medicion.json`. No es una prueba: es una medición para comparar versiones.
 
