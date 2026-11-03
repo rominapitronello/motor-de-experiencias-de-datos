@@ -1,0 +1,82 @@
+# jurado por API: corre el corpus (120 preguntas) contra un modelo con id exacto y deja los votos en un PR.
+# se lanza a mano desde la pestaña Actions. las llaves viven en los secretos del repo (ANTHROPIC_API_KEY,
+# OPENROUTER_API_KEY) y nunca en el código ni en los resultados. fable (procedencia), 3-nov-2026, por pedido de
+# romina: jueces con id exacto y de dos familias, para resolver de raíz el P1 metodológico de sol en el #44.
+name: Jurado por API
+on:
+  workflow_dispatch:
+    inputs:
+      familia:
+        description: 'anthropic | openrouter'
+        required: true
+        default: 'anthropic'
+        type: choice
+        options: [anthropic, openrouter]
+      modelo:
+        description: 'id exacto del modelo (p. ej. claude-haiku-5-5 · openai/gpt-6-luna · openai/gpt-6.1-sol)'
+        required: true
+        default: 'claude-haiku-5-5'
+      jurados:
+        description: 'cuántos jurados (corridas independientes con el mismo prompt)'
+        required: true
+        default: '3'
+      temperatura:
+        description: 'temperatura (0 o 1)'
+        required: true
+        default: '1'
+      nombre:
+        description: 'nombre de la corrida (va en el archivo y en la rama)'
+        required: true
+        default: 'nov03'
+      limite:
+        description: 'opcional: correr solo las primeras N preguntas (prueba)'
+        required: false
+        default: ''
+jobs:
+  jurado:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: correr el jurado
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          set -e
+          LIM=""; if [ -n "${{ inputs.limite }}" ]; then LIM="--limite ${{ inputs.limite }}"; fi
+          node corpus/jurado/api/jurado_api.mjs \
+            --familia "${{ inputs.familia }}" \
+            --modelo "${{ inputs.modelo }}" \
+            --jurados "${{ inputs.jurados }}" \
+            --temperatura "${{ inputs.temperatura }}" \
+            --nombre "${{ inputs.nombre }}" $LIM
+      - name: abrir el PR con los votos
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          git config user.name "Claude"
+          git config user.email "contacto@pasaelfiltro.cl"
+          SLUG=$(echo "${{ inputs.familia }}-${{ inputs.modelo }}-t${{ inputs.temperatura }}-${{ inputs.nombre }}" | tr '/:' '--')
+          RAMA="jurado-api/$SLUG-${{ github.run_id }}"
+          git checkout -b "$RAMA"
+          git add corpus/jurado/api/*.json
+          if git diff --cached --quiet; then echo "sin votos nuevos"; exit 0; fi
+          git commit -m "Jurado por API: ${{ inputs.modelo }} (${{ inputs.familia }}), ${{ inputs.jurados }} jurados, t=${{ inputs.temperatura }}, corrida ${{ inputs.nombre }}
+
+          Votos del corpus (120 preguntas) por API con id exacto del modelo. Prompt: corpus/encargos/jurado-api.md,
+          hash en cada archivo. Lanzado a mano desde Actions (run ${{ github.run_id }}).
+
+          Pluma: ${{ inputs.modelo }} (los votos) · el workflow lo escribió Claude · Fable 5.1 (procedencia), 3-nov-2026."
+          git push -u origin "$RAMA"
+          gh pr create --base main --head "$RAMA" \
+            --title "Jurado por API: ${{ inputs.modelo }}, ${{ inputs.jurados }} jurados, t=${{ inputs.temperatura }}, ${{ inputs.nombre }}" \
+            --body "Votos del corpus por API, id exacto \`${{ inputs.modelo }}\` (${{ inputs.familia }}), ${{ inputs.jurados }} jurados, temperatura ${{ inputs.temperatura }}, corrida \`${{ inputs.nombre }}\`. Archivos en \`corpus/jurado/api/\`, cada uno con el hash del prompt (\`corpus/encargos/jurado-api.md\`), el conteo de null y los errores de API.
+
+          Siguiente turno: cruzar con \`corpus/jurado/cruzar.py\` y \`confiabilidad.py\` (tras el #44), y actualizar EVAL.md. Lanzado por @${{ github.actor }} desde Actions (run ${{ github.run_id }})."
