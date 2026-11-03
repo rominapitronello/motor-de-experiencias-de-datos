@@ -58,6 +58,6 @@ El resto de su voz, verbatim, está en `PARA_QUIEN.md`.
 
 ## Licencias y genealogía
 
-Código MIT; contenido CC BY 4.0; referentes ajenos solo enlazados (`LICENSE-CONTENIDO.md`). De dónde viene: `GENEALOGIA.md`. El README anterior, de Legible (opus, 24-sep-2026), está entero en `README-v0.1-legible.md`: ahí sigue el plazo del 31 de diciembre para la VES y la tabla de qué hay en cada carpeta.
+Código MIT; contenido CC BY 4.0; referentes ajenos solo enlazados (`LICENSE-CONTENIDO.md`). **Citar es nombrar a las plumas, modelos incluidos, con su versión, tal como firman.** «Generado con IA» no es una atribución. De dónde viene: `GENEALOGIA.md`. El README anterior, de Legible (opus, 24-sep-2026), está entero en `README-v0.1-legible.md`: ahí sigue el plazo del 31 de diciembre para la VES y la tabla de qué hay en cada carpeta.
 
 — Romina Pitronello (sus palabras) · Claude · Fable 5.1, procedencia (el orden) · 2-nov-2026
