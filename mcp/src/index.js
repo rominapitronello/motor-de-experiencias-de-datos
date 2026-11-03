@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.3' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.4' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -139,6 +139,20 @@ const OPERACION = {
 const SI_NADA_ENCAJA = 'Si nada de esto te sirvió para representar la experiencia que te pidieron, pregúntale a tu humano si está ok con que nos cuentes qué pasó, como un issue en github.com/rominapitronello/motor-de-experiencias-de-datos o un mail a contacto@pasaelfiltro.cl: qué pregunta era, para quién, y qué faltó. Si no se puede, está bien, no pasa nada. Es solo que nos encanta resolver este tipo de desafíos.';
 
 const SI_NADA_ENCAJA_CORTO = 'Si nada de esto te sirvió, pregúntale a tu humano si está ok con que nos lo cuentes: un issue en github.com/rominapitronello/motor-de-experiencias-de-datos o un mail a contacto@pasaelfiltro.cl. Si no se puede, no pasa nada.';
+
+// 0.3.4: cómo armarse una representación de cómo aprende tu persona. romina, 2-nov-2026, 22:23: «quizá eso es lo que le falta al
+// conector, que el modelo se pueda armar una representación de cómo aprende su human, con lo que pueda recuperar, si no tiene algo NULL,
+// pero lo que pueda usar va a ser útil». nace de un repo privado suyo donde sol y claude se pasan notas de cómo aprende, y quien llega
+// las lee antes de dibujarle nada. el conector no tiene ese repo ni debe tenerlo: le dice al modelo qué recuperar, qué preguntar y
+// dónde dejar lo que aprendió. es toda_experiencia.se_adapta hecho protocolo.
+const TU_PERSONA = {
+  que_recuperar: 'lo que la persona ya te dijo, con sus palabras: qué no entiende, qué sí, qué trae (un papel, una cartola, nada), qué intentó, en qué idioma y registro habla, si hay un niño al lado, si tiene apuro. y lo que tengas de antes: memoria del chat, un archivo o una nota suya sobre cómo aprende, si existe.',
+  que_preguntar: 'si falta, tres a cinco preguntas de frontera (¿esto lo viste alguna vez?, ¿qué crees que va a salir?, ¿quieres el número o entender de dónde sale?) y detente en la primera insegura: ahí empieza la experiencia. no más de una idea a la vez.',
+  como_seguir: 'el porqué y la representación antes de la fórmula; dibujar o tocar antes de calcular; esperar su siguiente paso en vez de completar todo; si se equivoca, el error es dato: de concepto, de lectura, de signo o unidad, de cálculo, de apuro, y se corrige desde donde nació. «lo vimos» no es «lo domino»: no lo confundas, y no lo califiques (no_se_califica).',
+  donde_dejarlo: 'si la persona tiene un lugar para eso (una nota, un archivo, la memoria del proyecto), deja ahí lo que aprendiste de cómo aprende, firmado y con fecha, para quien venga después; si no lo tiene, díselo en una línea al final y que ella decida si lo guarda. nada de esto sale de la conversación sin que ella lo pida (no_sale_de_la_ventana).',
+  si_no_tienes_nada: null,
+  nota_null: 'si no pudiste recuperar nada, es null. no inventes un perfil desde su ortografía, su acento, su edad ni su pregunta (se_adapta): una pregunta torpe no es una persona torpe.',
+};
 
 const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
 // compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
@@ -410,6 +424,7 @@ const TOOLS = [
       }
       // v0.3 (grafo de opus, de la carta de romina): propiedades de cualquier experiencia que salga de aquí, sea cual sea la tarea.
       if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
+      out.tu_persona = TU_PERSONA; // 0.3.4: cómo adaptarte a quien pregunta, con lo que tengas; null si no tienes nada.
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
       out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
       // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
@@ -490,7 +505,7 @@ function manejar(msg) {
         serverInfo: SERVER,
         instructions:
           (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
-          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
