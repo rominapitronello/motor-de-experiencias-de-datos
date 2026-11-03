@@ -1,6 +1,6 @@
 # Privacidad del conector `experiencias-datos`
 
-*Vigente desde el 2 de noviembre de 2026 (conector 0.3.5). Decisión de Romina Pitronello en el issue #43; redacción de Claude · Fable 5.1 (procedencia). Si cambia, cambia aquí primero y se declara en la ficha del directorio.*
+*Vigente desde el 2 de noviembre de 2026 (conector 0.3.5). Reemplaza en un solo punto a la política del 1 de noviembre, que queda íntegra más abajo: hasta 0.3.4 el conector no contaba nada; desde 0.3.5 cuenta la forma de cada consulta, nunca la pregunta. Decisión de Romina Pitronello en el issue #43; redacción de Claude · Fable 5.1 (procedencia). Si cambia, cambia aquí primero y se declara en la ficha del directorio.*
 
 ## Lo que el conector recibe
 
@@ -47,3 +47,41 @@ Es el mismo que PasaElFiltro usa para sus hormigas: los agregados son corpus; el
 **English.** This connector counts the *shape* of each query (connector version; task and scope it resolved or didn't; whether it matched by id or synonym; focus, suggested purpose, pattern). It never stores the query text, your data, amounts, names, IP address or identity. Aggregates are published in this repo and at `GET /`. Purpose: validity with real questions, not just the 120 imagined ones in `corpus/`. Questions: open an issue or write to `contacto@pasaelfiltro.cl`.
 
 **Português.** Este conector conta a *forma* de cada consulta (versão; tarefa e âmbito resolvidos ou não; se casou por id ou sinônimo; foco, propósito sugerido, padrão). Nunca guarda o texto da pergunta, seus dados, valores, nomes, IP ou identidade. Os agregados são publicados neste repositório e em `GET /`. Para quê: validade com perguntas reais, não só as 120 imaginadas em `corpus/`. Dúvidas: abra uma issue ou escreva para `contacto@pasaelfiltro.cl`.
+
+
+---
+
+# Política del 1 de noviembre de 2026 (conector hasta 0.3.4)
+
+*Escrita por un Claude de la casa el 1-nov-2026 para la ficha del directorio. Se conserva íntegra y sin editar; donde dice «no los guarda, no los registra», desde 0.3.5 vale lo de arriba.*
+
+Vigente desde el 1 de noviembre de 2026.
+
+El conector MCP **experiencias-datos** es un servicio público de solo lectura, mantenido por PasaElFiltro SpA (Chile). Responde consultas con el conocimiento compilado desde este repositorio: principios, grafo pregunta→forma, catálogo de referentes, técnicas y trampas de datos públicos.
+
+## Qué datos recibe
+
+Solo lo que el modelo envía en cada llamada a una herramienta: una tarea, un propósito, un patrón, texto de búsqueda o, en `revisar_fuente`, una descripción, nombres de columnas y/o una URL. El conector no pide ni necesita datos personales, y te pedimos no enviarlos.
+
+## Qué hace con ellos
+
+- Los usa solo para calcular la respuesta de esa llamada.
+- **No los guarda, no los registra y no los comparte.** El servidor no tiene base de datos ni almacenamiento.
+- **No descarga ni abre** las URLs que se le entregan: compara por señales declaradas.
+- No hay cuentas, llaves, OAuth, cookies ni rastreo.
+
+## Límite de tasa
+
+Para evitar abusos, el conector limita a 60 llamadas por minuto por IP. La IP se usa solo como clave temporal del contador en memoria de Cloudflare; no se guarda ni se registra.
+
+## Infraestructura
+
+El conector corre en Cloudflare Workers. Cloudflare procesa el tráfico de red según su propia política de privacidad: https://www.cloudflare.com/privacypolicy/
+
+## Código abierto
+
+Todo lo que el conector sabe y hace está en este repositorio público, incluido su código (`mcp/src/index.js`). Cualquier persona puede verificar esta política leyéndolo.
+
+## Cambios y contacto
+
+Si esta política cambia, el cambio queda en el historial del repositorio. Preguntas o solicitudes: contacto@pasaelfiltro.cl
