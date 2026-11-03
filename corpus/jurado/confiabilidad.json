@@ -9,7 +9,8 @@
   "tarea": {
    "krippendorff_alpha_nominal": 0.794,
    "fleiss_kappa": 0.793,
-   "acuerdo_pleno": 0.725
+   "acuerdo_pleno": 0.725,
+   "krippendorff_alpha_confundibilidad": 0.849
   },
   "ambito": {
    "krippendorff_alpha_nominal": 0.872,
@@ -21,29 +22,94 @@
    "fleiss_kappa": 0.708,
    "acuerdo_pleno": 0.642
   },
+  "pares_mas_confundidos": [
+   {
+    "par": [
+     "estimar",
+     "magnitud"
+    ],
+    "veces": 23
+   },
+   {
+    "par": [
+     "magnitud",
+     "parte_todo"
+    ],
+    "veces": 16
+   },
+   {
+    "par": [
+     "magnitud",
+     "vacio"
+    ],
+    "veces": 13
+   },
+   {
+    "par": [
+     "comparar",
+     "ordenar"
+    ],
+    "veces": 13
+   },
+   {
+    "par": [
+     "cambio",
+     "leer"
+    ],
+    "veces": 11
+   },
+   {
+    "par": [
+     "comparar",
+     "magnitud"
+    ],
+    "veces": 11
+   },
+   {
+    "par": [
+     "cambio",
+     "comparar"
+    ],
+    "veces": 9
+   },
+   {
+    "par": [
+     "distribucion",
+     "ordenar"
+    ],
+    "veces": 9
+   }
+  ],
+  "nota_metrica": "nominal: todo desacuerdo vale 1. confundibilidad: el par más confundido por los propios jurados vale 0.2; los nunca confundidos valen 1. se reportan los dos; el segundo dice que los desacuerdos son entre vecinos.",
   "tarea_por_persona": {
    "cart": {
-    "alpha": 0.807,
+    "alpha_nominal": 0.807,
+    "alpha_confundibilidad": 0.864,
     "n": 20
    },
    "casa": {
-    "alpha": 0.551,
+    "alpha_nominal": 0.551,
+    "alpha_confundibilidad": 0.529,
     "n": 20
    },
    "nsq": {
-    "alpha": 0.798,
+    "alpha_nominal": 0.798,
+    "alpha_confundibilidad": 0.843,
     "n": 20
    },
    "num": {
-    "alpha": 0.772,
+    "alpha_nominal": 0.772,
+    "alpha_confundibilidad": 0.825,
     "n": 20
    },
    "ppt": {
-    "alpha": 0.845,
+    "alpha_nominal": 0.845,
+    "alpha_confundibilidad": 0.872,
     "n": 20
    },
    "prof": {
-    "alpha": 0.72,
+    "alpha_nominal": 0.72,
+    "alpha_confundibilidad": 0.764,
     "n": 20
    }
   }
