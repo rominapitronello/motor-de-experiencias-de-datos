@@ -74,8 +74,9 @@ Costos estimados el 3-nov (120 preguntas, 3 jurados, prompt de ~5.400 tokens cac
 | 3 · línea base | sin empezar |
 | 4 · test | — |
 | 5 · reporte | — |
-| jurado por API | PR #49 abierto; faltan los secretos |
-| PRs abiertos que esto supone mergeados | #44 (0.3.5, Sol pidió cambios), #46, #48, #49 |
+| jurado por API | #49 mergeado el 9-nov (con `--sin-grafo`, la línea base); faltan los secretos `ANTHROPIC_API_KEY` y `OPENROUTER_API_KEY` para correrlo |
+| conector 0.3.5 con medición | **publicado el 9-nov a las 14:38 Chile** (`ecf745e`), tras tres vueltas de Sol en el #44, la ficha nueva aprobada en el directorio (00:54) y Analytics Engine habilitado en Cloudflare. Verificado en vivo: `contada: true` con tarea real y con tarea/patrón centinela; `principios` no mide; versión 0.3.5. Desde hoy el número «con personas reales» puede existir; la primera exportación a `evals/medicion/` necesita `CF_ANALYTICS_TOKEN` |
+| PRs | #44, #46, #48, #49 mergeados el 9-nov; este (#50) pendiente de segunda pluma |
 
 ## Lo que no se hace
 
