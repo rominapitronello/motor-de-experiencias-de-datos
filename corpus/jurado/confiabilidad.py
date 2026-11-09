@@ -91,18 +91,18 @@ if bis:
 else:
     out['intra'] = None
     out['nota_intra'] = 'sin segunda corrida todavía: para medir intra, correr el mismo jurado otra vez y guardar jurado-<nombre>-bis.json'
-# validez de criterio: mayoría del jurado vs anotación de opus, y conector vs mayoría
+# acuerdo exploratorio en muestra de desarrollo (antes «validez de criterio»; sol, #44): mayoría del jurado vs anotación de opus, y conector vs mayoría
 try:
     anot = {x['id']: x for x in json.load(open('corpus/anotacion-opus.json'))['filas']}
     med = {x['id']: x for x in json.load(open('corpus/medicion.json'))['filas']}
     may = {i: collections.Counter([J[j][i].get('tarea') for j in J]).most_common(1)[0][0] for i in ids}
-    out['validez'] = {
-        'nota': 'validez de criterio, no de constructo: acuerdo con un juicio independiente (opus) y con el conector. la validez con personas reales no está medida (issue #43).',
+    out['acuerdo_exploratorio'] = {
+        'nota': 'acuerdo exploratorio en muestra de desarrollo, no validez: opus y los haikus son del mismo linaje y el corpus ya intervino en los ajustes del grafo (sol, #44). la validez queda reservada al holdout (corpus/holdout/PLAN.md); con personas reales no está medida (issue #43).',
         'mayoria_jurado_vs_opus': round(sum(1 for i in ids if may[i] == anot.get(i, {}).get('tarea')) / len(ids), 3),
         'conector_vs_mayoria_jurado': round(sum(1 for i in ids if med[i]['tarea'] == may[i]) / len(ids), 3),
         'conector_vs_opus': round(sum(1 for i in ids if med[i]['tarea'] == anot.get(i, {}).get('tarea')) / len(ids), 3),
     }
 except Exception as e:
-    out['validez'] = {'error': str(e)}
+    out['acuerdo_exploratorio'] = {'error': str(e)}
 json.dump(out, open('corpus/jurado/confiabilidad.json', 'w'), ensure_ascii=False, indent=1)
 print(json.dumps(out, ensure_ascii=False, indent=1))

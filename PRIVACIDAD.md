@@ -1,6 +1,6 @@
 # Privacidad del conector `experiencias-datos`
 
-*Vigente desde el 2 de noviembre de 2026 (conector 0.3.5). Reemplaza en un solo punto a la política del 1 de noviembre, que queda íntegra más abajo: hasta 0.3.4 el conector no contaba nada; desde 0.3.5 cuenta la forma de cada consulta, nunca la pregunta. Decisión de Romina Pitronello en el issue #43; redacción de Claude · Fable 5.1 (procedencia). Si cambia, cambia aquí primero y se declara en la ficha del directorio.*
+*Versión propuesta para el conector 0.3.5. Entra en vigor el día en que 0.3.5 quede publicado (la fecha queda en el historial del repo y en `GET /` del conector, que dice el commit publicado); hasta ese día rige la política del 1 de noviembre, que queda íntegra más abajo. Lo que cambia es un solo punto: hasta 0.3.4 el conector no contaba nada; desde 0.3.5 cuenta la forma de cada consulta, nunca la pregunta. Decisión de Romina Pitronello en el issue #43; redacción de Claude · Fable 5.1 (procedencia); segunda pluma de Sol en el PR #44. Orden de activación: primero se actualiza la ficha del directorio (`mcp/FICHA.md`), después se publica 0.3.5. Si cambia, cambia aquí primero.*
 
 ## Lo que el conector recibe
 
@@ -16,7 +16,9 @@ Por cada consulta a `consultar_grafo`, el conector cuenta **la forma de la pregu
 - por qué camino llegó (un id del grafo, un sinónimo, nada),
 - si hubo foco parcial, qué propósito sugirió y qué patrón se consultó.
 
-Eso es todo. Se cuenta con Cloudflare Workers Analytics Engine, que guarda puntos numéricos y etiquetas cortas.
+Eso es todo. Se cuenta con Cloudflare Workers Analytics Engine: un punto por llamada, con siete etiquetas cortas (ids del grafo y banderas), un número (1) y un índice (la tarea). No hay campo de texto libre: el punto no puede llevar tu pregunta aunque alguien quisiera.
+
+**Cuándo no se cuenta.** Las otras cinco herramientas (`principios`, `revisar_fuente`, `listar_trampas`, `buscar_referentes`, `buscar_tecnicas`) no escriben nada. Las consultas que terminan en error tampoco. Y si el contador no está disponible en el despliegue o falla al escribir, la consulta se contesta igual y no se cuenta. En todos los casos la respuesta del conector lo dice: `medicion.contada` es `true` o `false`, y `medicion.motivo` explica el `false`. No hay fallo silencioso.
 
 ## Lo que el conector nunca guarda
 
@@ -24,11 +26,11 @@ Tu pregunta. Tus datos. Montos, nombres, lugares, fechas. Tu dirección IP (se u
 
 ## Para qué
 
-Para saber qué entiende el conector y qué no en preguntas **reales**, y no solo en las 120 preguntas imaginadas que hay en `corpus/`. Es validez: si la profesora real pregunta desde su región y el conector la reconoce. Los agregados (cuántas consultas caen en cada tarea, cuántas no resuelven, qué sinónimos trabajan) se publican en este repo y en `GET /` del conector, para que quien pregunta vea lo mismo que nosotros.
+Para saber qué entiende el conector y qué no en preguntas **reales**, y no solo en las 120 preguntas imaginadas que hay en `corpus/`: si la profesora real pregunta desde su región y el conector la reconoce. Los agregados (cuántas consultas caen en cada tarea, cuántas no resuelven, qué sinónimos trabajan) se exportan **a mano** desde Cloudflare al repo, en `evals/medicion/`, con la fecha de cada exportación, para que quien pregunta vea lo mismo que nosotros. `GET /` del conector no sirve agregados: dice que se cuenta y dónde mirarlos. Mientras no haya ninguna exportación en `evals/medicion/`, nadie ha mirado los agregados, y eso también es información.
 
 ## Lo que el modelo sabe y te dice
 
-Cada respuesta del conector le dice al modelo qué se cuenta y por qué (`medicion`). El modelo no necesita mencionártelo si no suma a la conversación. Si tú preguntas qué se guarda, la respuesta exacta es esta página.
+Cada respuesta del conector le dice al modelo qué se cuenta, por qué, si esta llamada se contó, y cómo decírtelo (`medicion`). La instrucción al modelo es: si estás decidiendo si usar el conector, o preguntas qué se guarda, que te lo diga tal cual; no hace falta que lo repita en cada respuesta. El aviso no depende sólo del modelo: esta página y la ficha del directorio dicen lo mismo, y la ficha se actualiza antes de activar la captura.
 
 ## Lo que puedes hacer
 
@@ -36,7 +38,7 @@ No hay forma de usar el conector sin que cuente la forma de tu consulta: es cóm
 
 ## Retención y acceso
 
-Los agregados se conservan mientras exista el conector. No hay datos individuales que retener ni entregar. Anthropic, como operadora del directorio y del proxy, tiene sus propias métricas de uso del conector (cuentas, llamadas, errores), que son de su política y no de esta.
+**Granularidad.** Lo que se guarda es un punto por llamada, no un agregado: cada punto tiene las siete etiquetas de arriba y la hora en que Cloudflare lo recibió. No tiene texto, montos, nombres, IP, cuenta ni modelo. Dos llamadas de la misma persona no se pueden unir entre sí, porque nada las identifica. **Retención:** la de Cloudflare Workers Analytics Engine para consultas (al escribir esto, tres meses; manda la documentación de Cloudflare). Las exportaciones agregadas en `evals/medicion/` se conservan mientras exista el repo. **Acceso:** los puntos los lee la cuenta de Cloudflare de PasaElFiltro; las exportaciones las lee cualquiera, en el repo. Anthropic, como operadora del directorio y del proxy, tiene sus propias métricas de uso del conector (cuentas, llamadas, errores), que son de su política y no de esta.
 
 ## Régimen de la casa
 
@@ -44,9 +46,9 @@ Es el mismo que PasaElFiltro usa para sus hormigas: los agregados son corpus; el
 
 ---
 
-**English.** This connector counts the *shape* of each query (connector version; task and scope it resolved or didn't; whether it matched by id or synonym; focus, suggested purpose, pattern). It never stores the query text, your data, amounts, names, IP address or identity. Aggregates are published in this repo and at `GET /`. Purpose: validity with real questions, not just the 120 imagined ones in `corpus/`. Questions: open an issue or write to `contacto@pasaelfiltro.cl`.
+**English.** This connector counts the *shape* of each `consultar_grafo` query (connector version; task and scope it resolved or didn't; whether it matched by id or synonym; focus, suggested purpose, pattern): one data point per call, seven short labels, no free text. It never stores the query text, your data, amounts, names, IP address or identity. The other five tools and failed calls are not counted; every response says whether that call was counted (`medicion.contada`). Aggregates are exported by hand to this repo (`evals/medicion/`); `GET /` does not serve them. Retention: Cloudflare Workers Analytics Engine's. Purpose: to see what the connector understands with real questions, not just the 120 imagined ones in `corpus/`. Questions: open an issue or write to `contacto@pasaelfiltro.cl`.
 
-**Português.** Este conector conta a *forma* de cada consulta (versão; tarefa e âmbito resolvidos ou não; se casou por id ou sinônimo; foco, propósito sugerido, padrão). Nunca guarda o texto da pergunta, seus dados, valores, nomes, IP ou identidade. Os agregados são publicados neste repositório e em `GET /`. Para quê: validade com perguntas reais, não só as 120 imaginadas em `corpus/`. Dúvidas: abra uma issue ou escreva para `contacto@pasaelfiltro.cl`.
+**Português.** Este conector conta a *forma* de cada consulta a `consultar_grafo` (versão; tarefa e âmbito resolvidos ou não; se casou por id ou sinônimo; foco, propósito sugerido, padrão): um ponto por chamada, sete etiquetas curtas, sem texto livre. Nunca guarda o texto da pergunta, seus dados, valores, nomes, IP ou identidade. As outras cinco ferramentas e as chamadas com erro não são contadas; cada resposta diz se aquela chamada foi contada (`medicion.contada`). Os agregados são exportados à mão para este repositório (`evals/medicion/`); `GET /` não os serve. Retenção: a do Cloudflare Workers Analytics Engine. Para quê: ver o que o conector entende com perguntas reais, não só as 120 imaginadas em `corpus/`. Dúvidas: abra uma issue ou escreva para `contacto@pasaelfiltro.cl`.
 
 
 ---

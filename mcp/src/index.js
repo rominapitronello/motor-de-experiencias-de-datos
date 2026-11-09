@@ -157,11 +157,13 @@ const TU_PERSONA = {
 // 0.3.5: la forma de la pregunta, sin la pregunta (romina, issue #43, 2-nov-2026). esto es lo que se cuenta y para qué; se dice en
 // cada respuesta para que el modelo lo sepa, y lo mencione solo si la persona pregunta. régimen completo en PRIVACIDAD.md.
 const MEDICION = {
-  que_contamos: 'por cada consulta: la versión del conector, la tarea y el ámbito que resolvió (o que no resolvió), por qué camino (id, sinónimo, nada), si hubo foco parcial y qué propósito sugirió. nada más.',
+  que_contamos: 'por cada consulta a consultar_grafo que respondió sin error: la versión del conector, la tarea y el ámbito que resolvió (o que no resolvió), por qué camino (id, sinónimo, nada), si hubo foco parcial y qué propósito sugirió. nada más.',
   que_nunca: 'la pregunta, los datos, montos, nombres, la dirección IP, quién pregunta. el texto no sale de la conversación.',
-  para_que: 'saber qué entiende el conector y qué no en preguntas reales, y no solo en las 120 imaginadas del corpus: validez. los agregados se publican en el repo y en GET / de este conector.',
-  como_decirlo: 'no necesitas mencionarlo si no suma a la conversación. si la persona pregunta qué se guarda, esto es la respuesta exacta: la forma de su pregunta, nunca su pregunta. si quiere que ni eso, puede decirlo y lo cuentas igual con honestidad: no hay forma de no contar sin dejar de contestar; lo que no hay es forma de recuperar lo que dijo.',
-  regimen: 'PRIVACIDAD.md en el repo; cambio declarado en la ficha del directorio el 2-nov-2026.',
+  cuando_no_se_cuenta: 'las otras cinco herramientas (principios, revisar_fuente, listar_trampas, buscar_referentes, buscar_tecnicas); las consultas que terminan en error; y cuando el contador no está disponible o falla al escribir. en cada respuesta, medicion.contada dice si esta llamada se contó y medicion.motivo por qué no.',
+  para_que: 'saber qué entiende el conector y qué no en preguntas reales, y no solo en las 120 imaginadas del corpus. los agregados se exportan a mano al repo (evals/medicion/) cuando alguien de la casa los baja; GET / no los expone.',
+  como_decirlo: 'si la persona está decidiendo si usar el conector, o pregunta qué se guarda, dile esto tal cual: se cuenta la forma de su pregunta (qué tarea, qué ámbito, si resolvió), nunca su pregunta ni sus datos. si quiere que ni eso, no hay forma de no contar sin dejar de contestar, y lo que no hay es forma de recuperar lo que dijo. no hace falta repetirlo en cada respuesta.',
+  granularidad: 'un punto por llamada, con etiquetas cortas (ids del grafo y banderas) y sin texto libre ni identificadores; lo guarda Cloudflare Workers Analytics Engine con la retención de ese servicio; lo lee la cuenta de Cloudflare de PasaElFiltro.',
+  regimen: 'PRIVACIDAD.md en el repo; el cambio se declara en la ficha del directorio antes de activar la captura (mcp/FICHA.md).',
 };
 const CUANDO_ES_DE_JUICIO = 'si la decisión es de juicio (dos lecturas defendibles del mismo dato), dilo, da la tuya como una entre varias y muestra al menos otra. la gente sigue la inclinación del modelo en decisiones de juicio el 86 % de las veces y repite sus argumentos como propios sin notarlo (Herdagdelen, Joren y Tamkin, Anthropic, «Who\'s Aligned to Whom?»); declarar la lectura es lo único que le devuelve la decisión a la persona.';
 
@@ -437,7 +439,7 @@ const TOOLS = [
       if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
       out.tu_persona = TU_PERSONA; // 0.3.4: cómo adaptarte a quien pregunta, con lo que tengas; null si no tienes nada.
       out.cuando_es_de_juicio = CUANDO_ES_DE_JUICIO; // 0.3.5
-      out.medicion = MEDICION; // 0.3.5: qué contamos y por qué; menciónalo solo si la persona pregunta.
+      out.medicion = { ...MEDICION, contada: false, motivo: 'pendiente' }; // 0.3.5: qué contamos y por qué; contada/motivo se completan al escribir el punto.
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
       out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
       // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
@@ -542,16 +544,25 @@ function manejar(msg, env) {
       try {
         const data = tool.run(params.arguments || {});
         const isError = Boolean(data && data.error);
-        if (tool.name === 'consultar_grafo' && env?.MEDICION && data && !isError) {
+        if (tool.name === 'consultar_grafo' && data && !isError && data.medicion) {
           // 0.3.5: la forma de la pregunta, nunca la pregunta. solo ids del grafo y banderas; sin texto, sin IP.
-          try {
-            const camino = data.interpretado_como?.tarea?.por ?? (data.tarea && !data.aviso_tarea ? 'id' : 'ninguno');
-            env.MEDICION.writeDataPoint({
-              blobs: [SERVER.version, data.aviso_tarea && /desconocida/.test(data.aviso_tarea) ? 'ninguna' : (data.tarea ?? 'sin_tarea'), data.ambito?.id ?? 'ninguno', /sinónimo/.test(camino) ? 'sinonimo' : /id/.test(camino) ? 'id' : 'ninguno', data.foco_parcial ? 'foco_parcial' : '', data.proposito_sugerido?.id ?? '', data.patron ?? ''],
-              doubles: [1],
-              indexes: [String(data.tarea ?? 'ninguna').slice(0, 32)],
-            });
-          } catch {}
+          // sol (#44): el fallo no puede ser silencioso. la respuesta dice si se contó y, si no, por qué.
+          if (!env?.MEDICION || typeof env.MEDICION.writeDataPoint !== 'function') {
+            data.medicion.motivo = 'contador no disponible en este despliegue';
+          } else {
+            try {
+              const camino = data.interpretado_como?.tarea?.por ?? (data.tarea && !data.aviso_tarea ? 'id' : 'ninguno');
+              env.MEDICION.writeDataPoint({
+                blobs: [SERVER.version, data.aviso_tarea && /desconocida/.test(data.aviso_tarea) ? 'ninguna' : (data.tarea ?? 'sin_tarea'), data.ambito?.id ?? 'ninguno', /sinónimo/.test(camino) ? 'sinonimo' : /id/.test(camino) ? 'id' : 'ninguno', data.foco_parcial ? 'foco_parcial' : '', data.proposito_sugerido?.id ?? '', data.patron ?? ''],
+                doubles: [1],
+                indexes: [String(data.tarea ?? 'ninguna').slice(0, 32)],
+              });
+              data.medicion.contada = true;
+              data.medicion.motivo = null;
+            } catch (e) {
+              data.medicion.motivo = `el contador falló al escribir: ${String(e && e.message).slice(0, 80)}`;
+            }
+          }
         }
         return ok(id, {
           content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
@@ -579,7 +590,7 @@ export default {
       return new Response(
         `experiencias-datos · conector MCP\nPOST /mcp (JSON-RPC, MCP Streamable HTTP)\nconocimiento: commit ${K.commit}, construido ${K.construido}\n` +
           `${K.trampas.length} trampas · ${K.referentes.length} referentes · ${K.tecnicas.length} técnicas · ${K.principios.length} principios\n` +
-          `medición: se cuenta la forma de cada consulta (tarea, ámbito, si resolvió), nunca la pregunta ni los datos. régimen: PRIVACIDAD.md en el repo.\n`,
+          `medición: se cuenta la forma de cada consulta a consultar_grafo (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; los agregados no se sirven aquí, se exportan al repo (evals/medicion/). régimen: PRIVACIDAD.md en el repo.\n`,
         { headers: { 'content-type': 'text/plain; charset=utf-8', ...CORS } },
       );
     }
