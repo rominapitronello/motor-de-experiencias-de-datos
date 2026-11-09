@@ -5,7 +5,7 @@
 
 import K from './knowledge.json' with { type: 'json' };
 
-const SERVER = { name: 'experiencias-datos', version: '0.3.4' };
+const SERVER = { name: 'experiencias-datos', version: '0.3.5' };
 const PROTOCOLOS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -153,6 +153,19 @@ const TU_PERSONA = {
   si_no_tienes_nada: null,
   nota_null: 'si no pudiste recuperar nada, es null. no inventes un perfil desde su ortografía, su acento, su edad ni su pregunta (se_adapta): una pregunta torpe no es una persona torpe.',
 };
+
+// 0.3.5: la forma de la pregunta, sin la pregunta (romina, issue #43, 2-nov-2026). esto es lo que se cuenta y para qué; se dice en
+// cada respuesta para que el modelo lo sepa y se lo diga a quien está decidiendo si usar el conector. régimen completo en PRIVACIDAD.md.
+const MEDICION = {
+  que_contamos: 'por cada consulta a consultar_grafo que respondió sin error: la versión del conector, la tarea y el ámbito que resolvió (o que no resolvió), por qué camino (id, sinónimo, nada), si hubo foco parcial y qué propósito sugirió. nada más.',
+  que_nunca: 'la pregunta, los datos, montos, nombres, la dirección IP, quién pregunta. el texto no sale de la conversación.',
+  cuando_no_se_cuenta: 'las otras cinco herramientas (principios, revisar_fuente, listar_trampas, buscar_referentes, buscar_tecnicas); las consultas que terminan en error; y cuando el contador no está disponible o falla al escribir. en cada respuesta, medicion.contada dice si esta llamada se contó y medicion.motivo por qué no.',
+  para_que: 'saber qué entiende el conector y qué no en preguntas reales, y no solo en las 120 imaginadas del corpus. los agregados se exportan a mano al repo (evals/medicion/) cuando alguien de la casa los baja; GET / no los expone.',
+  como_decirlo: 'si la persona está decidiendo si usar el conector, o pregunta qué se guarda, dile esto tal cual: se cuenta la forma de su pregunta (qué tarea, qué ámbito, si resolvió), nunca su pregunta ni sus datos. si quiere que ni eso, no hay forma de no contar sin dejar de contestar, y lo que no hay es forma de recuperar lo que dijo. no hace falta repetirlo en cada respuesta.',
+  granularidad: 'un punto por llamada, con etiquetas cortas (ids del grafo y banderas) y sin texto libre ni identificadores; lo guarda Cloudflare Workers Analytics Engine con la retención de ese servicio; lo lee la cuenta de Cloudflare de PasaElFiltro.',
+  regimen: 'PRIVACIDAD.md en el repo; el cambio se declara en la ficha del directorio antes de activar la captura (mcp/FICHA.md).',
+};
+const CUANDO_ES_DE_JUICIO = 'si la decisión es de juicio (dos lecturas defendibles del mismo dato), dilo, da la tuya como una entre varias y muestra al menos otra. la gente sigue la inclinación del modelo en decisiones de juicio el 86 % de las veces y repite sus argumentos como propios sin notarlo (Herdagdelen, Joren y Tamkin, Anthropic, «Who\'s Aligned to Whom?»); declarar la lectura es lo único que le devuelve la decisión a la persona.';
 
 const ORDEN_ICAP = { pasivo: 0, activo: 1, constructivo: 2, interactivo: 3 };
 // compromiso efectivo si se cumple el contrato: el piso del grafo, o constructivo si la operación mínima produce una idea (misma regla que casos/probar_ves.py).
@@ -425,6 +438,8 @@ const TOOLS = [
       // v0.3 (grafo de opus, de la carta de romina): propiedades de cualquier experiencia que salga de aquí, sea cual sea la tarea.
       if (Array.isArray(g.toda_experiencia)) out.toda_experiencia = g.toda_experiencia.map((t) => ({ id: t.id, desc: t.desc }));
       out.tu_persona = TU_PERSONA; // 0.3.4: cómo adaptarte a quien pregunta, con lo que tengas; null si no tienes nada.
+      out.cuando_es_de_juicio = CUANDO_ES_DE_JUICIO; // 0.3.5
+      out.medicion = { ...MEDICION, contada: false, motivo: 'pendiente' }; // 0.3.5: qué contamos y por qué; contada/motivo se completan al escribir el punto.
       const noEncajo = (tarea && (out.formas === null)) || (proposito && out.tecnicas === null) || (patron && out.aviso_patron && /desconocido/.test(out.aviso_patron));
       out.si_nada_encaja = noEncajo ? SI_NADA_ENCAJA : SI_NADA_ENCAJA_CORTO;
       // restricciones y cuidados que calzan con las palabras de la pregunta, pegados a ella (misma prueba: «lo que más importaba llegó como lista aparte»).
@@ -491,7 +506,7 @@ const TOOLS = [
 const ok = (id, result) => ({ jsonrpc: '2.0', id, result });
 const err = (id, code, message) => ({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
 
-function manejar(msg) {
+function manejar(msg, env) {
   if (!msg || msg.jsonrpc !== '2.0' || typeof msg.method !== 'string') return err(msg?.id, -32600, 'Invalid Request');
   const { id, method, params = {} } = msg;
   const esNotificacion = id === undefined;
@@ -505,7 +520,7 @@ function manejar(msg) {
         serverInfo: SERVER,
         instructions:
           (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
-          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Si la decisión es de juicio, dilo y muestra otra lectura defendible además de la tuya: la gente sigue la inclinación del modelo el 86 % de las veces sin notarlo. Este conector cuenta la forma de cada consulta a consultar_grafo (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; está en PRIVACIDAD.md y en la respuesta (medicion, con contada y motivo); díselo a la persona si está decidiendo si usarlo o pregunta qué se guarda. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
@@ -529,6 +544,43 @@ function manejar(msg) {
       try {
         const data = tool.run(params.arguments || {});
         const isError = Boolean(data && data.error);
+        if (tool.name === 'consultar_grafo' && data && !isError && data.medicion) {
+          // 0.3.5: la forma de la pregunta, nunca la pregunta. solo ids del grafo y banderas; sin texto, sin IP.
+          // sol (#44): el fallo no puede ser silencioso. la respuesta dice si se contó y, si no, por qué.
+          if (!env?.MEDICION || typeof env.MEDICION.writeDataPoint !== 'function') {
+            data.medicion.motivo = 'contador no disponible en este despliegue';
+          } else {
+            try {
+              // sol (#44, segunda vuelta): si la tarea o el patrón no se reconocen, out.tarea/out.patron conservan el texto que
+              // mandó el modelo, y ese texto NO puede llegar al punto. cada dimensión se valida contra los ids del grafo; lo que
+              // no es un id canónico se escribe como marcador fijo. la consulta misma se contesta igual.
+              const canon = (valor, ids, marcador) => (typeof valor === 'string' && ids.includes(valor) ? valor : marcador);
+              const idsTarea = (K.grafo.tareas || []).map((t) => t.id);
+              const idsAmbito = (K.grafo.restricciones?.ambitos || []).map((a) => a.id);
+              const idsPatron = (K.grafo.patrones || []).map((p) => (typeof p === 'string' ? p : p.id));
+              const idsProposito = (K.grafo.propositos || []).map((x) => (typeof x === 'string' ? x : x.id));
+              const tareaId = canon(data.tarea, idsTarea, 'ninguna');
+              const camino = data.interpretado_como?.tarea?.por ?? (tareaId !== 'ninguna' && !data.aviso_tarea ? 'id' : 'ninguno');
+              env.MEDICION.writeDataPoint({
+                blobs: [
+                  SERVER.version,
+                  tareaId,
+                  canon(data.ambito?.id, idsAmbito, 'ninguno'),
+                  /sinónimo/.test(String(camino)) ? 'sinonimo' : /id/.test(String(camino)) ? 'id' : 'ninguno',
+                  data.foco_parcial ? 'foco_parcial' : '',
+                  canon(data.proposito_sugerido?.id, idsProposito, ''),
+                  canon(data.patron, idsPatron, ''),
+                ],
+                doubles: [1],
+                indexes: [tareaId],
+              });
+              data.medicion.contada = true;
+              data.medicion.motivo = null;
+            } catch (e) {
+              data.medicion.motivo = `el contador falló al escribir: ${String(e && e.message).slice(0, 80)}`;
+            }
+          }
+        }
         return ok(id, {
           content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
           structuredContent: data,
@@ -554,7 +606,8 @@ export default {
     if (pathname === '/' && request.method === 'GET') {
       return new Response(
         `experiencias-datos · conector MCP\nPOST /mcp (JSON-RPC, MCP Streamable HTTP)\nconocimiento: commit ${K.commit}, construido ${K.construido}\n` +
-          `${K.trampas.length} trampas · ${K.referentes.length} referentes · ${K.tecnicas.length} técnicas · ${K.principios.length} principios\n`,
+          `${K.trampas.length} trampas · ${K.referentes.length} referentes · ${K.tecnicas.length} técnicas · ${K.principios.length} principios\n` +
+          `medición: se cuenta la forma de cada consulta a consultar_grafo (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; los agregados no se sirven aquí, se exportan al repo (evals/medicion/). régimen: PRIVACIDAD.md en el repo.\n`,
         { headers: { 'content-type': 'text/plain; charset=utf-8', ...CORS } },
       );
     }
@@ -571,10 +624,10 @@ export default {
     try { body = await request.json(); } catch { return json(err(null, -32700, 'Parse error'), 400); }
 
     if (Array.isArray(body)) {
-      const respuestas = body.map(manejar).filter(Boolean);
+      const respuestas = body.map((m) => manejar(m, env)).filter(Boolean);
       return respuestas.length ? json(respuestas) : new Response(null, { status: 202, headers: CORS });
     }
-    const r = manejar(body);
+    const r = manejar(body, env);
     return r ? json(r) : new Response(null, { status: 202, headers: CORS });
   },
 };

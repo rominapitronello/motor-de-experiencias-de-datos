@@ -12,3 +12,10 @@ namespace_id = "74701"
   [ratelimits.simple]
   limit = 60
   period = 60
+
+# medición (0.3.5, decidida por romina en el issue #43, 2-nov-2026): se cuenta la FORMA de la pregunta, nunca la pregunta.
+# por cada consultar_grafo: versión, tarea resuelta (o «ninguna»), ámbito (o «ninguno»), cómo se resolvió (id / sinónimo / no),
+# si hubo foco parcial y propósito sugerido. sin texto, sin montos, sin nombres, sin IP. régimen: PRIVACIDAD.md.
+[[analytics_engine_datasets]]
+binding = "MEDICION"
+dataset = "experiencias_datos_medicion"

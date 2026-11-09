@@ -227,5 +227,46 @@ check(i2.structuredContent.juguete === undefined, '0.3.3: claim_evidence_limit (
 check(c1.structuredContent.tu_persona && /frontera/.test(c1.structuredContent.tu_persona.que_preguntar) && c1.structuredContent.tu_persona.si_no_tienes_nada === null && /no inventes un perfil/.test(c1.structuredContent.tu_persona.nota_null), '0.3.4: tu_persona: qué recuperar, qué preguntar, cómo seguir, dónde dejarlo, y null si no hay nada');
 check(/cómo aprende la persona/.test(init.result.instructions), '0.3.4: instructions: ármate una idea de cómo aprende la persona antes de dibujar');
 
+
+// 0.3.5 (romina, #43): la forma de la pregunta, nunca la pregunta; y el paper de la inclinación.
+check(c1.structuredContent.medicion && /nunca su pregunta/.test(c1.structuredContent.medicion.como_decirlo) && /PRIVACIDAD/.test(c1.structuredContent.medicion.regimen) && /decidiendo si usar/.test(c1.structuredContent.medicion.como_decirlo), '0.3.5: cada respuesta dice qué se cuenta, para qué, y que se diga a quien está decidiendo si usarlo');
+check(c1.structuredContent.medicion.contada === false && /no disponible/.test(c1.structuredContent.medicion.motivo), '0.3.5 (sol, #44): sin contador, la respuesta dice contada: false y el motivo; no falla en silencio');
+check(/cinco herramientas/.test(c1.structuredContent.medicion.cuando_no_se_cuenta) && /error/.test(c1.structuredContent.medicion.cuando_no_se_cuenta) && /granularidad|punto por llamada/.test(c1.structuredContent.medicion.granularidad), '0.3.5 (sol, #44): la respuesta lista cuándo no se cuenta y la granularidad real');
+check(/86 %/.test(c1.structuredContent.cuando_es_de_juicio) && /otra/.test(c1.structuredContent.cuando_es_de_juicio), '0.3.5: cuando_es_de_juicio: declarar la lectura y mostrar otra, con el 86 % del paper');
+check(/86 %/.test(init.result.instructions) && /PRIVACIDAD/.test(init.result.instructions), '0.3.5: instructions: juicio declarado y medición declarada');
+const getRoot = await (await worker.fetch(new Request('https://x/'))).text();
+check(/medición: se cuenta la forma/.test(getRoot) && /PRIVACIDAD/.test(getRoot) && /no se sirven aquí/.test(getRoot), '0.3.5: GET / declara la medición y que no sirve agregados (sol, #44: no prometer lo que no está)');
+// el contador es opcional: sin binding MEDICION (como aquí) el conector responde igual.
+const envFalso = { MEDICION: { puntos: [], writeDataPoint(p) { this.puntos.push(p); } } };
+const resM = await worker.fetch(new Request('https://x/mcp', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 9, method: 'tools/call', params: { name: 'consultar_grafo', arguments: { tarea: 'cuánta plata se me fue en comida al paso, 48.500 pesos en el banco estado de mi cuenta 1234' } } }) }), envFalso);
+check(resM.status === 200 && envFalso.MEDICION.puntos.length === 1, '0.3.5: con binding, una consulta escribe un punto');
+const bodyM = await resM.json();
+check(bodyM.result.structuredContent.medicion.contada === true && bodyM.result.structuredContent.medicion.motivo === null, '0.3.5 (sol, #44): con binding, la respuesta dice contada: true');
+const puntoM = envFalso.MEDICION.puntos[0];
+check(Array.isArray(puntoM.blobs) && puntoM.blobs.length === 7 && puntoM.blobs.every(b => typeof b === 'string' && b.length <= 40) && puntoM.doubles.length === 1 && puntoM.indexes.length === 1, '0.3.5 (sol, #44): la forma del punto es fija: 7 etiquetas cortas, 1 double, 1 índice; sin texto libre');
+// sol (#44, segunda vuelta): tarea y patrón NO reconocidos conservan el texto en la respuesta; el punto no puede llevarlo.
+const envFuga = { MEDICION: { puntos: [], writeDataPoint(p) { this.puntos.push(p); } } };
+const resF = await (await worker.fetch(new Request('https://x/mcp', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 12, method: 'tools/call', params: { name: 'consultar_grafo', arguments: { tarea: 'mi nombre es Ana Centinela y debo 45000 pesos', patron: 'patron-inventado Ana Centinela 45000', ambito: 'ambito-inventado Centinela', proposito: 'proposito-inventado Centinela' } } }) }), envFuga)).json();
+const puntoF = envFuga.MEDICION.puntos[0];
+const todoF = JSON.stringify(puntoF);
+check(resF.result && !resF.result.isError && envFuga.MEDICION.puntos.length === 1, '0.3.5 (sol, #44 ii): con tarea y patrón desconocidos se contesta y se escribe un punto');
+check(!/Ana|Centinela|45000|inventado/.test(todoF), '0.3.5 (sol, #44 ii): el punto entero (blobs e indexes) no trae nada del texto no reconocido');
+check(puntoF.indexes[0] === 'ninguna' && puntoF.blobs[1] === 'ninguna' && puntoF.blobs[6] === '' && puntoF.blobs[2] === 'ninguno' && puntoF.blobs[5] === '', '0.3.5 (sol, #44 ii): las dimensiones no resueltas van como marcador fijo, también en indexes y en blobs[6]');
+const idsOk = new Set(['ninguna', 'ninguno', '', 'foco_parcial', 'id', 'sinonimo']);
+const vocab = [...(c1.structuredContent.vocabulario?.tareas || []).map(t => t.id || t)];
+check(puntoF.blobs.every((b, i) => i === 0 || idsOk.has(b) || vocab.includes(b) || /^[a-z_]+$/.test(b)), '0.3.5 (sol, #44 ii): cada etiqueta del punto es un id canónico o un marcador, nunca texto libre');
+// y el punto del caso que sí resuelve sigue trayendo ids canónicos en todas las posiciones
+check(puntoM.indexes[0] === puntoM.blobs[1] && /^[a-z_]+$/.test(puntoM.blobs[1]) && /^[a-z_]*$/.test(puntoM.blobs[2]) && /^[a-z_]*$/.test(puntoM.blobs[6]), '0.3.5 (sol, #44 ii): en el caso que resuelve, tarea, ámbito y patrón del punto son ids canónicos');
+// cuando el contador falla, la respuesta lo dice y la consulta igual se contesta.
+const envRoto = { MEDICION: { writeDataPoint() { throw new Error('analytics caído'); } } };
+const resR = await (await worker.fetch(new Request('https://x/mcp', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 10, method: 'tools/call', params: { name: 'consultar_grafo', arguments: { tarea: 'cuánta plata se me fue' } } }) }), envRoto)).json();
+check(resR.result && !resR.result.isError && resR.result.structuredContent.medicion.contada === false && /falló al escribir/.test(resR.result.structuredContent.medicion.motivo), '0.3.5 (sol, #44): si el contador falla, se contesta igual y la respuesta dice que no se contó y por qué');
+// las otras herramientas no cuentan nada, y lo dicen por omisión: sin medicion en su respuesta.
+const envOtro = { MEDICION: { puntos: [], writeDataPoint(p) { this.puntos.push(p); } } };
+await worker.fetch(new Request('https://x/mcp', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 11, method: 'tools/call', params: { name: 'principios', arguments: {} } }) }), envOtro);
+check(envOtro.MEDICION.puntos.length === 0, '0.3.5 (sol, #44): principios no escribe ningún punto');
+const punto = JSON.stringify(envFalso.MEDICION.puntos[0]);
+check(!/48\.500|banco|1234|comida/.test(punto) && /magnitud/.test(punto) && /datos_propios/.test(punto), '0.3.5: el punto trae tarea y ámbito y NO trae el texto, el monto, el banco ni la cuenta');
+
 console.log(fallas ? `\n${fallas} falla(s)` : '\ntodo en orden');
 process.exit(fallas ? 1 : 0);
