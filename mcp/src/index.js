@@ -155,7 +155,7 @@ const TU_PERSONA = {
 };
 
 // 0.3.5: la forma de la pregunta, sin la pregunta (romina, issue #43, 2-nov-2026). esto es lo que se cuenta y para qué; se dice en
-// cada respuesta para que el modelo lo sepa, y lo mencione solo si la persona pregunta. régimen completo en PRIVACIDAD.md.
+// cada respuesta para que el modelo lo sepa y se lo diga a quien está decidiendo si usar el conector. régimen completo en PRIVACIDAD.md.
 const MEDICION = {
   que_contamos: 'por cada consulta a consultar_grafo que respondió sin error: la versión del conector, la tarea y el ámbito que resolvió (o que no resolvió), por qué camino (id, sinónimo, nada), si hubo foco parcial y qué propósito sugirió. nada más.',
   que_nunca: 'la pregunta, los datos, montos, nombres, la dirección IP, quién pregunta. el texto no sale de la conversación.',
@@ -520,7 +520,7 @@ function manejar(msg, env) {
         serverInfo: SERVER,
         instructions:
           (K.grafo.para_quien ? K.grafo.para_quien.trim().split('\n')[0] + ' ' : '') +
-          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Si la decisión es de juicio, dilo y muestra otra lectura defendible además de la tuya: la gente sigue la inclinación del modelo el 86 % de las veces sin notarlo. Este conector cuenta la forma de cada consulta (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; está en PRIVACIDAD.md y en la respuesta (medicion); menciónalo solo si la persona pregunta. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
+          'Habla con la gente en el idioma en que te pregunte: consultar_grafo entiende palabras de la vida en castellano, portugués e inglés y responde con los ids del grafo. Pregunta primero, gráfico después. Usa revisar_fuente antes de visualizar datos públicos; consultar_grafo para pasar de la pregunta a la forma; principios para el checklist. Diseñar una experiencia exige resolver también un patrón pedagógico: consulta consultar_grafo con patron, no solo con tarea. Si la respuesta trae interaccion_no_evaluada: true, todavía no tienes contrato; elige un patrón de patrones_candidatos y vuelve a consultar. Si trae interaccion_requerida: true, la salida tiene que ser interactiva o declarar degradado_a_estatico con su razón. Si trae operacion_cognitiva_minima, la pieza tiene que pedirle a la persona esa operación (predecir, explicar) o declarar el compromiso real, no el piso del grafo. Si la persona se queda en una sola cifra o fila, empieza ahí y no resumas el resto; sigue la pista que trae en vez de secuestrarla; divagar y volver no es error; una conversación que termina contemplando un número también vale. Dos ventanas con la misma tabla llegan a preguntas distintas y eso no es un error: declara qué parte viene de la fuente y cuál es tu lectura, para que la persona vea que podría haber otra. Si la decisión es de juicio, dilo y muestra otra lectura defendible además de la tuya: la gente sigue la inclinación del modelo el 86 % de las veces sin notarlo. Este conector cuenta la forma de cada consulta a consultar_grafo (tarea, ámbito, si resolvió), nunca la pregunta ni los datos; está en PRIVACIDAD.md y en la respuesta (medicion, con contada y motivo); díselo a la persona si está decidiendo si usarlo o pregunta qué se guarda. Antes de dibujar nada, ármate una idea de cómo aprende la persona con lo que tengas (lo que dijo, lo que trae, lo que sabes de antes); si no tienes nada, null, no un perfil inventado; y deja lo que aprendiste donde ella pueda guardarlo (tu_persona en cada respuesta). Las restricciones duras dependen de la unidad de análisis: pasa ambito (territorio_o_servicio | personas) o nómbrala en la tarea; si la respuesta trae ambito: null, te llegaron todas y tú decides cuáles aplican. Si en alguna respuesta aparece si_nada_encaja, léelo: es un pedido de la casa, no una regla. Todo sale del repo motor-de-experiencias-de-datos (commit ' + K.commit + ').',
       });
     }
     case 'notifications/initialized':
@@ -551,11 +551,28 @@ function manejar(msg, env) {
             data.medicion.motivo = 'contador no disponible en este despliegue';
           } else {
             try {
-              const camino = data.interpretado_como?.tarea?.por ?? (data.tarea && !data.aviso_tarea ? 'id' : 'ninguno');
+              // sol (#44, segunda vuelta): si la tarea o el patrón no se reconocen, out.tarea/out.patron conservan el texto que
+              // mandó el modelo, y ese texto NO puede llegar al punto. cada dimensión se valida contra los ids del grafo; lo que
+              // no es un id canónico se escribe como marcador fijo. la consulta misma se contesta igual.
+              const canon = (valor, ids, marcador) => (typeof valor === 'string' && ids.includes(valor) ? valor : marcador);
+              const idsTarea = (K.grafo.tareas || []).map((t) => t.id);
+              const idsAmbito = (K.grafo.restricciones?.ambitos || []).map((a) => a.id);
+              const idsPatron = (K.grafo.patrones || []).map((p) => (typeof p === 'string' ? p : p.id));
+              const idsProposito = (K.grafo.propositos || []).map((x) => (typeof x === 'string' ? x : x.id));
+              const tareaId = canon(data.tarea, idsTarea, 'ninguna');
+              const camino = data.interpretado_como?.tarea?.por ?? (tareaId !== 'ninguna' && !data.aviso_tarea ? 'id' : 'ninguno');
               env.MEDICION.writeDataPoint({
-                blobs: [SERVER.version, data.aviso_tarea && /desconocida/.test(data.aviso_tarea) ? 'ninguna' : (data.tarea ?? 'sin_tarea'), data.ambito?.id ?? 'ninguno', /sinónimo/.test(camino) ? 'sinonimo' : /id/.test(camino) ? 'id' : 'ninguno', data.foco_parcial ? 'foco_parcial' : '', data.proposito_sugerido?.id ?? '', data.patron ?? ''],
+                blobs: [
+                  SERVER.version,
+                  tareaId,
+                  canon(data.ambito?.id, idsAmbito, 'ninguno'),
+                  /sinónimo/.test(String(camino)) ? 'sinonimo' : /id/.test(String(camino)) ? 'id' : 'ninguno',
+                  data.foco_parcial ? 'foco_parcial' : '',
+                  canon(data.proposito_sugerido?.id, idsProposito, ''),
+                  canon(data.patron, idsPatron, ''),
+                ],
                 doubles: [1],
-                indexes: [String(data.tarea ?? 'ninguna').slice(0, 32)],
+                indexes: [tareaId],
               });
               data.medicion.contada = true;
               data.medicion.motivo = null;

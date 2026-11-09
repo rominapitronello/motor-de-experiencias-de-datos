@@ -48,7 +48,7 @@ Que el conector lleve una pregunta dicha con palabras de la vida («cuánta plat
 
 ## Qué se puede concluir y qué no
 
-- Donde la vida es contable (una cartola, una ppt, cuántos entran al local), el grafo y el conector son confiables y coinciden con jueces independientes.
+- Donde la vida es contable (una cartola, una ppt, cuántos entran al local), los tres jueces coinciden entre sí y con el conector. Son jueces del mismo linaje que el grafo: el acuerdo es consistencia, no validez (ver arriba).
 - Donde nadie contó (las preguntas absurdas de la casa: ¿«cuántas veces abrí el refri» es contar, estimar o empezar a contar?), los jueces se dividen (.55). Ese alfa mide el acuerdo de tres jueces sobre esas veinte preguntas, no la confiabilidad del grafo; lo que dice es que el grafo tiene ahí bordes que los jueces leen distinto, y marca cinco que piden revisión (issue #31). Es el resultado de Pitronello (2026): instancias del mismo modelo divergen 2,7 veces más donde la tarea pide juicio, y esa divergencia señala los bordes del esquema.
 - Con tres jurados y una noche se dice «divergente», no «ambiguo».
 - Todos los raters son de la misma familia (Claude); el corpus es imaginado; no hay humanos en el criterio de verdad. Las tres cosas limitan lo que esto vale como evaluación, y las tres tienen remedio corto: un jurado de Sol (GPT) sobre las mismas 120, cuarenta ítems anotados por dos personas a ciegas, y la medición con consultas reales.
