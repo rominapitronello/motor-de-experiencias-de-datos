@@ -83,3 +83,7 @@ Costos estimados el 3-nov (120 preguntas, 3 jurados, prompt de ~5.400 tokens cac
 - No entra al set nada del archivo privado que Romina no haya sacado a mano; no entra nada de cuerpo o salud.
 - No se cita el estudio de instancias como «submitted» ni «under review»: es un estudio preregistrado (OSF), de autora única.
 - No se inventan totales: cada número de este plan sale de un archivo o de un conteo por código, y si no, dice «estimado».
+
+## Lo que dice el directorio (8-nov-2026, `evals/directorio/usage-2026-11-08.csv`)
+
+Export de Romina del panel del directorio de conectores de Anthropic, calculado el 8-nov a las 11:18 UTC. Puesto **5.244** entre los conectores del directorio (Romina: el primer día estaba cerca del 5.800). En 30 días: 21 personas lo conectaron, 5 llamaron a alguna herramienta, 40 llamadas, 0 errores. En 7 días: 29 llamadas, todas entre el 2 y el 4 de noviembre (17, 11 y 1), que son los días en que la casa lo probaba desde sus propias ventanas. Lectura honesta: el puesto sube, pero las llamadas que se ven son casi todas nuestras; el número «con personas reales» todavía no existe, y no puede existir hasta que la telemetría de forma de 0.3.5 (#44) esté publicada. Es un argumento más para mergear el #44.
