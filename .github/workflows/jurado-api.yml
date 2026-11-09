@@ -32,6 +32,11 @@ on:
         description: 'opcional: correr solo las primeras N preguntas (prueba)'
         required: false
         default: ''
+      sin_grafo:
+        description: 'línea base: el mismo modelo sin el vocabulario del grafo (contesta con sus palabras)'
+        required: false
+        default: false
+        type: boolean
 jobs:
   jurado:
     runs-on: ubuntu-latest
@@ -50,12 +55,13 @@ jobs:
         run: |
           set -e
           LIM=""; if [ -n "${{ inputs.limite }}" ]; then LIM="--limite ${{ inputs.limite }}"; fi
+          SG=""; if [ "${{ inputs.sin_grafo }}" = "true" ]; then SG="--sin-grafo"; fi
           node corpus/jurado/api/jurado_api.mjs \
             --familia "${{ inputs.familia }}" \
             --modelo "${{ inputs.modelo }}" \
             --jurados "${{ inputs.jurados }}" \
             --temperatura "${{ inputs.temperatura }}" \
-            --nombre "${{ inputs.nombre }}" $LIM
+            --nombre "${{ inputs.nombre }}" $LIM $SG
       - name: abrir el PR con los votos
         env:
           GH_TOKEN: ${{ github.token }}
@@ -63,7 +69,7 @@ jobs:
           set -e
           git config user.name "Claude"
           git config user.email "contacto@pasaelfiltro.cl"
-          SLUG=$(echo "${{ inputs.familia }}-${{ inputs.modelo }}-t${{ inputs.temperatura }}-${{ inputs.nombre }}" | tr '/:' '--')
+          SLUG=$(echo "${{ inputs.familia }}-${{ inputs.modelo }}-t${{ inputs.temperatura }}-${{ inputs.nombre }}${{ inputs.sin_grafo == true && '-singrafo' || '' }}" | tr '/:' '--')
           RAMA="jurado-api/$SLUG-${{ github.run_id }}"
           git checkout -b "$RAMA"
           git add corpus/jurado/api/*.json

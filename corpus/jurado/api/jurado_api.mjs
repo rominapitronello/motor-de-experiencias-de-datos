@@ -8,6 +8,7 @@
 //   node corpus/jurado/api/jurado_api.mjs --familia anthropic  --modelo claude-haiku-5-5 --jurados 3 --temperatura 1 --nombre nov03
 //   node corpus/jurado/api/jurado_api.mjs --familia openrouter --modelo openai/gpt-6-luna --jurados 3 --temperatura 1 --nombre nov03
 //   node corpus/jurado/api/jurado_api.mjs --mock   (sin red: prueba la plomería con un voto fijo)
+//   node corpus/jurado/api/jurado_api.mjs --familia anthropic --modelo claude-haiku-5-5 --sin-grafo --nombre nov08   (línea base: sin vocabulario)
 //
 // llaves por entorno, nunca por argumento ni en archivos: ANTHROPIC_API_KEY, OPENROUTER_API_KEY.
 // salida: corpus/jurado/api/<familia>__<modelo sin barras>__t<temp>__<nombre>__j<k>.json
@@ -24,11 +25,14 @@ const NOMBRE = args.nombre || new Date().toISOString().slice(0, 10);
 const CONCURRENCIA = Number(args.concurrencia || 4);
 const MOCK = Boolean(args.mock);
 const LIMITE = args.limite ? Number(args.limite) : null; // para probar con pocas preguntas
+// línea base (plan del holdout, paso 3): el mismo modelo sin el vocabulario del grafo. responde con sus palabras
+// (tarea_libre, ambito_libre, forma_libre) y después otra pasada las lleva a ids. si el conector no supera esto, no aporta.
+const SIN_GRAFO = Boolean(args['sin-grafo']);
 const RAIZ = path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../..');
 
 const vocab = fs.readFileSync(path.join(RAIZ, 'corpus/jurado/vocabulario.json'), 'utf8');
 const preguntas = JSON.parse(fs.readFileSync(path.join(RAIZ, 'corpus/jurado/preguntas.json'), 'utf8')).slice(0, LIMITE || undefined);
-const plantilla = fs.readFileSync(path.join(RAIZ, 'corpus/encargos/jurado-api.md'), 'utf8').replace(/^<!--[\s\S]*?-->\s*/, '');
+const plantilla = fs.readFileSync(path.join(RAIZ, SIN_GRAFO ? 'corpus/encargos/jurado-api-sin-grafo.md' : 'corpus/encargos/jurado-api.md'), 'utf8').replace(/^<!--[\s\S]*?-->\s*/, '');
 
 function systemPrompt(nombreJurado) {
   return plantilla
@@ -41,6 +45,7 @@ function systemPrompt(nombreJurado) {
 }
 
 async function llamar(system, pregunta) {
+  if (MOCK && SIN_GRAFO) return JSON.stringify({ id: pregunta.id, tarea_libre: 'contar cuánto', ambito_libre: 'sus propios gastos', forma_libre: 'un número grande', palabra: pregunta.pregunta.split(' ').slice(0, 2).join(' '), por_que_null: null });
   if (MOCK) return JSON.stringify({ id: pregunta.id, tarea: 'magnitud', ambito: 'datos_propios', forma: 'cifra_grande', palabra: pregunta.pregunta.split(' ').slice(0, 2).join(' '), duda: false, alternativa: null, por_que_null: null });
   const user = `${pregunta.id}: ${pregunta.pregunta}`;
   if (FAMILIA === 'anthropic') {
@@ -71,7 +76,9 @@ async function llamar(system, pregunta) {
 
 function parsear(texto, pregunta) {
   const m = texto.match(/\{[\s\S]*\}/);
-  const base = { id: pregunta.id, tarea: null, ambito: null, forma: null, palabra: null, duda: false, alternativa: null, por_que_null: null };
+  const base = SIN_GRAFO
+    ? { id: pregunta.id, tarea_libre: null, ambito_libre: null, forma_libre: null, palabra: null, por_que_null: null }
+    : { id: pregunta.id, tarea: null, ambito: null, forma: null, palabra: null, duda: false, alternativa: null, por_que_null: null };
   if (!m) return { ...base, por_que_null: 'respuesta sin json', crudo: texto.slice(0, 300) };
   try {
     const v = JSON.parse(m[0]);
@@ -92,7 +99,7 @@ async function conReintentos(fn, veces = 4) {
 }
 
 async function correrJurado(k) {
-  const nombreJurado = `${FAMILIA} ${MODELO} t${TEMP} ${NOMBRE} j${k}`;
+  const nombreJurado = `${FAMILIA} ${MODELO} t${TEMP} ${NOMBRE} j${k}${SIN_GRAFO ? ' sin-grafo' : ''}`;
   const system = systemPrompt(nombreJurado);
   const hash = crypto.createHash('sha256').update(system).digest('hex');
   const votos = new Array(preguntas.length);
@@ -106,22 +113,24 @@ async function correrJurado(k) {
         votos[idx] = parsear(texto, p);
       } catch (e) {
         errores++;
-        votos[idx] = { id: p.id, tarea: null, ambito: null, forma: null, palabra: null, duda: false, alternativa: null, por_que_null: `error de api: ${String(e.message).slice(0, 200)}` };
+        votos[idx] = SIN_GRAFO
+          ? { id: p.id, tarea_libre: null, ambito_libre: null, forma_libre: null, palabra: null, por_que_null: `error de api: ${String(e.message).slice(0, 200)}` }
+          : { id: p.id, tarea: null, ambito: null, forma: null, palabra: null, duda: false, alternativa: null, por_que_null: `error de api: ${String(e.message).slice(0, 200)}` };
       }
       if ((idx + 1) % 20 === 0) console.error(`  ${nombreJurado}: ${idx + 1}/${preguntas.length}`);
     }
   }
   await Promise.all(Array.from({ length: Math.min(CONCURRENCIA, preguntas.length) }, worker));
-  const nulls = votos.filter(v => v.tarea == null).length;
+  const nulls = votos.filter(v => (SIN_GRAFO ? v.tarea_libre : v.tarea) == null).length;
   const salida = {
     jurado: nombreJurado,
     pluma: `${MODELO} (${FAMILIA}), por api, jurado ${k} de ${JURADOS}, temperatura ${TEMP}, ${new Date().toISOString()}`,
     modelo: MODELO, familia: FAMILIA, temperatura: TEMP, corrida: NOMBRE, jurado_k: k,
-    prompt_sha256: hash, prompt_archivo: 'corpus/encargos/jurado-api.md',
+    prompt_sha256: hash, prompt_archivo: SIN_GRAFO ? 'corpus/encargos/jurado-api-sin-grafo.md' : 'corpus/encargos/jurado-api.md', sin_grafo: SIN_GRAFO,
     preguntas: preguntas.length, nulls, errores_api: errores, mock: MOCK,
     votos,
   };
-  const archivo = path.join(RAIZ, 'corpus/jurado/api', `${FAMILIA}__${MODELO.replace(/[\/:]/g, '-')}__t${TEMP}__${NOMBRE}__j${k}${MOCK ? '__mock' : ''}.json`);
+  const archivo = path.join(RAIZ, 'corpus/jurado/api', `${FAMILIA}__${MODELO.replace(/[\/:]/g, '-')}__t${TEMP}__${NOMBRE}__j${k}${SIN_GRAFO ? '__singrafo' : ''}${MOCK ? '__mock' : ''}.json`);
   fs.writeFileSync(archivo, JSON.stringify(salida, null, 1) + '\n');
   console.log(`${path.relative(RAIZ, archivo)}: ${preguntas.length} votos, ${nulls} null, ${errores} errores de api, prompt ${hash.slice(0, 12)}`);
 }
