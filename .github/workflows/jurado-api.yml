@@ -54,14 +54,15 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           set -e
-          LIM=""; if [ -n "${{ inputs.limite }}" ]; then LIM="--limite ${{ inputs.limite }}"; fi
-          SG=""; if [ "${{ inputs.sin_grafo }}" = "true" ]; then SG="--sin-grafo"; fi
+          EXTRA=()
+          if [ -n "${{ inputs.limite }}" ]; then EXTRA+=(--limite "${{ inputs.limite }}"); fi
+          if [ "${{ inputs.sin_grafo }}" = "true" ]; then EXTRA+=(--sin-grafo); fi
           node corpus/jurado/api/jurado_api.mjs \
             --familia "${{ inputs.familia }}" \
             --modelo "${{ inputs.modelo }}" \
             --jurados "${{ inputs.jurados }}" \
             --temperatura "${{ inputs.temperatura }}" \
-            --nombre "${{ inputs.nombre }}" $LIM $SG
+            --nombre "${{ inputs.nombre }}" "${EXTRA[@]}"
       - name: abrir el PR con los votos
         env:
           GH_TOKEN: ${{ github.token }}
