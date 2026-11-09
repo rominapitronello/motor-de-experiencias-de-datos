@@ -6,7 +6,7 @@ El conector se llama `experiencias-datos` y vive en esta dirección:
 https://experiencias-datos.romina-pitronello.workers.dev/mcp
 ```
 
-No pide cuenta, ni llave, ni instalación. No guarda nada de lo que le preguntas. Responde con lo que está en este repo y nada más.
+No pide cuenta, ni llave, ni instalación. **No guarda lo que le preguntas**: cuenta la *forma* de cada consulta (qué tarea y ámbito resolvió, si resolvió), nunca el texto ni tus datos; está escrito en [`PRIVACIDAD.md`](PRIVACIDAD.md) y lo decidió Romina el 2-nov-2026 (#43). Responde con lo que está en este repo y nada más.
 
 ## Con Claude (claude.ai, escritorio o celular)
 
