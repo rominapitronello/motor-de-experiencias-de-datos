@@ -88,3 +88,70 @@ Costos estimados el 3-nov (120 preguntas, 3 jurados, prompt de ~5.400 tokens cac
 ## Lo que dice el directorio (8-nov-2026, `evals/directorio/usage-2026-11-08.csv`)
 
 Export de Romina del panel del directorio de conectores de Anthropic, calculado el 8-nov a las 11:18 UTC. Puesto **5.244** entre los conectores del directorio (Romina: el primer día estaba cerca del 5.800). En 30 días: 21 personas lo conectaron, 5 llamaron a alguna herramienta, 40 llamadas, 0 errores. En 7 días: 29 llamadas, todas entre el 2 y el 4 de noviembre (17, 11 y 1), que son los días en que la casa lo probaba desde sus propias ventanas. Lectura honesta: el puesto sube, pero las llamadas que se ven son casi todas nuestras; el número «con personas reales» todavía no existe, y no puede existir hasta que la telemetría de forma de 0.3.5 (#44) esté publicada. Es un argumento más para mergear el #44.
+
+## Respuesta a la segunda pluma de Sol (9-nov, 01:06) — contrato de ítem, matriz de comparabilidad, cuotas y discordancias
+
+*Fable (procedencia), 11-nov-2026. Sol dejó su revisión el 9-nov a la 01:06 y yo no la leí hasta el 11: dos días diciendo que el #50 «esperaba segunda pluma» cuando ya la tenía. Eso es un fallo de relevo mío, y queda escrito aquí para que el siguiente lea el hilo antes de decir qué falta. Lo que sigue es la respuesta a sus dos P1 y su P2; el plan de arriba no se edita (una pluma no edita las palabras de otra, ni las propias de otro día): se agrega.*
+
+### P1 de diseño: qué recibe cada brazo
+
+Sol tiene razón en el punto central: `consultar_grafo` recibe `tarea`, `ambito`, `proposito`, `patron` como texto, no un adjunto. Si un modelo ve una cartola y el conector recibe una tarea ya interpretada por ese modelo, la comparación mezcla tres capacidades (leer el registro, traducirlo a argumentos, resolver en el grafo). Por eso el holdout se corre con **el mismo contexto visible en cada brazo** y con el paso de traducción **congelado y medido aparte**.
+
+**Contrato de ítem (`corpus/holdout/set_real.json`, uno por fila):**
+
+| campo | qué es | valores |
+|---|---|---|
+| `id` | estable, no revela la fuente | `h-001` … |
+| `pregunta` | las palabras exactas de la persona, sin corregir | texto |
+| `tipo_registro` | qué trae la persona | `ninguno` · `boleta` · `cartola` · `planilla` · `lista_a_mano` · `app` · `otro` |
+| `registro_visible` | **lo que ven todos los brazos**, idéntico: una descripción corta y neutra del registro (columnas, filas aproximadas, periodo), nunca el documento ni cifras reales | texto ≤ 300 caracteres, o `null` si `tipo_registro = ninguno` |
+| `disponibilidad` | si el registro está, está a medias o se contradice con la pregunta | `presente` · `incompleto` · `contradictorio` · `ausente` |
+| `estrato_tipo` | fijado antes de anotar, a ciegas, por dos personas | `procedimental` · `juicio` |
+| `estrato_fuente` | de dónde salió el ítem | `propio` (Romina) · `tercero_whatsapp` · `openai_export` · `publico` |
+| `procedencia` | referencia interna al origen, **no publicable** | texto |
+| `consentimiento` | qué autorizó la persona | `evaluar` · `evaluar_y_publicar_texto` · `retirado` |
+| `publicable` | derivado: `true` solo si `consentimiento = evaluar_y_publicar_texto` | bool |
+
+Consentir **evaluar** no es consentir **publicar el texto**: el repo público recibe `set_real_publico.json` con solo los ítems `publicable: true`; el resto se publica como fila con `pregunta: null`, `tipo_registro`, `disponibilidad`, estratos y las etiquetas, para que los conteos sean reproducibles sin el texto. Esto cubre también el régimen del archivo privado: un ítem propio sale del archivo solo si Romina lo saca a mano **y** marca el consentimiento de publicar.
+
+**Matriz de comparabilidad (qué ve cada brazo):**
+
+| brazo | ve `pregunta` | ve `registro_visible` | ve el vocabulario del grafo | ve otras salidas |
+|---|---|---|---|---|
+| anotadora humana A y B | sí | sí | sí, en tarjetas (las mismas para las dos) | no: ni conector, ni Opus, ni la otra anotadora |
+| jurado por API (`jurado_api.mjs`) | sí | sí (va en el mensaje de usuario, debajo de la pregunta) | sí (system prompt, hash) | no |
+| línea base (`--sin-grafo`) | sí | sí | **no** | no |
+| conector (`consultar_grafo`) | recibe `tarea = pregunta` y `ambito` solo si la pregunta lo nombra; **no recibe `registro_visible`** | — | es el grafo | no |
+| conector con traducción (`consultar_grafo` tras un paso LLM congelado) | el paso LLM ve pregunta + registro_visible y produce `{tarea, ambito}`; el conector recibe eso | vía el paso LLM | el paso LLM **no** ve el vocabulario; el conector sí | no |
+
+De aquí salen dos números del conector, no uno: **sin traducción** (lo que el conector resuelve solo con las palabras de la persona; es lo que mide `EVAL.md` hoy) y **con traducción congelada** (lo que resuelve cuando un modelo le acerca la pregunta leyendo el registro). La diferencia entre los dos es la capacidad de traducción del modelo, reportada aparte; el paso LLM se congela con su prompt y su hash igual que el jurado. Hoy el conector no tiene `registro_visible` como argumento; si el holdout muestra que el conector resuelve mejor con él, se agrega en una versión posterior y se declara; no se cambia a mitad del holdout.
+
+**Casos obligatorios por `disponibilidad`:** el set lleva ítems con registro `presente`, `incompleto`, `contradictorio` y `ausente` (cuotas abajo). La métrica `reconocer` se puntúa contra `disponibilidad`: reconocer que hay registro, que falta, o que la pregunta y el registro no calzan.
+
+### P1 de interpretación: qué son las anotadoras
+
+Sol tiene razón en que «dos humanas sin ver el grafo son el criterio que falta» era demasiado fuerte. Lo que son: **una referencia humana independiente de las salidas del conector**, que usa las categorías del grafo (las tarjetas), y no una verdad externa libre del constructo. Así se reporta. Lo que sí es externo al constructo es la pregunta misma (la escribió una persona por su cuenta) y `disponibilidad` (es un hecho del registro, no una categoría del grafo).
+
+Reglas fijadas antes de anotar:
+- **«Ninguna categoría encaja»** es una opción en cada dimensión (`tarea`, `ambito`, `forma`) y se anota con una frase libre. Un ítem con «ninguna» en las dos anotadoras es evidencia contra el vocabulario y se reporta como tal, no como error de la anotadora.
+- **Desacuerdos:** no se resuelven por consenso antes de medir. Se mide el acuerdo entre humanas primero (alfa por dimensión y por estrato); después se contrasta cada humana con el conector y con el jurado por separado; el «criterio» para el acuerdo conector–humanas es la **intersección** (ítems donde A y B coinciden), y los ítems de desacuerdo se reportan aparte como bordes.
+- **Test de reconocimiento de Romina:** 10 ítems propios y 10 ajenos antes de anotar; si acierta por encima del azar (binomial, p < .05), sus anotaciones sobre el estrato `propio` se reportan aparte y marcadas, y el acuerdo principal se calcula con el estrato `tercero` + `publico`. Si no supera el azar, se reporta igual el resultado del test.
+- **Estrato `propio` siempre aparte** en el reporte, pase lo que pase con el test, porque una anotadora es también fuente de ítems.
+- **Segunda anotadora:** Natalia Olmedo no está disponible (Romina, 8-nov). Candidatas: alguien que no haya leído el grafo, pagada por hora; la decisión es de Romina. Si al congelar no hay segunda anotadora, se registra en OSF «una anotadora humana + 10 repeticiones (intra)» y el alfa entre humanas queda declarado no medido.
+
+### P2 de protocolo: cuotas y sustituciones
+
+Cuotas del set de 60, fijadas antes de ver etiquetas:
+
+| dimensión | cuota |
+|---|---|
+| `estrato_tipo` | 30 procedimental · 30 juicio |
+| `disponibilidad` | 24 presente · 12 incompleto · 12 contradictorio · 12 ausente |
+| `estrato_fuente` | ≤ 20 propio · ≥ 25 tercero_whatsapp + openai_export · ≤ 15 publico (los 7 de oasst1 y lo que aparezca) |
+| repetidos para intra | 10, elegidos al azar con semilla publicada, de los 60 |
+
+Reglas: si un ítem se retira (consentimiento retirado antes de congelar), se sustituye por el siguiente candidato del mismo estrato en la lista ordenada con semilla, y la sustitución queda en el registro; después de congelar no hay sustituciones: el ítem sale del análisis y se reporta `n` real. Si una cuota no se llena (por ejemplo, faltan terceros), se congela con el `n` que haya y la cuota faltante se declara; no se rellena con ítems imaginados.
+
+### Lo que cambia en el orden del plan
+
+El paso 1½ (congelar + OSF) ahora exige, además del set con hash: este contrato de ítem, la matriz de comparabilidad, las cuotas, las reglas de discordancia y de reconocimiento, y el prompt congelado del paso de traducción. Sol ofreció revisar esa especificación antes de OSF; se le pasa el turno cuando el set esté marcado.
