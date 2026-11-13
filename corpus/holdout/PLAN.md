@@ -155,3 +155,29 @@ Reglas: si un ítem se retira (consentimiento retirado antes de congelar), se su
 ### Lo que cambia en el orden del plan
 
 El paso 1½ (congelar + OSF) ahora exige, además del set con hash: este contrato de ítem, la matriz de comparabilidad, las cuotas, las reglas de discordancia y de reconocimiento, y el prompt congelado del paso de traducción. Sol ofreció revisar esa especificación antes de OSF; se le pasa el turno cuando el set esté marcado.
+
+## Las personas (13-nov-2026)
+
+*Fable (procedencia), 13-nov, 00:40, con Romina al lado. Romina consiguió hoy a las dos personas que faltaban; esto fija sus roles antes de que anoten nada. Falta el consentimiento escrito de cada uno, que lo pide Romina.*
+
+**Segunda anotadora → segundo anotador: Emiliano Valdebenito Sayago.** Investigador independiente en seguridad e interpretabilidad de modelos (Chile); trabaja con puntuación a ciegas por un lector humano único y preregistra sus corridas. Reemplaza a Natalia Olmedo en el paso 2. Lo que lo hace apto es lo mismo que lo hace exigente: sabe lo que es un libro de códigos y lo que es un juez que se contamina. Condiciones de independencia, declaradas por él antes de anotar y guardadas en el protocolo: no ha leído `grafo/grafo.yaml` ni la anotación de Opus ni las salidas del conector; no ha visto el corpus de desarrollo ni los candidatos del holdout; no es fuente de ningún ítem (por eso el test de reconocimiento es solo para Romina). Que sea investigador de IA y no «una persona que cree que los gráficos le pasan a la gente importante» no es problema: el anotador aplica el libro de códigos, no es la persona objetivo. Que Romina y él estén empezando un proyecto conjunto y ella haya sido su referencia (10-nov) se declara en el reporte como relación entre anotadores; no los hace dependientes en la tarea, porque anotan sin verse. Compensación: la decide Romina, como con Natalia.
+
+Con dos anotadores el diseño vuelve al cruce completo: A (Romina) y B (Emiliano) anotan los 60, más 10 repetidos cada uno; alfa entre humanos por dimensión y por estrato; estrato `propio` siempre aparte.
+
+**Validez de contenido: Francisco Soto (Fran).** Profesor de ciencias; profesional del Sistema Nacional de Evaluación y Certificación (Mineduc) y académico de Escuela de Educación: evalúa instrumentos por oficio. Es la pieza que el plan no tenía y Sol señaló de costado en su P1 de interpretación: las anotadoras usan categorías del propio grafo, así que alguien externo tiene que decir si esas categorías cubren lo que la gente pregunta. Su trabajo, **antes de congelar** (entra al paso 1½), con el vocabulario y los 60 ítems a la vista y sin ver anotaciones ni conector:
+
+1. **Por ítem:** relevancia para el constructo (¿es una pregunta por números de la vida que una persona común haría?) en 1–4; claridad en 1–4; `estrato_tipo` (procedimental / juicio) como tercera clasificación a ciegas, que se cruza con las dos ya previstas; y si alguna `tarea` del vocabulario le calza y cuál (sin saber qué dijo nadie más).
+2. **Por vocabulario:** qué tareas, ámbitos o formas le faltan al grafo para cubrir lo que una profesora preguntaría con su curso; qué categorías se le confunden entre sí. Esto es juicio experto y se reporta como tal, con su nombre si él consiente.
+3. **Índices:** CVI por ítem (proporción de relevancia ≥ 3) y CVI del set; con un solo experto el CVI es descriptivo, no inferencial, y así se escribe. Los ítems con relevancia < 3 se revisan antes de congelar; después de congelar no se tocan.
+
+Fran puede, además, ser fuente de ítems de la persona «profesora» (preguntas de docentes reales con su registro: la lista del curso, las notas, las colaciones). Si aporta ítems, no juzga esos ítems: van al estrato `tercero` con su procedencia y él queda fuera de su validez de contenido.
+
+**Estado de los roles al 13-nov**
+
+| rol | persona | falta |
+|---|---|---|
+| anotadora A | Romina | test de reconocimiento antes de anotar |
+| anotador B | Emiliano Valdebenito | consentimiento; declaración de no exposición; compensación |
+| validez de contenido | Francisco Soto | consentimiento; si acepta nombre en el reporte; si aporta ítems |
+| segunda pluma del protocolo antes de OSF | Sol | el set marcado y la especificación completa |
+| jueces modelo | Haiku, Sonnet, Opus; Luna, Terra, Sol (OpenRouter) | las dos llaves |
