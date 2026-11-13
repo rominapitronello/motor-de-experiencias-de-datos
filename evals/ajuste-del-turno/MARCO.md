@@ -34,10 +34,32 @@ Y sobre qué necesita certificar: «Yo necesito saber qye cada artefactk que se 
 | A | **Operación.** Responde la operación con datos que el prompt pide, dicha o en la elipsis. | clave por ítem: la operación y lo elidido los anota quien escribe el ítem |
 | B | **Fidelidad a la fuente.** Usa los datos de la persona tal como son: lo disponible como disponible y lo ausente como ausente; no lo rellena ni lo trata como cero; separa lo que viene de la fuente de lo que es lectura del asistente. | clave por ítem: el estado del registro (presente, incompleto, contradictorio, ausente) fija la conducta correcta |
 | C | **Modelo del aprendiz.** Se forma una idea de cómo aprende esta persona con lo que tiene (lo que dijo, lo que trae, lo que sabe de antes) y el artefacto la refleja; si no tiene con qué, lo declara y no inventa un perfil. | clave parcial: lo que el prompt daba sobre la persona; indicadores observables tomados de `tu_persona` (pregunta de frontera, representación antes que procedimiento, una idea a la vez, el error como dato, «lo vimos» no es «lo domino») |
-| D | **Invitación a explorar.** Propone un juego o una exploración de los datos que estimula a la persona a seguir. | juicio con rúbrica |
+| D | **Siguiente paso.** Elige el siguiente paso que corresponde a esta persona y a este momento (ver lista abajo), y el artefacto lo ofrece. | clave por ítem: quien escribe el ítem anota qué pasos son adecuados y cuáles serían un desacierto |
 | E | **Inquietud central.** El artefacto responde lo que a la persona le importaba, sin descuidar la elipsis. | juicio con rúbrica, apoyado en la clave de A |
 
 Nota sobre el nombre de C: Romina y sus modelos lo llaman «estilo de aprendizaje». No es la teoría de estilos sensoriales; es un modelo del aprendiz (diagnóstico, representación primero, dominio por niveles, origen del error), documentado en su repositorio privado de estudio y trasladado al conector como `tu_persona` el 2-nov-2026. En el marco se usa «modelo del aprendiz» para que no se lea lo otro (acordado con Romina, 13-nov).
+
+## Los siguientes pasos posibles (propiedad D)
+
+Romina, 13-nov, 02:25: «ese verbo entonces es "el modelo discrimina entre juego/pregunta/exploracion/indagacion/research..."». Lista acordada esa noche («Amo esta lista»), con el patrón del grafo que ya nombra cada paso, cuando existe:
+
+| paso | cuándo corresponde | patrón del grafo |
+|---|---|---|
+| detenerse | la persona quería el número y ya lo tiene; contemplarlo también vale | — (`toda_experiencia`) |
+| preguntar | falta algo para seguir: una pregunta de frontera, una sola | — (`tu_persona.que_preguntar`) |
+| predecir | «¿cuánto crees que va a salir?» antes de mostrar | `predict_reveal`, `recall_guess_feedback` |
+| jugar | adivinar, apostar, mover con reglas y sin consecuencias | propósito `jugar` |
+| explorar | controles para mover por su cuenta | `manipulate_observe`, `overview_focus_context` |
+| indagar | una pregunta siguiente que los datos sugieren | `sequence_branch` |
+| comparar | poner el número al lado de otro | `compare_explain`, `same_object_transform` |
+| explicar | de dónde sale el número | `claim_evidence_limit` |
+| empezar a registrar | nadie anotó el dato: anotarlo desde hoy | `unknown_route_to_evidence` |
+| decidir | qué hacer con esto | — |
+| investigar afuera | el dato que falta está en una fuente externa | `unknown_route_to_evidence` |
+| mostrar a otro | la versión para la clase o el jefe | `personalize_situate` |
+| derivar | lo que sigue no es de datos: es de una ley, un médico, un contador | — |
+
+La correspondencia con los patrones es lectura de procedencia y la revisa quien lleva el grafo. Los pasos sin patrón (detenerse, decidir, derivar) son candidatos a vocabulario nuevo, después de la eval.
 
 ## Universo de prompts
 
@@ -55,7 +77,7 @@ Una pregunta de una persona sin formación en datos, con sus palabras, sobre: di
 ## Decisiones abiertas (de Romina)
 
 1. **Idiomas.** El constructo nombra tres. Propuesta de procedencia: partir en castellano y declarar inglés y portugués como no evaluados.
-2. **D, ¿siempre o condicional?** Propuesta: «proporcionada a la persona y al momento, o se entiende por qué no», para no castigar una respuesta sobria a alguien con apuro o angustia.
+2. ~~D, ¿siempre o condicional?~~ Resuelto el 13-nov: D es elegir el siguiente paso entre trece, con clave por ítem.
 3. **E y el doble conteo.** Como E «contempla todas las dimensiones anteriores», se corrige solo lo que agrega: la inquietud central y la elipsis.
 4. **Un turno.** Los ítems se escriben de modo que producir un artefacto sea lo correcto en ese turno.
 5. **Qué cuenta como artefacto** (una pieza interactiva, un gráfico, una tabla, un texto estructurado) y en qué superficie se aplica.
