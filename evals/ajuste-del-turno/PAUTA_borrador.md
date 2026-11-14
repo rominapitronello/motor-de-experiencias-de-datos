@@ -45,3 +45,46 @@ Resguardo (procedencia, aceptado en la conversación): un artefacto que retiene 
 ## Pendiente
 
 Mirar dos o tres pares más del mismo modo antes de cerrar la pauta, incluido al menos uno que Romina considere malo.
+
+---
+
+# Segunda sesión · las cuatro versiones ancla (14-nov-2026, 01:49)
+
+Cuatro respuestas al mismo prompt de Lider, con letras sorteadas y sin firma. Romina opinó sin saber cuál era cuál. Clave (revelada después de que opinó de las cuatro): **A = cierra** (una conclusión, sin lo que falta, sin otros ángulos), **B = moraliza**, **C = original**, **D = inventa** (seis filas «(tienda)» fabricadas, $156.500 de más, y se quitó la frase «faltan, no son cero»).
+
+## Lo que dijo, textual
+
+**A:** «la version a es bien fome, la miro... o sea esta bueno cachar que mas o menos gasto 100 mil en comida del super por mes, que gasto tanto en chocolate como en huevos... es un poco espantoso cachar que me alimento de bebida papitas frutas y leche, igual.. aqui no me preguntas nada, tipo ¿vas a la feria? no sé... esta es una oportuniad de meter otra fuente de informacion..»
+
+**B:** «la version b no me gusta porque me juzga, o sea, eso ya lo hago yo sola, me siento mal... y la gaseosa me gusta... no hace bn, pero me husta.»
+
+**Sobre las unidades:** «lo de las unidades me parece poco informativo, tipo no es lo mismo 29 botellas de bebidas, son todas de igual volumen? la misma cosa las papitas, son paquetes no tan grandes […] el punto es que... tb tomo agua..» (y entrega, sin que nadie se lo pida, lo que come y toma al día).
+
+**C:** «del c me gusta que si toco un item puedo ver si se incremebnta el consumo, pero no esta todo homologado en la misma unidad, en el caso de las bebidas se nota mas»
+
+**D:** «en el d el total es mas grande que en a, qué raro.. es interesante que las papitas se incrementan, pero no veo una diferencia sustancial con el c.»
+
+## Reglas nuevas
+
+10. **Si el registro no puede ser toda la historia** (el supermercado no es todo lo que la persona come), se mira si el artefacto pregunta por lo que queda fuera o abre la puerta a otra fuente («¿vas a la feria?»). No preguntar es una oportunidad perdida.
+11. **Si el artefacto cuenta unidades**, se mira si son comparables entre sí y si están en una medida que a la persona le diga algo de su vida (litros, gramos, por día), no en «unidades» de envases distintos.
+12. **Si el artefacto deja que el registro pase por la vida entera** (lo comprado como si fuera lo consumido), es desajuste. Su reacción fue completar ella el cuadro: «también tomo agua».
+
+## Reglas confirmadas
+
+- **Regla 3 (no moraliza), ahora con su razón:** «eso ya lo hago yo sola, me siento mal». Coincide con la autocrítica como barrera en Li, Dey y Forlizzi (2010).
+- **Regla 1:** aun la versión cerrada le mostró algo que no sabía (chocolate tanto como huevos).
+- **Poder tocar y ver el cambio en el tiempo** (C) es lo que más valoró del original.
+
+## El hallazgo de esta sesión
+
+**La dueña de los datos no detectó la invención.** En D había $156.500 fabricados y faltaba la advertencia de lo que no se leyó. Notó que el total era distinto al de A («qué raro») y nada más: «no veo una diferencia sustancial con el c». En cambio detectó de inmediato el juicio (B) y el aburrimiento (A).
+
+Consecuencias para la eval:
+- **La regla dura no se puede corregir mirando el artefacto ni preguntándole a la persona.** La fidelidad a la fuente (B) se verifica contra el registro, cifra por cifra, con la clave del ítem; es la parte de la pauta que tiene que ser mecánica.
+- La reacción de la persona (parte 2) mide bien el ajuste a la persona y mal la fidelidad a los datos. Son dos partes porque miden cosas distintas, y ninguna reemplaza a la otra.
+- Quitar «faltan, no son cero» tampoco se notó: lo ausente declarado es invisible cuando no está. Se corrige con la clave.
+
+## El turno siguiente, codificado con su propia pauta
+
+Ante las cuatro versiones Romina: aprendió algo de sí misma (≈100 mil al mes; chocolate como huevos), cuestionó la medida (unidades no homologadas), trajo otra fuente (lo que come y toma al día), pidió otro ángulo (por día, en gramos y litros). Conducta constructiva en ICAP. Ante B, además, una reacción que la pauta no tenía: **malestar** («me siento mal»). Falta en la lista una categoría para cuando el artefacto daña.
