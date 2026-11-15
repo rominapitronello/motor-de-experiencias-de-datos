@@ -99,10 +99,31 @@ Una pregunta de una persona sin formación en datos, con sus palabras, sobre: di
 - La estética del artefacto.
 - Conversaciones de varios turnos, en esta primera versión.
 
-## Decisiones abiertas (de Romina)
+## Decisiones (de Romina)
 
-1. **Idiomas.** El constructo nombra tres. Propuesta de procedencia: partir en castellano y declarar inglés y portugués como no evaluados.
-2. ~~D, ¿siempre o condicional?~~ Resuelto el 13-nov: D es elegir el siguiente paso entre trece, con clave por ítem.
-3. **E y el doble conteo.** Como E «contempla todas las dimensiones anteriores», se corrige solo lo que agrega: la inquietud central y la elipsis.
-4. **Un turno.** Los ítems se escriben de modo que producir un artefacto sea lo correcto en ese turno.
-5. **Qué cuenta como artefacto** (una pieza interactiva, un gráfico, una tabla, un texto estructurado) y en qué superficie se aplica.
+Resueltas:
+- **D** (13-nov): elegir el siguiente paso entre trece, con clave por ítem.
+- **Idioma** (15-nov): «Solo castellano». Inglés y portugués quedan declarados como no evaluados en esta versión.
+- **Qué cuenta como artefacto** (15-nov): «Un juguete». El mismo día mostró tres ejemplos hechos para su estudio (no se copian aquí: son de su archivo privado) y dijo cuál prefiere, uno con un solo control deslizante. Lo que tienen en común, en lectura de procedencia: la persona mueve algo y la pieza responde al instante; el número y el dibujo cambian juntos; las magnitudes llevan nombres de la vida además del técnico; la persona hace algo (prueba, predice) antes de que le digan la respuesta. Definición de trabajo: *un artefacto es una pieza que la persona puede tocar y que responde*. Un texto, una tabla fija o un gráfico quieto no cuentan.
+
+Provisionales de procedencia, reversibles cuando Romina las vea funcionando (15-nov: «tendría que verlo funcionando»):
+- **E** se corrige solo en lo que agrega (la inquietud central y la elipsis), para no contar dos veces A a D.
+- **Un turno** más la reacción de la persona cuando existe. Los ítems se escriben de modo que producir un artefacto sea lo correcto en ese turno.
+
+## Estado al 15-nov-2026
+
+- Paso 1 (marco): este documento; resumen para revisión en `CONSTRUCTO_una_pagina.md`.
+- Paso 2 (tabla): `TABLA_borrador.md`, sin aprobar; resumen en `TABLA_una_pagina.md`.
+- Paso 4 adelantado para que la revisión tenga material: `ITEMS_v0.md` y `ITEMS_v0.json`, doce ítems, tres por estado del registro. Once son textos completos de personas en foros públicos (dataset MQA, CC0); uno lo redactó el modelo y está marcado. Las claves las escribió el modelo.
+- Paso 3 (validación externa): `revision_experta.html`, formulario de 66 respuestas de un clic. La revisora clasifica el estado del registro de cada ítem antes de ver la clave, de modo que queda un dato de acuerdo independiente y no solo su conformidad con lo propuesto. Guía de la llamada en `LLAMADA_revisora.md`.
+- Nada se ha aplicado a ningún modelo.
+
+## Personas
+
+| quién | rol | estado |
+|---|---|---|
+| Romina Pitronello | autora del constructo; correctora | — |
+| Revisora 1 (estadística, ayudante en un proyecto de educación; respondió a la convocatoria pública del 15-nov) | revisión experta de constructo, tabla e ítems | llamada el lunes 16-nov, 11:00; entrega el martes 17; su nombre entra aquí cuando diga cómo quiere figurar |
+| Francisco Soto (profesor de ciencias) | validez de contenido desde la didáctica | no se le ha enviado nada |
+| Emiliano Valdebenito | segundo corrector | no contactar antes del 16-nov |
+| Sol (GPT) | segunda pluma | no ha visto este marco |
