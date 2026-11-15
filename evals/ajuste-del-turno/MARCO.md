@@ -124,6 +124,7 @@ Provisionales de procedencia, reversibles cuando Romina las vea funcionando (15-
 |---|---|---|
 | Romina Pitronello | autora del constructo; correctora | — |
 | Revisora 1 (estadística, ayudante en un proyecto de educación; respondió a la convocatoria pública del 15-nov) | revisión experta de constructo, tabla e ítems | invitación enviada el 15-nov con el formulario; llamada el lunes 16-nov, 11:00; entrega el martes 17; su nombre entra aquí cuando diga cómo quiere figurar |
-| Francisco Soto (profesor de ciencias) | validez de contenido desde la didáctica | Romina le envió por correo `revision_didactica.html` (18 clics) el 15-nov, 19:46; sin respuesta todavía |
+| Francisco Soto (profesor de ciencias) | validez de contenido desde la didáctica | Romina le envió por correo `revision_didactica.html` (18 clics) el 15-nov, 19:46; acusó recibo por mensaje a las 20:29 («Ok»); Romina le pidió las respuestas para el lunes 16 |
+| Luis (19 años, estudiante de tecnología médica; ahijado de Romina, relación que se declara) | persona que pregunta: dona dos o tres preguntas propias, escritas sin IA, y después reacciona a un artefacto hecho con una de ellas | Romina se lo pidió el 15-nov, 20:37; sin respuesta todavía |
 | Emiliano Valdebenito | segundo corrector | no contactar antes del 16-nov |
 | Sol (GPT) | segunda pluma | no ha visto este marco |
