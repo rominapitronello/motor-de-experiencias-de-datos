@@ -51,7 +51,7 @@ button{font:inherit;font-weight:600;background:var(--fg);color:var(--bg);border:
 <header class="stack">
 <p class="eyebrow">Revisión experta · validez de contenido · 17 de noviembre de 2026</p>
 <h1>Ajuste del turno</h1>
-<p>Gracias por revisar. Esto es el borrador de una evaluación para asistentes de IA, construida con los pasos de una prueba para personas: constructo, tabla de especificaciones, ítems. Te pedimos tu juicio sobre las tres cosas. Son 66 respuestas de un clic y toma cerca de una hora. Los comentarios son opcionales.</p>
+<p>Gracias por revisar. Esto es el borrador de una evaluación para asistentes de IA, construida con los pasos de una prueba para personas: constructo, tabla de especificaciones, ítems. Te pedimos tu juicio sobre las tres cosas. Son 66 respuestas de un clic; quienes ya lo hicieron tardaron entre veinte minutos y una hora. Los comentarios son opcionales, y al final puedes dejar preguntas tuyas si quieres.</p>
 <p class="note">El constructo es de Romina Pitronello, psicóloga y psicometrista. La redacción, la tabla y las claves de los ítems las escribió un modelo de lenguaje (Claude) y todavía no las ha validado nadie: por eso se revisan. Ningún ítem se ha aplicado a ningún modelo. Tus respuestas se guardan solo en este navegador hasta que las copies al final.</p>
 </header>
 
@@ -95,6 +95,13 @@ button{font:inherit;font-weight:600;background:var(--fg);color:var(--bg);border:
 <div id="items" class="stack" style="gap:2.2rem"></div>
 </section>
 
+<section id="s-preguntas">
+<p class="eyebrow">Opcional</p><h2>Tus preguntas</h2>
+<p>Si quieres, escribe dos o tres preguntas que tú le hayas hecho o le harías de verdad a un asistente sobre datos tuyos: plata, tiempo, sueño, trabajo, compras. Con tus palabras, sin arreglarlas. Puedes pedirle a tu asistente que te repita textualmente preguntas que le hiciste antes; lo que no sirve es que las invente él. Saca cualquier dato personal que no quieras compartir.</p>
+<div class="stack"><textarea id="p1" placeholder="Pregunta 1" aria-label="Pregunta 1"></textarea><textarea id="p2" placeholder="Pregunta 2" aria-label="Pregunta 2"></textarea><textarea id="p3" placeholder="Pregunta 3" aria-label="Pregunta 3"></textarea></div>
+<div id="q-don" class="stack"></div>
+</section>
+
 <section id="s-cierre">
 <h2>Para terminar</h2>
 <div class="stack"><label for="credito"><strong>¿Cómo quieres aparecer en los créditos?</strong> <span class="muted">(nombre y, si quieres, afiliación; o «anónima»)</span></label><input type="text" id="credito" autocomplete="off"></div>
@@ -136,7 +143,8 @@ ${q(p+'_estado','Según tú, ¿en qué estado está el registro que trae?',ESTAD
 <div id="${p}_k" class="stack"></div></article>`}).join('');
 function pintaClave(it){const box=document.getElementById(it.id+'_k');if(R[it.id+'_estado']){if(!box.dataset.on){box.dataset.on='1';box.innerHTML=clave(it)+QI.map(x=>q(it.id+'_'+x[0],x[1],x[2])).join('')+com(it.id+'_com','Comentario sobre este ítem (opcional)')}}else box.innerHTML='<p class="locked">La clave aparece cuando clasifiques el estado del registro.</p>'}
 ITEMS.forEach(pintaClave);
-['credito','general'].forEach(id=>{document.getElementById(id).value=R[id]||''});
+document.getElementById('q-don').innerHTML=q('p_origen','¿De dónde salen tus preguntas?',[['ahora','Las escribí ahora'],['chats','Las recuperé de mis chats'],['mixto','Un poco de cada cosa']])+q('p_uso','¿Se pueden usar en la evaluación, que es pública, sin tu nombre?',[['si','Sí'],['no','No, solo para que Romina las lea']]);
+['credito','general','p1','p2','p3'].forEach(id=>{document.getElementById(id).value=R[id]||''});
 const NEED=[...QC.map(x=>x[0]),...QT.map(x=>x[0]),...ITEMS.flatMap(it=>['real','estado','clave','pasos','rel'].map(s=>it.id+'_'+s))];
 function avance(){const n=NEED.filter(k=>R[k]).length;document.getElementById('cuenta').textContent=n+' de '+NEED.length;document.getElementById('fill').style.width=(100*n/NEED.length)+'%';return n}
 function guarda(){let ok=true;try{localStorage.setItem(KEY,JSON.stringify(R))}catch(e){ok=false}document.getElementById('guardado').textContent=ok?'guardado en este navegador':'no se pudo guardar: no cierres la página';avance()}
@@ -146,6 +154,7 @@ function exporta(){return JSON.stringify({instrumento:'revision-experta-ajuste-d
 constructo:{claro:R.c_claro||null,cubre:R.c_cubre||null,regla_dura:R.c_regla||null,comentario:R.c_com||null},
 tabla:{dimensiones:R.t_dim||null,estados:R.t_estado||null,condicional:R.t_cond||null,comentario:R.t_com||null},
 items:ITEMS.map(it=>({id:it.id,verosimil:R[it.id+'_real']||null,estado_propuesto:it.estado,estado_revisora:R[it.id+'_estado']||null,clave:R[it.id+'_clave']||null,pasos:R[it.id+'_pasos']||null,relevancia:R[it.id+'_rel']?Number(R[it.id+'_rel']):null,comentario:R[it.id+'_com']||null})),
+preguntas_donadas:{textos:[R.p1,R.p2,R.p3].filter(x=>x&&x.trim()),origen:R.p_origen||null,uso_publico_sin_nombre:R.p_uso||null},
 comentario_general:R.general||null},null,1)}
 document.getElementById('copiar').addEventListener('click',()=>{const n=avance(),out=document.getElementById('salida'),btn=document.getElementById('copiar');out.value=exporta();
 document.getElementById('falta').textContent=n<NEED.length?'Quedan '+(NEED.length-n)+' preguntas sin responder. Puedes copiar igual: lo que falte queda en blanco.':'';
