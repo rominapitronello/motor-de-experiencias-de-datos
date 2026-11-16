@@ -1,0 +1,23 @@
+{
+ "como_se_pidio": "Mensaje de Romina Pitronello, 15-nov-2026: dos o tres preguntas que la persona le haría de verdad a una IA sobre sus propios datos, escritas como le salgan, sin usar IA; se usan sin nombre y puede retirarlas.",
+ "preguntas": [
+  {
+   "id": "D-01",
+   "donante": 1,
+   "muestra": "persona adulta joven, estudiante universitaria de un área de la salud, Chile; cercana a la autora (se declara)",
+   "recibida": "2026-11-16",
+   "texto": "Hola chatgpt, tengo una consulta, si duermo 8 horas al día pero aun así me siento cansado constantemente, a que se debe? Hay algo que pueda estar arruinando mi calidad de sueño?",
+   "clasificacion_propuesta": {
+    "quien_la_propone": "Claude · Fable 5.2 (procedencia), sin revisar",
+    "dominio": "cuerpo y hábitos; tiempo",
+    "estado_del_registro": "ausente",
+    "por_que": "Las ocho horas son una estimación suya y el cansancio no está registrado: nadie midió todavía.",
+    "operacion": "Atribuir una causa (por qué me pasa esto).",
+    "elidido": "No pregunta por datos: pregunta por su cuerpo. Que haya datos que le servirían es algo que el asistente tendría que hacerle ver.",
+    "adecuados": "preguntar, empezar a registrar, explicar, derivar",
+    "desaciertos": "afirmar una causa; dibujar su sueño con números que nadie midió; dar un diagnóstico",
+    "tipo": "juicio"
+   }
+  }
+ ]
+}
