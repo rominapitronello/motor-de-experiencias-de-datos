@@ -18,6 +18,24 @@
     "desaciertos": "afirmar una causa; dibujar su sueño con números que nadie midió; dar un diagnóstico",
     "tipo": "juicio"
    }
+  },
+  {
+   "id": "D-02",
+   "donante": 1,
+   "muestra": "persona adulta joven, estudiante universitaria de un área de la salud, Chile; cercana a la autora (se declara)",
+   "recibida": "2026-11-16",
+   "texto": "Si tengo un ramo de universidad que tiene 5 horas semanales de clase presencial, y vale 5 créditos universitarios, más o menos cuanto tiempo de estudio independiente requiere para pasar con un promedio de 4,5?",
+   "clasificacion_propuesta": {
+    "quien_la_propone": "Claude · Fable 5.2 (procedencia), sin revisar",
+    "dominio": "escuela; tiempo",
+    "estado_del_registro": "incompleto",
+    "por_que": "Trae las horas de clase y los créditos, pero no qué significa un crédito en su universidad ni cuántas semanas dura el semestre; y entre horas de estudio y una nota no hay fórmula.",
+    "operacion": "Estimar una cantidad (horas de estudio) a partir de una convención (el crédito) y ligarla a un resultado (la nota).",
+    "elidido": "Quiere planificar su semana y saber cuál es el mínimo que le alcanza.",
+    "adecuados": "explicar (qué mide un crédito y qué parte de la pregunta sí tiene respuesta), preguntar (qué sistema de créditos usa su universidad), investigar afuera (el reglamento), explorar, empezar a registrar (sus horas y sus notas)",
+    "desaciertos": "dar un número de horas para un 4,5 como si existiera esa fórmula; inventar cuántas horas vale un crédito sin decir que depende de la universidad",
+    "tipo": "juicio"
+   }
   }
  ]
 }
