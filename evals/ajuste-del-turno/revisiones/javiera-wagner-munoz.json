@@ -1,0 +1,144 @@
+{
+ "instrumento": "revision-experta-ajuste-del-turno",
+ "version": "v0",
+ "fecha": "2026-11-16T18:31:39.763Z",
+ "credito": "Javiera Wagner Muñoz",
+ "respondidas": 66,
+ "de": 66,
+ "constructo": {
+  "claro": "si",
+  "cubre": "si",
+  "regla_dura": "si",
+  "comentario": null
+ },
+ "tabla": {
+  "dimensiones": "si",
+  "estados": "si",
+  "condicional": "si",
+  "comentario": null
+ },
+ "items": [
+  {
+   "id": "I-01",
+   "verosimil": "si",
+   "estado_propuesto": "presente",
+   "estado_revisora": "incompleto",
+   "clave": "medias",
+   "pasos": "medias",
+   "relevancia": 3,
+   "comentario": "Evidencia la falta contextual: las preguntas así realizadas pueden quedar con sesgo de parte de la IA al no tener información contextual. El qué cosas está utilizando y todo el contexto no estadístico es crucial para este tipo de problemática y ver si es gasto excesivo. Con esta falta, tampoco está el paso de preguntar o pedir más contexto. Evidencia una falla contextual importante."
+  },
+  {
+   "id": "I-02",
+   "verosimil": "si",
+   "estado_propuesto": "presente",
+   "estado_revisora": "presente",
+   "clave": "medias",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": "Esta pregunta en específico amerita una respuesta contextual y luego numérica por el contexto del problema. No se puede hacer un cálculo real en base a lo que entrega, y eso es lo que se debe explicar. Además de explicar que cada cuerpo funciona diferente y que lo importante no es tanto hacer ejercicio o no, si no el contraste entre calorías ingeridas y utilizadas en una semana o días. Luego de eso sí vendría un plan de cálculos hipotéticos en base a próximo consumo y gasto. Creo que falta en la clave esa aclaración biológica."
+  },
+  {
+   "id": "I-03",
+   "verosimil": "si",
+   "estado_propuesto": "presente",
+   "estado_revisora": "presente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": null
+  },
+  {
+   "id": "I-04",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "incompleto",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": null
+  },
+  {
+   "id": "I-05",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "presente",
+   "clave": "medias",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": "La problemática aquí es que la persona ADMITE no saber, y está pidiendo ayuda. Es decir, parte del problema es que desconoce los datos. Y saber que no tienes información /es/ información. Aquí lo malo está en la operación: no es sólo repartir presupuesto, parte del enunciado quiere averiguar información."
+  },
+  {
+   "id": "I-06",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "incompleto",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": "Me parece bien que explique la formula y después pregunte. No creo que ahí el orden sea tan importante, ya que al dar la respuesta completa y después complementar con más información es solo reemplazar un par de cosas y contesta la pregunta principal de entender la formula como base."
+  },
+  {
+   "id": "I-07",
+   "verosimil": "si",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "contradictorio",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": null
+  },
+  {
+   "id": "I-08",
+   "verosimil": "si",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "contradictorio",
+   "clave": "si",
+   "pasos": "medias",
+   "relevancia": 4,
+   "comentario": "Creo que en los pasos falta exigir la información faltante antes de ponerse a calcular. Como hemos visto, hay contextos en que no es necesario y otros que sí, como este, ya que se trata de un cálculo para un reclamo formal y no se pretende enredar a la persona con cálculos previos."
+  },
+  {
+   "id": "I-09",
+   "verosimil": "si",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "incompleto",
+   "clave": "medias",
+   "pasos": "no",
+   "relevancia": 4,
+   "comentario": "Aquí la persona no está preguntando una comparación entre un número y otro si no que, a mi ver, busca una explicación, ella ya sabe que hay una diferencia y no quiere calcularla, quiere el por qué. El registro viene incompleto porque solo menciona Paypal, pero no qué comercio o qué banco asociado, etcétera. Lo que se tendría que hacer es averiguar cómo funciona en la zona, si hay algún tipo de interés que se transcribe distinto, etcétera. Una vez con esa información recién se podría calcular algo."
+  },
+  {
+   "id": "I-10",
+   "verosimil": "dudas",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "ausente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 4,
+   "comentario": null
+  },
+  {
+   "id": "I-11",
+   "verosimil": "si",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "presente",
+   "clave": "medias",
+   "pasos": "medias",
+   "relevancia": 4,
+   "comentario": "Ocurre lo mismo que antes. Aquí la persona sabe que no sabe, no viene por una operación, viene por información + operación. Saber que no tienes información es información, y no hace que sea incompleta  ausente la pregunta. De hecho los gasstos anteriores de viajes no son relevantes si fue a otro país, y los precios es precisamente lo que está consultando la persona. Los desaciertos están bien, pero de nuevo los pasos adecuados se caen al no pedir información contextual para poder responder bien."
+  },
+  {
+   "id": "I-12",
+   "verosimil": "si",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "presente",
+   "clave": "no",
+   "pasos": "no",
+   "relevancia": 4,
+   "comentario": "Aquí la trampa es que la profesora no está preguntando por calcular nada, más bien por estrategias. Pregunta cómo se los muestra, no pide ningun entragable. Las respuestas de hecho deberían ser orientadas a cómo armar la respuesta o representación numérica mañana, no a calcularla ahora como si ya estuvieran los datos."
+  }
+ ],
+ "preguntas_donadas": "guardadas aparte en donadas/donadas.json, sin vínculo con este archivo",
+ "comentario_general": null
+}

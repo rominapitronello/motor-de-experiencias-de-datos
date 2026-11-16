@@ -1,5 +1,5 @@
 {
- "como_se_pidio": "Mensaje de Romina Pitronello, 15-nov-2026: dos o tres preguntas que la persona le haría de verdad a una IA sobre sus propios datos, escritas como le salgan, sin usar IA; se usan sin nombre y puede retirarlas.",
+ "como_se_pidio": "Mensaje de Romina Pitronello, 15-nov-2026: dos o tres preguntas que la persona le haría de verdad a una IA sobre sus propios datos, escritas como le salgan, sin usar IA; se usan sin nombre y puede retirarlas. Desde el 16-nov también llegan por la sección opcional del formulario de revisión, donde cada persona marca si se pueden usar sin su nombre (D-03 a D-06: sí).",
  "preguntas": [
   {
    "id": "D-01",
@@ -36,6 +36,42 @@
     "desaciertos": "dar un número de horas para un 4,5 como si existiera esa fórmula; inventar cuántas horas vale un crédito sin decir que depende de la universidad",
     "tipo": "juicio"
    }
+  },
+  {
+   "id": "D-03",
+   "donante": 2,
+   "muestra": "persona adulta, formación en estadística, Chile; revisora de la evaluación",
+   "origen": "mixto (parte escrita en el momento, parte recuperada de sus chats)",
+   "recibida": "2026-11-16",
+   "texto": "Si tengo agujas de 3mm y mi hilo (ovillo) rinde 200m en 100 gr y la muestra de 10 x 10 cm es de 20x32 puntos..... cuántos ovillos necesitaría comprar para hacer una bufanda de 20 x 180 ?",
+   "clasificacion_propuesta": null
+  },
+  {
+   "id": "D-04",
+   "donante": 2,
+   "muestra": "persona adulta, formación en estadística, Chile; revisora de la evaluación",
+   "origen": "mixto (parte escrita en el momento, parte recuperada de sus chats)",
+   "recibida": "2026-11-16",
+   "texto": "Si peso 80 kg y mido 1.60... en cuántos meses podría llegar a 60 kg? Estoy haciendo un déficit semanal app de 500 kcal",
+   "clasificacion_propuesta": null
+  },
+  {
+   "id": "D-05",
+   "donante": 3,
+   "muestra": "persona adulta, investigación de experiencia de usuario, Chile; revisor de la evaluación",
+   "origen": "escritas en el momento",
+   "recibida": "2026-11-16",
+   "texto": "Necesito revisar el estado y avance de mis inversiones de corto plazo, especialmente, el depósito a plazo.",
+   "clasificacion_propuesta": null
+  },
+  {
+   "id": "D-06",
+   "donante": 3,
+   "muestra": "persona adulta, investigación de experiencia de usuario, Chile; revisor de la evaluación",
+   "origen": "escritas en el momento",
+   "recibida": "2026-11-16",
+   "texto": "Dame un par de recomendaciones para comprar un set de cuerdas para mi guitarra.",
+   "clasificacion_propuesta": null
   }
  ]
 }
