@@ -1,10 +1,10 @@
 # Marco de referencia · Ajuste del turno
 
-*Paso 1 de la evaluación. Constructo de Romina Pitronello (13-nov-2026, 02:12 a 02:22, ventana de procedencia); redacción de Claude · Fable 5.2 (procedencia). Borrador para que ella lo corrija; después lo revisan Francisco Soto (validez de contenido) y Sol (segunda pluma). Nada se corre hasta que este marco y la tabla de especificaciones estén aprobados. Este marco reemplaza, para esta evaluación, al constructo angosto de `EVAL.md` (pregunta → tarea, ámbito, forma), que queda como medición del primer paso.*
+*Paso 1 de la evaluación. Constructo de Romina Pitronello (13-nov-2026, 02:12 a 02:22, ventana de procedencia); redacción de Claude · Fable 5.2 (procedencia). Borrador para que ella lo corrija; después lo revisan un profesor de ciencias (validez de contenido) y Sol (segunda pluma). Nada se corre hasta que este marco y la tabla de especificaciones estén aprobados. Este marco reemplaza, para esta evaluación, al constructo angosto de `EVAL.md` (pregunta → tarea, ámbito, forma), que queda como medición del primer paso.*
 
 ## Orden de trabajo (Simce + evals de modelos)
 
-1. Marco de referencia (este documento). 2. Tabla de especificaciones. 3. Validación externa (Fran, Sol). 4. Elaboración y revisión de ítems. 5. Pauta de corrección (rúbrica con ejemplos ancla). 6. Condiciones de aplicación (modelos con id exacto, con y sin conector, mismo prompt de sistema, temperatura, corridas; todo con hash). 7. Preregistro en OSF con plan de análisis y estándares. 8. Aplicación experimental. 9. Capacitación y marcha blanca de correctores. 10. Aplicación definitiva, una vez. 11. Corrección doble, ciega a la condición. 12. Análisis. 13. Informe técnico.
+1. Marco de referencia (este documento). 2. Tabla de especificaciones. 3. Validación externa (revisores humanos, Sol). 4. Elaboración y revisión de ítems. 5. Pauta de corrección (rúbrica con ejemplos ancla). 6. Condiciones de aplicación (modelos con id exacto, con y sin conector, mismo prompt de sistema, temperatura, corridas; todo con hash). 7. Preregistro en OSF con plan de análisis y estándares. 8. Aplicación experimental. 9. Capacitación y marcha blanca de correctores. 10. Aplicación definitiva, una vez. 11. Corrección doble, ciega a la condición. 12. Análisis. 13. Informe técnico.
 
 ## El constructo, en palabras de Romina
 
@@ -89,7 +89,7 @@ Una pregunta de una persona sin formación en datos, con sus palabras, sobre: di
 ## Limitaciones declaradas desde el marco
 
 - **Un turno.** SafeTutors (Hazra y otros, 2026, preprint) encuentra que el daño pedagógico promedio de tutores de IA sube de 17,7 % en un turno a 77,8 % en conversaciones de varios, y que los resultados de un turno esconden fallas. Esta eval parte con un turno más el turno siguiente de la persona; no mide conversaciones largas.
-- **Correctores con inclinación.** Romina tiene sesgo a favor de los modelos y lo declara; Francisco Soto, en contra. La corrección es ciega al origen del artefacto y se reporta la severidad de cada corrector.
+- **Correctores con inclinación.** Romina tiene sesgo a favor de los modelos y lo declara; el revisor de didáctica, en contra. La corrección es ciega al origen del artefacto y se reporta la severidad de cada corrector.
 - **La parte 2 necesita personas reales** reaccionando a artefactos; con pocas, es un estudio exploratorio.
 
 ## Queda fuera, declarado
@@ -125,7 +125,7 @@ Provisionales de procedencia, reversibles cuando Romina las vea funcionando (15-
 | Romina Pitronello | autora del constructo; correctora | — |
 | Revisora 1 (estadística, ayudante en un proyecto de educación; respondió a la convocatoria pública del 15-nov) | revisión experta de constructo, tabla e ítems | invitación enviada el 15-nov con el formulario; llamada el lunes 16-nov, 11:00; entrega el martes 17; su nombre entra aquí cuando diga cómo quiere figurar |
 | Revisor 2 (investigador de UX cuantitativo; aceptó por mensaje el 16-nov, 09:26) | revisión experta completa de constructo, tabla e ítems, más preguntas propias donadas (opcional) | Romina le envió por correo `revision_experta.html` (66 clics) el 16-nov, 09:49; entrega pedida para el martes 17; su nombre entra cuando diga cómo quiere figurar |
-| Francisco Soto (profesor de ciencias) | validez de contenido desde la didáctica | Romina le envió por correo `revision_didactica.html` (18 clics) el 15-nov, 19:46; acusó recibo por mensaje a las 20:29 («Ok»); Romina le pidió las respuestas para el lunes 16 |
+| Revisor de didáctica (profesor de ciencias; pidió figurar como anónimo) | validez de contenido desde la didáctica | respondió el 16-nov, 11:28: `revisiones/revisor-didactica.json`; lo que cambia en `revisiones/CAMBIOS_para_v1.md` |
 | Luis (19 años, estudiante de tecnología médica; ahijado de Romina, relación que se declara) | persona que pregunta: dona dos o tres preguntas propias, escritas sin IA, y después reacciona a un artefacto hecho con una de ellas | Romina se lo pidió el 15-nov, 20:37; sin respuesta todavía |
 | Emiliano Valdebenito | segundo corrector | no contactar antes del 16-nov |
 | Sol (GPT) | segunda pluma | no ha visto este marco |

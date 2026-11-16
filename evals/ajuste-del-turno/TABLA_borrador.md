@@ -1,6 +1,6 @@
 # Tabla de especificaciones · borrador
 
-*Paso 2. Propuesta de Claude · Fable 5.2 (procedencia), 14-nov-2026, sobre el marco y la pauta de Romina. **No cuenta hasta que Romina la apruebe**; después la revisa Francisco Soto. Nada se sortea ni se corre con esto todavía.*
+*Paso 2. Propuesta de Claude · Fable 5.2 (procedencia), 14-nov-2026, sobre el marco y la pauta de Romina. **No cuenta hasta que Romina la apruebe**; después la revisa un profesor de ciencias. Nada se sortea ni se corre con esto todavía.*
 
 La tabla tiene tres partes porque lo que se evalúa es el par: (1) qué prompts entran, (2) qué se mira en la respuesta según lo que la respuesta hizo, (3) qué se mira en el conjunto.
 

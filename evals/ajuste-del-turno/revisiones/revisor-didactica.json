@@ -1,0 +1,29 @@
+{
+ "instrumento": "revision-didactica-ajuste-del-turno",
+ "version": "v0",
+ "fecha": "2026-11-16T14:28:18.713Z",
+ "credito": "Anónimo",
+ "respondidas": 17,
+ "de": 18,
+ "constructo": {
+  "claro": "medias",
+  "recoge_ciencia": null,
+  "comentario": "¿Qué ciencia se busca enseñar? Pienso que ciencias (disciplinas científicas) no es lo mismo que ciencia de datos.  Una persona sin formación de datos pregunta a un asistente pregunta al asistente, ¿para qué? Tal vez se espera que las respuestas del asistente modelen la forma en que se aborda un problema socio científico, está muy bien que la persona entienda cuando falta información para plantear su problema. Me imagino que se espera que la persona indague acerca de lo que necesita para construir la respuesta al problema, no obstante son problemas que requieren soluciones utilitarias, que no garantizan apropiación de aprendizajes. Por eso pienso que hay que precisar el constructo a medir. Hay aspectos muy relevantes presentes en el constructo, como la idea subyacente de que los problemas generalmente son multicausales, y no siempre tenemos toda la evidencia. Pienso que el constructo tiene relación con fases y/o etapas para abordar un problema, que pueden se transferibles al aprendizaje de las ciencias. \nPor otra parte, creo que es difícil saber como aprende una persona. Ya, pero solo con comentarios, nada más.\nAbordar el problema \"que a la persona le importaba\", restringe el aprendizaje a la búsqueda de una solución que puede ser desechable luego de su finalidad, y no necesariamente provoca aprendizaje."
+ },
+ "pasos": {
+  "se_distinguen": "medias",
+  "falta_alguno": "no",
+  "comentario": "Me cuesta un poco entender el lenguaje, \"la evaluación mira si elige la corresponde\", se refiere a algo así como \"la evaluación busca evidenciar, o mostrar, o indagar en qué medida escoge lo que se espera\"?\n¿No serán muchos pasos posibles? Algunos parecen estar subsumidos en otros, o bien es mi deformación de profesor de ciencia escolar. Por ejemplo: indagar, derivar o investigar, pueden pertenecer a una misma categoría. \n "
+ },
+ "items": [
+  {"id": "I-12", "verosimil": "si", "pasos_adecuados": "medias", "desaciertos": "medias", "relevancia": 3,
+   "comentario": "Respecto del desacierto... ¿por qué se asume que los estudiantes no lo entienden y solo la docente? Porque es un buen punto de partida con datos observados por la docente.\nNuevamente el lenguaje, ¿qué significa \"que se reconozcan en el dato\"? "},
+  {"id": "I-04", "pasos_adecuados": "si", "desaciertos": "si", "relevancia": 2,
+   "comentario": "No creo que esto sea un problema científico o socio científico. El padre/madre busca una respuesta simple, no necesariamente entender los promedios ponderados. El lenguaje nuevamente... ¿aprueba o reprueba? es lo mismo que ¿Se salva?"},
+  {"id": "I-02", "pasos_adecuados": "medias", "desaciertos": "si", "relevancia": 3,
+   "comentario": "Pienso que la persona pregunta en forma clara cuánto tiempo tarda en ver los efectos de su ejercicio. Creo que el \"Qué pide\" es más difícil de entender tal como está formulado. Lo que falta, junto con más mediciones y determinar a qué hora y qué comió, debe considerar si hay periodicidad y sistematicidad en ejercicios (no está explícito).\nLo que importa dice \"saber si valió la pena\", creo que eso puede ser implícito, pero lo declarado para la persona es otra cosa."},
+  {"id": "I-08", "pasos_adecuados": "si", "desaciertos": "si", "relevancia": 3, "comentario": null}
+ ],
+ "corregiria_a_ciegas": "si",
+ "comentario_general": null
+}
