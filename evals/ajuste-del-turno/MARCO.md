@@ -130,3 +130,21 @@ Provisionales de procedencia, reversibles cuando Romina las vea funcionando (15-
 | Donante 1 (persona adulta joven, estudiante universitaria; cercana a Romina, relación que se declara) | persona que pregunta: dona preguntas propias, escritas sin IA, y después reacciona a un artefacto hecho con una de ellas | primera pregunta recibida el 16-nov: `donadas/donadas.json` (D-01) |
 | Emiliano Valdebenito | segundo corrector | no contactar antes del 16-nov |
 | Sol (GPT) | segunda pluma | no ha visto este marco |
+
+## Decisión de alcance (Romina, 18-nov-2026)
+
+Sale de la primera vuelta de revisión. En sus palabras:
+
+> «el prompt del human puede ser muchas pero muchas cosas, partir con o sin datos, claro, y ahi el modelo tiene que indagar con la persona en de donde sale la info porque queremos que el human despierte a la realidad de que el modelo no debe inentar […] pero la eval no corre sobre CADA escenario posible, corre especíoficamente sobre el más demandante, el turno en el uso del conector donde el modelo hace el artefacto»
+
+> «la primera cosa que aprendimos: son dos operaciones diferentes y se evaluan distinto: tiene datos ¿si? entonces entra la eval del artefacto, ¿no? entonces entra una eval sobre cómo levanta la data»
+
+Lo que eso fija:
+
+- **Son dos operaciones y dos evaluaciones.** Si la persona trae datos, el turno que se evalúa es el del artefacto: eso es *Ajuste del turno*. Si no los trae, lo que corresponde es levantar la data con ella, y eso se evalúa aparte y de otra forma.
+- **Ajuste del turno mide un solo momento**, el más exigente: el turno en que el modelo ya tiene con qué y hace el artefacto. Todos sus ítems traen datos, por construcción.
+- **Deja de valer la dimensión «estado del registro»** con sus cuatro categorías (presente, incompleto, contradictorio, ausente). Dos jueces la aplicaron a ciegas y no coincidieron (ver `revisiones/CAMBIOS_para_v1.md`); los dos leyeron «qué trae la pregunta para trabajar». Propuesta de reemplazo, de procedencia, sin aprobar: dentro de los ítems con datos, (1) si trae todo o una parte y (2) si algo de lo que trae no calza entre sí.
+- **«Una cifra y listo también es una experiencia completa»** (README) sigue siendo cierto: es otro turno, que esta evaluación no mide.
+- **La evaluación de cómo se levanta la data** queda nombrada y sin construir. Ahí van las preguntas sin datos (la de la profesora, la del sueño, las de quien no sabe todavía que tiene datos) y ahí es donde más se prueba la regla dura.
+
+Costo declarado: al sacar de Ajuste del turno los prompts sin datos, el caso en que el modelo más se tienta a inventar queda fuera de esta medición. Los ítems que traen «una parte» lo cubren solo a medias.
