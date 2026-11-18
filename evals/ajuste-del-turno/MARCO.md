@@ -165,3 +165,24 @@ Queda anotada una lectura distinta, de Javiera Wagner Muñoz en su revisión del
 > «pero que sea una parte del artefacto lo defectuoso, es loco que estamos creando un artefacto que debe  fallar en la conclusion, en efecto.. porque no tiene el modelo la data que necesita para hacerlo bn» (Romina, 18-nov-2026)
 
 Precisión que sale de ahí: cuando falta una parte de los datos, el hueco tiene que verse **en el artefacto mismo**, además de decirse en la conversación. El artefacto ajustado no llega a la conclusión: muestra hasta dónde alcanzan los datos y deja a la vista el lugar donde la conclusión no se puede sacar, y por qué. Consecuencia para la corrección: un artefacto que concluye limpio con datos parciales está desajustado, aunque se vea mejor terminado que uno que muestra el hueco.
+
+### El dato que mejoraría la respuesta (Romina, 18-nov-2026)
+
+> «quiza podemos hacer que el modelo le diga a la persona al menos un dato que mejoraria sustancialmente la inferencoa.. o la calidad de la respuesta»
+
+Con eso, «decir dónde se nota la falta de datos» deja de ser una apreciación y pasa a ser algo que se puede contrastar con la clave del ítem:
+
+- La clave de cada ítem ya lista lo que falta. Se le agrega cuál de esos datos cambiaría más la respuesta.
+- **Ajustado:** el mensaje nombra al menos uno de esos datos y dice qué cambiaría con él.
+- **A medias:** dice que faltan datos, sin nombrar cuál.
+- **Desajustado:** no lo dice, o concluye como si no faltara nada.
+- Basta con uno. No se premia la lista larga de advertencias.
+- Si al ítem no le falta nada, no se exige; y no se premia inventar un hueco que no existe.
+
+### El propósito, reescrito (propuesta de procedencia con palabras de Romina del 18-nov; sin aprobar)
+
+Sale de la objeción del revisor de didáctica («¿Qué ciencia se busca enseñar?») y de lo que Romina respondió: «acercamos a la persona a la toma de decisiones basada en evidencia, que si la persona logro ver el agujero de una parte del queso gruyere de su data.. eso es un exitazo... porque comienza a cuestionar de donde vienen las cosas, se siembra la duda».
+
+> Acercar a la persona a decidir con evidencia. El artefacto está bien hecho cuando le deja ver de dónde vienen sus números y dónde faltan. Que la persona vea el agujero y empiece a preguntarse de dónde vienen las cosas es el éxito que se busca; el instrumento mide lo primero y observa lo segundo.
+
+«Enseñar ciencia haciendo ciencia» (Romina, 13-nov) queda como el motivo de la casa, no como lo que el instrumento promete medir.
