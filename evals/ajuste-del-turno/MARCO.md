@@ -148,3 +148,16 @@ Lo que eso fija:
 - **La evaluación de cómo se levanta la data** queda nombrada y sin construir. Ahí van las preguntas sin datos (la de la profesora, la del sueño, las de quien no sabe todavía que tiene datos) y ahí es donde más se prueba la regla dura.
 
 Costo declarado: al sacar de Ajuste del turno los prompts sin datos, el caso en que el modelo más se tienta a inventar queda fuera de esta medición. Los ítems que traen «una parte» lo cubren solo a medias.
+
+### Los prompts que traen una parte de los datos (Romina, 18-nov-2026)
+
+> «los de una parte son excelentes porque sospecho que son la mayoría yo haría que el modelo haga el artefacto y le diga en la conversación al user, dónde se nota la falta de data, para que el human vea la pregunta y el priblema y asi aprenda que el modelo necesita de buenas fuentes para trabajar mejor»
+
+Lo que eso fija:
+
+- **Entran a Ajuste del turno.** La puerta queda simple: si la persona trae datos, aunque sea una parte, el turno evaluado es el del artefacto.
+- **Lo ajustado, cuando falta una parte, son dos cosas juntas:** el modelo hace el artefacto, y le dice a la persona, en la conversación, dónde se nota que faltan datos. No basta con que el hueco esté marcado dentro del artefacto.
+- **Por lo tanto se corrige el artefacto y el mensaje que lo acompaña.** El mensaje se mira para esto: si muestra a la persona qué falta y de dónde tendría que salir.
+- **El propósito de esa regla es de la persona:** que vea la pregunta y el problema, y aprenda que el modelo necesita buenas fuentes para trabajar mejor.
+
+Queda anotada una lectura distinta, de Javiera Wagner Muñoz en su revisión del ítem I-08: cuando el resultado es para un reclamo formal, pedir lo que falta antes de calcular. Con esta decisión eso no es exigible en el turno evaluado; se puede observar y no cuenta como desajuste.
