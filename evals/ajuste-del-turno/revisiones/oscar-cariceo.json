@@ -1,0 +1,144 @@
+{
+ "instrumento": "revision-experta-ajuste-del-turno",
+ "version": "v0",
+ "fecha": "2026-11-16T21:33:55.870Z",
+ "credito": "Oscar Cariceo, KintuAI",
+ "respondidas": 66,
+ "de": 66,
+ "constructo": {
+  "claro": "medias",
+  "cubre": "falta",
+  "regla_dura": "si",
+  "comentario": "Como complemento a las 5 propiedades, se pude considerar el proceso de cadena de respuesta, como elemento asociado a la producción o elaboración de una respuesta."
+ },
+ "tabla": {
+  "dimensiones": "medias",
+  "estados": "si",
+  "condicional": "si",
+  "comentario": "Las dimensiones no son mutuamente excluyentes y tienden a generar una interpretación, excesiva."
+ },
+ "items": [
+  {
+   "id": "I-01",
+   "verosimil": "si",
+   "estado_propuesto": "presente",
+   "estado_revisora": "incompleto",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": null
+  },
+  {
+   "id": "I-02",
+   "verosimil": "dudas",
+   "estado_propuesto": "presente",
+   "estado_revisora": "incompleto",
+   "clave": "medias",
+   "pasos": "medias",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-03",
+   "verosimil": "si",
+   "estado_propuesto": "presente",
+   "estado_revisora": "contradictorio",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-04",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "presente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": null
+  },
+  {
+   "id": "I-05",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "contradictorio",
+   "clave": "si",
+   "pasos": "medias",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-06",
+   "verosimil": "si",
+   "estado_propuesto": "incompleto",
+   "estado_revisora": "contradictorio",
+   "clave": "si",
+   "pasos": "medias",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-07",
+   "verosimil": "si",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "presente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": null
+  },
+  {
+   "id": "I-08",
+   "verosimil": "si",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "presente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": null
+  },
+  {
+   "id": "I-09",
+   "verosimil": "dudas",
+   "estado_propuesto": "contradictorio",
+   "estado_revisora": "incompleto",
+   "clave": "si",
+   "pasos": "medias",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-10",
+   "verosimil": "dudas",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "incompleto",
+   "clave": "medias",
+   "pasos": "medias",
+   "relevancia": 2,
+   "comentario": null
+  },
+  {
+   "id": "I-11",
+   "verosimil": "si",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "presente",
+   "clave": "medias",
+   "pasos": "medias",
+   "relevancia": 1,
+   "comentario": null
+  },
+  {
+   "id": "I-12",
+   "verosimil": "si",
+   "estado_propuesto": "ausente",
+   "estado_revisora": "presente",
+   "clave": "si",
+   "pasos": "si",
+   "relevancia": 3,
+   "comentario": null
+  }
+ ],
+ "preguntas_donadas": "guardadas aparte en donadas/donadas.json, sin vínculo con este archivo",
+ "comentario_general": "Solamente, me llamó la atención el error de la codificación del HTML. "
+}
