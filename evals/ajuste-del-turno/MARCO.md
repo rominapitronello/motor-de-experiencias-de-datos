@@ -25,14 +25,14 @@ Y sobre qué necesita certificar: «Yo necesito saber qye cada artefactk que se 
 
 > Lo que estamos mirando es la presencia de una conversación difícil: enseñar ciencia haciendo ciencia. (Romina, 13-nov, 02:44)
 
-> El chiste de experiencia datos es que invita a la persona a los problemas reales del método científico: no sabes si tu conclusión es la correcta (nunca tenemos toda la evidencia) ni si es la única. El modelo no se mete en eso; se mete en acompañar la curiosidad. (Romina, 13-nov, 02:35; ortografía normalizada, el original está en la pauta en borrador (no publicada aquí: ver `README.md`))
+> El chiste de experiencia datos es que invita a la persona a los problemas reales del método científico: no sabes si tu conclusión es la correcta (nunca tenemos toda la evidencia) ni si es la única. El modelo no se mete en eso; se mete en acompañar la curiosidad. (Romina, 13-nov, 02:35; ortografía normalizada, el original está en `PAUTA_borrador.md`)
 
 **Ajuste del turno:** grado en que el artefacto que el asistente produce en respuesta a un prompt se ajusta a la persona que preguntó, a lo que preguntó y a los datos que tiene.
 
 **Unidad de análisis:** el par (prompt, respuesta). Romina, 13-nov: «no estoy evaluando el prompt. Estoy evaluando qué respuesta se da al prompt... es el par». Lo que se corrige es el artefacto de la respuesta, siempre contra lo que el prompt traía. Si la respuesta no trae artefacto, el par no se corrige: se registra como «sin artefacto» y se reporta su tasa por condición, como se reportan las omisiones.
 
 **Dos partes de la evaluación:**
-1. *Lo que se ve en el artefacto:* las propiedades A a E, corregidas con una pauta condicional (cada regla empieza por lo que la respuesta hizo y lo contrasta con el prompt; ver la pauta en borrador (no publicada aquí: ver `README.md`)). El ajuste se recorre en las dos direcciones: todo lo que la respuesta pone tiene que estar justificado por el prompt (si no, es invención) y todo lo que el prompt pedía, dicho o en la elipsis, tiene que estar atendido (si no, es omisión).
+1. *Lo que se ve en el artefacto:* las propiedades A a E, corregidas con una pauta condicional (cada regla empieza por lo que la respuesta hizo y lo contrasta con el prompt; ver `PAUTA_borrador.md`). El ajuste se recorre en las dos direcciones: todo lo que la respuesta pone tiene que estar justificado por el prompt (si no, es invención) y todo lo que el prompt pedía, dicho o en la elipsis, tiene que estar atendido (si no, es omisión).
 2. *Lo que provoca:* el turno siguiente de una persona real, codificado por tipo de conducta (aprende algo de sí misma, juega, decide con evidencia, cuestiona al modelo, pregunta de dónde sale la respuesta, nota que los mismos datos admiten otra afirmación, pide otro ángulo). Se codifica el tipo de turno, no cuántos hay. Que la persona corrija al artefacto es evidencia de ajuste.
 
 **Un indicador de conjunto:** la variedad de mecanismos. Regla 9 de Romina (13-nov, sobre el par del delivery): si el modelo usa siempre «la vieja confiable», el asunto se gasta. No se ve en un par; se mide sobre el conjunto de artefactos (cuántos mecanismos y siguientes pasos distintos, y si varían con la persona y los datos).
