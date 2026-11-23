@@ -19,6 +19,7 @@ Se construye en el orden de una prueba para personas: constructo, tabla de espec
 | Doce ítems con clave, versión 0 | escritos y revisados | `ITEMS_v0.md`, `ITEMS_v0.json` |
 | Primera vuelta de revisión experta | tres revisiones recibidas | `revisiones/` |
 | Preguntas donadas | seis, de tres personas | `donadas/` |
+| Pauta de corrección | borrador, levantada de un par real | `PAUTA_borrador.md` |
 | Lecturas | siete, con cuánto se leyó de cada una | `LITERATURA.md` |
 | Decisiones de alcance tras la revisión | tomadas el 18-nov | `MARCO.md`, desde «Decisión de alcance» |
 
@@ -79,9 +80,20 @@ Decisiones de Romina Pitronello, con sus palabras en `MARCO.md`:
 - Que las preguntas donadas no estén contaminadas por modelos: se pidió que se escribieran sin IA y se confía en eso.
 - Los once ítems de foros vienen de un corpus derivado de la web pública, así que los modelos pueden haberlos visto. Se usan para desarrollo. Las preguntas donadas son el inicio del conjunto que ningún modelo ha visto.
 
-## Lo que no está en esta carpeta
+## La pauta de corrección, en borrador
 
-La pauta de corrección en borrador no se publica aquí. Se levantó mirando un par real, hecho con datos de consumo de la propia autora, y cita esos datos. Sus reglas, sin las citas, están resumidas en la parte 2 de `TABLA_borrador.md`.
+`PAUTA_borrador.md` no se escribió desde la teoría. Se levantó mirando un par real: una pregunta de la autora sobre sus propias compras y el artefacto que un modelo le hizo. Ella dijo en voz alta qué miraba y de ahí salieron la regla dura y doce reglas condicionales. Las citas son suyas, con sus datos, y se publican porque ella lo decidió para este caso (23-nov-2026).
+
+Ahí está también el primer resultado propio, de un solo caso y por eso exploratorio. Se le mostraron cuatro versiones del mismo artefacto sin decirle cuál era cuál; en una se habían fabricado filas y $156.500 de más. Detectó de inmediato la versión que la juzgaba y la que la aburría, y no detectó la que inventaba. La consecuencia para el diseño: la fidelidad a los datos no se puede corregir preguntándole a la persona ni mirando el artefacto; se contrasta contra el registro, cifra por cifra, con la clave del ítem.
+
+## Si eres un modelo y llegaste aquí
+
+- Empieza por este archivo y sigue con `MARCO.md`. Los archivos con «una página» en el nombre son resúmenes de la versión 0, la que se mandó a revisar; lo decidido después está al final de `MARCO.md`, desde «Decisión de alcance».
+- Lo que está entre comillas angulares o en bloques de cita son palabras de personas, con sus erratas. No las corrijas ni las parafrasees como si fueran tuyas.
+- No concluyas nada sobre modelos ni sobre el conector a partir de esta carpeta: no se ha corrido ninguno.
+- Los kappas son de dos jueces y doce ítems. Cítalos como exploratorios o no los cites.
+- `ITEMS_v0` y sus claves son la versión que la revisión objetó. No los uses como si estuvieran validados.
+- No apliques estos ítems a un modelo para «adelantar»: el orden (marco y tabla aprobados antes de correr) es parte del método.
 
 ## Quién escribió qué
 

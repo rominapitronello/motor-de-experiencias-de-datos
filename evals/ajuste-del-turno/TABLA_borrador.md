@@ -66,4 +66,4 @@ Y en la otra dirección, por omisión: **lo que el prompt pedía y la respuesta 
 
 ## De dónde sale cada cosa
 
-Las filas de la parte 2 salen de la pauta en borrador (no publicada aquí: ver `README.md`) (las reglas que Romina dijo mirando el par de Lider y el del delivery) y de las propiedades de `MARCO.md`. Las filas sin número de regla las propuse yo para cubrir las propiedades A, C, D y E completas; Romina todavía no las ha dicho con sus palabras y pueden cambiar cuando mire las cuatro versiones ancla (A, B, C, D) y más pares.
+Las filas de la parte 2 salen de `PAUTA_borrador.md` (las reglas que Romina dijo mirando el par de Lider y el del delivery) y de las propiedades de `MARCO.md`. Las filas sin número de regla las propuse yo para cubrir las propiedades A, C, D y E completas; Romina todavía no las ha dicho con sus palabras y pueden cambiar cuando mire las cuatro versiones ancla (A, B, C, D) y más pares.
